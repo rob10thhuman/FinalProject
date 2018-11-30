@@ -191,7 +191,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `languagedb`;
-INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`) VALUES (1, 2, 1, 1);
-INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`) VALUES (2, 3, 2, 1);
+INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`) VALUES (1, 0, 1, 1);
+INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`) VALUES (2, 1, 2, 1);
 
 COMMIT;
