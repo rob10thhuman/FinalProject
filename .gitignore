@@ -1,8 +1,12 @@
 .DS_Store
+Servers
 target
+build
 bin
-gradle
-gradlew
+.metadata
 .gradle
+gradle*
 *.war
+*.bak
+.classpath
 /.recommenders/
