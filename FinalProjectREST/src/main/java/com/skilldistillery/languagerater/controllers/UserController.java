@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.languagerater.entities.User;
@@ -48,9 +49,9 @@ public class UserController {
 		}
 		return u;
 	}
-	
-	@GetMapping("users/{username}")
-	public User userByUsername(@PathVariable String username, HttpServletResponse resp, HttpServletRequest req) {
+
+	@RequestMapping(method = RequestMethod.GET)
+	public User userByUsername(@RequestParam(value="username") String username, HttpServletResponse resp, HttpServletRequest req) {
 		User u = userSvc.showByUsername(username);
 		if(u != null) {
 			String newUrl = req.getRequestURL().toString();
