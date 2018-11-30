@@ -21,7 +21,7 @@ import com.skilldistillery.languagerater.services.UserService;
 
 @RestController
 @RequestMapping("api")
-@CrossOrigin({ "*", "http://localhost:4202" })
+@CrossOrigin({ "*", "http://localhost:4200" })
 public class UserController {
 	
 	@Autowired
