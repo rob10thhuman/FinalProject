@@ -65,23 +65,6 @@ public class UserController {
 	}
 	
 	
-	
-	@PostMapping("users")
-	public User addNewUser(@RequestBody User user, HttpServletResponse resp, HttpServletRequest req) {
-
-		String newUrl = "";
-		user = userSvc.create(user);
-		if (user == null) {
-			resp.setStatus(404);
-			newUrl = req.getRequestURL().toString();
-		} else {
-			resp.setStatus(201);
-			newUrl = req.getRequestURL().toString() + "/" + (user.getId());
-		}
-		resp.setHeader("Location", newUrl);
-		return user;
-	}
-	
 	@PutMapping("users/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User user, HttpServletResponse resp,
 			HttpServletRequest req) {
