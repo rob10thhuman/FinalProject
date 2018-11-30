@@ -145,10 +145,10 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `languagedb`;
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (1, 'rob', 'rob', 'rob@10thHuman.com', 'Rob', 'Thompson', 1, NULL);
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (2, 'josh', 'josh', 'josh@josh.com', 'Josh', 'O', 1, NULL);
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (3, 'henry', 'henry', 'henry@henry.com', 'Henry', 'Z', 1, NULL);
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (4, 'brandon', 'brandon', 'brandon@brandon.com', 'Brandon', 'B', 1, NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (1, 'rob', '$2a$10$kN23QoxVbJF8O1RALWZD.ORjz9R4g0ZKpjeYElDVkppXIR65dnaEm', 'rob@10thHuman.com', 'Rob', 'Thompson', 1, 'standard');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (2, 'josh', '$2a$10$I2hDXE/PxjIPLIFBn5xDTOa19vxuyOcSkE8QcJ8C0KgyT1ocxTMVO', 'josh@josh.com', 'Josh', 'O', 1, 'standard');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (3, 'henry', '$2a$10$fK5OmZfKwzlaJ44aZU8FEu1ngMoNqvoPKZNQFYMsjXDkIW3/0P8y6', 'henry@henry.com', 'Henry', 'Z', 1, 'standard');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (4, 'brandon', '$2a$10$WTcVPuvML2RuSv.eoSCV2OGnp0dQsP/R3IydsWOjMqx.tcVVBm.fa', 'brandon@brandon.com', 'Brandon', 'Jaloway', 1, 'standard');
 
 COMMIT;
 
