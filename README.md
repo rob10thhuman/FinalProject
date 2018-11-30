@@ -4,10 +4,10 @@ A full-stack application that allows programmers to gather information about pro
 
 # Team Members
 
-- Joshua Ciccone-Okodo
-- Brandon Jaloway
-- Rob Thompson
-- Henry Zelenka
+- [Joshua Ciccone-Okodo](https://github.com/joshokodo)
+- [Brandon Jaloway](https://github.com/ajtpxn)
+- [Rob Thompson](https://github.com/rob10thhuman)
+- [Henry Zelenka](https://github.com/hzelenka)
 
 # Technologies Used
 
