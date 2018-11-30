@@ -8,6 +8,7 @@ import com.skilldistillery.languagerater.entities.User;
 public interface UserService {
 	public List<User> index();
 	public User show(int id);
+	public User showByUsername(String username);
 	public User create(User u);
 	public User update(int id, User u);
 	public boolean delete(int id);

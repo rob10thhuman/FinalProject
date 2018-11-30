@@ -28,6 +28,11 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
+	
+	@Override
+	public User showByUsername(String username) {
+		return uRepo.findByUsername(username);
+	}
 
 	@Override
 	public User create(User u) {

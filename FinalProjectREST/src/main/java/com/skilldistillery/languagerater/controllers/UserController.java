@@ -35,15 +35,39 @@ public class UserController {
 	}
 	
 	@GetMapping("users/{id}")
-	public User gameById(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
-
-		String newUrl = req.getRequestURL().toString();
-		resp.setHeader("Location", newUrl);
-		return userSvc.show(id);
+	public User userById(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
+		User u = userSvc.show(id);
+		if(u != null) {
+			String newUrl = req.getRequestURL().toString();
+			resp.setHeader("Location", newUrl);
+			resp.setStatus(200);
+		}
+		else {
+			resp.setStatus(404);
+			
+		}
+		return u;
 	}
 	
+	@GetMapping("users/{username}")
+	public User userByUsername(@PathVariable String username, HttpServletResponse resp, HttpServletRequest req) {
+		User u = userSvc.showByUsername(username);
+		if(u != null) {
+			String newUrl = req.getRequestURL().toString();
+			resp.setHeader("Location", newUrl);
+			resp.setStatus(200);
+		}
+		else {
+			resp.setStatus(404);
+			
+		}
+		return u;
+	}
+	
+	
+	
 	@PostMapping("users")
-	public User addNewGame(@RequestBody User user, HttpServletResponse resp, HttpServletRequest req) {
+	public User addNewUser(@RequestBody User user, HttpServletResponse resp, HttpServletRequest req) {
 
 		String newUrl = "";
 		user = userSvc.create(user);
@@ -59,7 +83,7 @@ public class UserController {
 	}
 	
 	@PutMapping("users/{id}")
-	public User updateGame(@PathVariable int id, @RequestBody User user, HttpServletResponse resp,
+	public User updateUser(@PathVariable int id, @RequestBody User user, HttpServletResponse resp,
 			HttpServletRequest req) {
 		String newUrl = "";
 		user = userSvc.update(id, user);
@@ -75,7 +99,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("users/{id}")
-	public boolean deletePost(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
+	public boolean deleteUser(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
 		boolean deleteSuccess = userSvc.delete(id);
 		resp.setStatus(!deleteSuccess ? 404 : 200);
 		return deleteSuccess;
