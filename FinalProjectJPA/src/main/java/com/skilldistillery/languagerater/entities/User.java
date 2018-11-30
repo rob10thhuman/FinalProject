@@ -1,11 +1,16 @@
 package com.skilldistillery.languagerater.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="user")
@@ -29,6 +34,18 @@ public class User {
 	private Boolean active; 
 	
 	private String role;
+	
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	private List<Comment> comments; 
 
 	public int getId() {
 		return id;
@@ -113,12 +130,16 @@ public class User {
 		builder.append(active);
 		builder.append(", role=");
 		builder.append(role);
+		builder.append(", comments=");
+		builder.append(comments);
 		builder.append("]");
 		return builder.toString();
 	}
 
+
+	
 	public User(int id, String username, String password, String email, String fName, String lName, Boolean active,
-			String role) {
+			String role, List<Comment> comments) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -128,8 +149,9 @@ public class User {
 		this.lName = lName;
 		this.active = active;
 		this.role = role;
-	} 
-	
+		this.comments = comments;
+	}
+
 	public User() {
 		
 	}
