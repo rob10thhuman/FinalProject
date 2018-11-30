@@ -13,6 +13,8 @@
 <class>com.skilldistillery.languagerater.entities.Comment</class> 
 <class>com.skilldistillery.languagerater.entities.Language</class> 
 <class>com.skilldistillery.languagerater.entities.User</class> 
+<class>com.skilldistillery.languagerater.entities.Language</class> 
+<class>com.skilldistillery.languagerater.entities.LanguageRating</class> 
 
     <properties>
       <property name="javax.persistence.jdbc.url"
