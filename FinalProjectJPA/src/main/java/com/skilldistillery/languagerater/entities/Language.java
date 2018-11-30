@@ -8,27 +8,30 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="language")
+@Table(name = "language")
 public class Language {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id; 
-	
-	private String name; 
-	
-	private String logo; 
-	
-	private String creator; 
-	
-	@Column(name="year_created")
-	private String yearCreated; 
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "logo")
+	private String logo;
+
+	@Column(name = "creator")
+	private String creator;
+
+	@Column(name = "year_created")
+	private String yearCreated;
+
+	@Column(name = "info")
 	private String info;
 
 	public int getId() {
 		return id;
 	}
-
 
 	public String getName() {
 		return name;
@@ -97,11 +100,10 @@ public class Language {
 		this.creator = creator;
 		this.yearCreated = yrCreated;
 		this.info = info;
-	} 
-	
-	public Language () {
-		
 	}
-	
+
+	public Language() {
+
+	}
 
 }
