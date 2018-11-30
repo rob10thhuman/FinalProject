@@ -1,0 +1,6 @@
+package com.skilldistillery.languagerater.services;
+
+public class UserServiceImpl implements UserService {
+	@Autowired
+	UserRepository uRepo; 
+}
