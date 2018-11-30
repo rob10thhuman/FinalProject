@@ -38,16 +38,15 @@ public class Comment {
 	@JoinColumn(name="user_id")
 	private User user; 
 	
-	@Column(name="language_id")
-	private Integer languageId;
+	
+	@ManyToOne
+	@JoinColumn(name="language_id")
+	private Language language;
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getComment() {
 		return comment;
@@ -81,12 +80,12 @@ public class Comment {
 		this.user = user;
 	}
 
-	public Integer getLanguageId() {
-		return languageId;
+	public Language getLanguage() {
+		return language;
 	}
 
-	public void setLanguageId(Integer languageId) {
-		this.languageId = languageId;
+	public void setLanguage(Language language) {
+		this.language = language;
 	}
 
 	@Override
@@ -102,20 +101,20 @@ public class Comment {
 		builder.append(dateUpdated);
 		builder.append(", user=");
 		builder.append(user);
-		builder.append(", languageId=");
-		builder.append(languageId);
+		builder.append(", language=");
+		builder.append(language.getName());
 		builder.append("]");
 		return builder.toString();
 	}
 
-	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Integer languageId) {
+	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Language language) {
 		super();
 		this.id = id;
 		this.comment = comment;
 		this.dateAdded = dateAdded;
 		this.dateUpdated = dateUpdated;
 		this.user = user;
-		this.languageId = languageId;
+		this.language = language;
 	} 
 	
 	public Comment() {

@@ -1,6 +1,6 @@
 package com.skilldistillery.languagerater.entities;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class UserTest {
+class CommentTest {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 
@@ -25,18 +25,15 @@ public class UserTest {
 		em.close();
 		emf.close();
 	}
-	
+
 	@Test
-	void testUserAccess() { 
-		User user = em.find(User.class, 1); 
-		assertEquals("rob", user.getUsername()); 
-		assertEquals("Rob", user.getFirstName()); 
-		assertEquals("Thompson", user.getLastName()); 
-		assertEquals("rob", user.getPassword()); 
-		assertEquals("rob@10thHuman.com", user.getEmail()); 
-		assertEquals(true, user.getActive()); 
-		assertEquals(null, user.getRole()); 
-		assertEquals(2, user.getComments().size()); 
-		
+	void test() {
+		Comment c = em.find(Comment.class, 1);
+		assertEquals("hello world", c.getComment());
+		assertEquals(null, c.getDateAdded());
+		assertEquals(null, c.getDateUpdated());
+		assertEquals(1, c.getUser().getId());
+		assertEquals(1, c.getLanguage().getId());
 	}
+
 }

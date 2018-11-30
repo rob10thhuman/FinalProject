@@ -21,7 +21,7 @@ public class Language {
 	private String creator; 
 	
 	@Column(name="year_created")
-	private String yrCreated; 
+	private String yearCreated; 
 	
 	private String info;
 
@@ -29,9 +29,6 @@ public class Language {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -57,12 +54,12 @@ public class Language {
 		this.creator = creator;
 	}
 
-	public String getYrCreated() {
-		return yrCreated;
+	public String getYearCreated() {
+		return yearCreated;
 	}
 
-	public void setYrCreated(String yrCreated) {
-		this.yrCreated = yrCreated;
+	public void setYearCreated(String yearCreated) {
+		this.yearCreated = yearCreated;
 	}
 
 	public String getInfo() {
@@ -85,7 +82,7 @@ public class Language {
 		builder.append(", creator=");
 		builder.append(creator);
 		builder.append(", yrCreated=");
-		builder.append(yrCreated);
+		builder.append(yearCreated);
 		builder.append(", info=");
 		builder.append(info);
 		builder.append("]");
@@ -98,7 +95,7 @@ public class Language {
 		this.name = name;
 		this.logo = logo;
 		this.creator = creator;
-		this.yrCreated = yrCreated;
+		this.yearCreated = yrCreated;
 		this.info = info;
 	} 
 	
