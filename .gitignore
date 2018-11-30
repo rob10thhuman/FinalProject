@@ -5,5 +5,4 @@ gradle
 gradlew
 .gradle
 *.war
-/.metadata/
 /.recommenders/

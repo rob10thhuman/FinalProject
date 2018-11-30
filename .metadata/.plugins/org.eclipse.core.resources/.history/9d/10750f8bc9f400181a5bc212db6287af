@@ -1,0 +1,30 @@
+package com.skilldistillery.languagerater.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user")
+public class User {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int id; 
+	
+	private String username; 
+	
+	private String password; 
+	
+	private String email; 
+	
+	private String fName; ; 
+	
+	private String last_name; 
+	
+	private Boolean active; 
+	
+	private String role; 
+
+}

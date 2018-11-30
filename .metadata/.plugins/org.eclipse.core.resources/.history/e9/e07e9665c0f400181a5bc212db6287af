@@ -1,0 +1,9 @@
+server.port: 8087
+
+#### MYSQL DATASOURCE ####
+spring.datasource.url=jdbc:mysql://localhost:3306/tododb?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=MST
+spring.datasource.username=todos
+spring.datasource.password=todos
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jmx.default-domain=ToDoApp

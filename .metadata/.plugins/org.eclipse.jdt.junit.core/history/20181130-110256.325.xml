@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="UserTest" project="FinalProjectJPA" tests="1" started="1" failures="0" errors="0" ignored="0">
+  <testsuite name="com.skilldistillery.languagerater.entities.UserTest" time="2.246" displayname="UserTest" uniqueid="[engine:junit-jupiter]/[class:com.skilldistillery.languagerater.entities.UserTest]">
+    <testcase name="testUserAccess" classname="com.skilldistillery.languagerater.entities.UserTest" time="2.246" displayname="testUserAccess()" uniqueid="[engine:junit-jupiter]/[class:com.skilldistillery.languagerater.entities.UserTest]/[method:testUserAccess()]"/>
+  </testsuite>
+</testrun>

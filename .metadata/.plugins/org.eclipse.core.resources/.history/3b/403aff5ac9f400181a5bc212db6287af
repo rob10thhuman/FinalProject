@@ -1,0 +1,7 @@
+package com.skilldistillery.languagerater.entities;
+
+@Entity
+@Table(name="user")
+public class User {
+
+}

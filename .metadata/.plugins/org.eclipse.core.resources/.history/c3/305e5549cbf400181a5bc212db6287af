@@ -1,0 +1,10 @@
+package com.skilldistillery.languagerater.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="user")
+public class Language {
+
+}
