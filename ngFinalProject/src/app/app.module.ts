@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { DetailLanguageComponent } from './detail-language/detail-language.component';
 import { ListLangugageComponent } from './list-langugage/list-langugage.component';
+import { NvgComponent } from './nvg/nvg.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ListLangugageComponent } from './list-langugage/list-langugage.componen
     RegisterComponent,
     HomeComponent,
     DetailLanguageComponent,
-    ListLangugageComponent
+    ListLangugageComponent,
+    NvgComponent
   ],
   imports: [
     BrowserModule,
