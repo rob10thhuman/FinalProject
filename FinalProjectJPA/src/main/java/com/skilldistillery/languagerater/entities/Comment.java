@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,10 +34,92 @@ public class Comment {
 	@CreationTimestamp
 	private Date dateUpdated;  
 	
-	@Column(name="user_id")
-	private Integer userId; 
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user; 
 	
 	@Column(name="language_id")
-	private Integer languageId; 
+	private Integer languageId;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public Date getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(Date dateAdded) {
+		this.dateAdded = dateAdded;
+	}
+
+	public Date getDateUpdated() {
+		return dateUpdated;
+	}
+
+	public void setDateUpdated(Date dateUpdated) {
+		this.dateUpdated = dateUpdated;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Integer getLanguageId() {
+		return languageId;
+	}
+
+	public void setLanguageId(Integer languageId) {
+		this.languageId = languageId;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Comment [id=");
+		builder.append(id);
+		builder.append(", comment=");
+		builder.append(comment);
+		builder.append(", dateAdded=");
+		builder.append(dateAdded);
+		builder.append(", dateUpdated=");
+		builder.append(dateUpdated);
+		builder.append(", user=");
+		builder.append(user);
+		builder.append(", languageId=");
+		builder.append(languageId);
+		builder.append("]");
+		return builder.toString();
+	}
+
+	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Integer languageId) {
+		super();
+		this.id = id;
+		this.comment = comment;
+		this.dateAdded = dateAdded;
+		this.dateUpdated = dateUpdated;
+		this.user = user;
+		this.languageId = languageId;
+	} 
+	
+	public Comment() {
+		
+	}
 
 }
