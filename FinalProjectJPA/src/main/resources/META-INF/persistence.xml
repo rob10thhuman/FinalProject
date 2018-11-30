@@ -13,11 +13,11 @@
 
     <properties>
       <property name="javax.persistence.jdbc.url"
-        value="jdbc:mysql://localhost:3306/tododb?useSSL=false" />
+        value="jdbc:mysql://localhost:3306/languagedb?useSSL=false" />
       <property name="javax.persistence.jdbc.user"
-        value="todos"/>
+        value="admin"/>
       <property name="javax.persistence.jdbc.password"
-        value="todos" />
+        value="admin" />
       <property name="javax.persistence.jdbc.driver"
         value="com.mysql.jdbc.Driver" />
 
