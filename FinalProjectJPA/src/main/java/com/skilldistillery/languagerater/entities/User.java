@@ -26,14 +26,19 @@ public class User {
 	private String email; 
 	
 	@Column(name="first_name")
-	private String fName; 
+	private String firstName; 
 	
 	@Column(name="last_name")
-	private String lName; 
+	private String lastName; 
 	
 	private Boolean active; 
 	
 	private String role;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	private List<Comment> comments; 
+	
 	
 	public List<Comment> getComments() {
 		return comments;
@@ -43,16 +48,9 @@ public class User {
 		this.comments = comments;
 	}
 
-	@JsonIgnore
-	@OneToMany(mappedBy="user")
-	private List<Comment> comments; 
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -79,20 +77,20 @@ public class User {
 		this.email = email;
 	}
 
-	public String getfName() {
-		return fName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setfName(String fName) {
-		this.fName = fName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getlName() {
-		return lName;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setlName(String lName) {
-		this.lName = lName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public Boolean getActive() {
@@ -123,9 +121,9 @@ public class User {
 		builder.append(", email=");
 		builder.append(email);
 		builder.append(", fName=");
-		builder.append(fName);
+		builder.append(firstName);
 		builder.append(", lName=");
-		builder.append(lName);
+		builder.append(lastName);
 		builder.append(", active=");
 		builder.append(active);
 		builder.append(", role=");
@@ -145,8 +143,8 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.fName = fName;
-		this.lName = lName;
+		this.firstName = fName;
+		this.lastName = lName;
 		this.active = active;
 		this.role = role;
 		this.comments = comments;

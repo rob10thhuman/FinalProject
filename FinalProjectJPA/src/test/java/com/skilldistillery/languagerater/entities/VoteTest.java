@@ -30,9 +30,9 @@ class VoteTest {
 	@Test
 	void test() {
 		Vote v = em.find(Vote.class, 1);
-		assertEquals("", v.getUser());
-		assertEquals("", v.getComment());
-		assertEquals("", v.isVote());
+		assertEquals(1, v.getUser().getId());
+		assertEquals(1, v.getComment().getId());
+		assertEquals(false, v.isVote());
 	}
 
 }
