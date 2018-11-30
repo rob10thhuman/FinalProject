@@ -46,10 +46,8 @@ public class CommentServiceImpl implements CommentService {
 			existing.setComment(c.getComment());
 			existing.setDateAdded(c.getDateAdded());
 			existing.setDateUpdated(c.getDateUpdated());
-			
-			
-			
-			//TODO add a set for comments?
+			existing.setUser(c.getUser());
+			existing.setLanguage(c.getLanguage());
 			
 			existing = commentRepo.saveAndFlush(existing);
 
@@ -72,14 +70,12 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> indexByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+		return commentRepo.findCommentsByUsername(username);
 	}
 
 	@Override
 	public List<Comment> indexByLanguageName(String langName) {
-		// TODO Auto-generated method stub
-		return null;
+		return commentRepo.findCommentsByLanguageName(langName);
 	}
 
 }
