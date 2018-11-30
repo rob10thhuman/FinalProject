@@ -1,5 +1,11 @@
 package com.skilldistillery.languagerater.repositories;
 
-public interface UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.skilldistillery.languagerater.entities.User;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
+	
+	User findByUsername(String username);
 
 }
