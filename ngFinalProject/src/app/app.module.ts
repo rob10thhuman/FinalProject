@@ -12,6 +12,8 @@ import { HomeComponent } from './home/home.component';
 import { DetailLanguageComponent } from './detail-language/detail-language.component';
 import { ListLangugageComponent } from './list-langugage/list-langugage.component';
 import { NvgComponent } from './nvg/nvg.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { NvgComponent } from './nvg/nvg.component';
     HomeComponent,
     DetailLanguageComponent,
     ListLangugageComponent,
-    NvgComponent
+    NvgComponent,
+    AboutComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
