@@ -14,11 +14,13 @@ public class LanguageServiceImpl implements LanguageService {
 
 	@Autowired
 	LanguageRepository langRepo;
-
+	
+	@Override
 	public List<Language> index() {
 		return langRepo.findAll();
 	}
-
+	
+	@Override
 	public Language show(int id) {
 		Optional<Language> opt = langRepo.findById(id);
 		Language language = null;
@@ -28,12 +30,14 @@ public class LanguageServiceImpl implements LanguageService {
 		return language;
 	}
 	
+	@Override
 	public Language create(Language language) {
 		Language result = null;
 		result = langRepo.save(language);
 		return result;
 	}
 	
+	@Override
 	public Language update(Language lang, int id) {
 		Language result = null;
 		Optional<Language> opt = langRepo.findById(id);
@@ -49,6 +53,7 @@ public class LanguageServiceImpl implements LanguageService {
 		return result;
 	}
 	
+	@Override
 	public boolean destroy(int id) {
 		boolean result = false;
 		Optional<Language> opt = langRepo.findById(id);
