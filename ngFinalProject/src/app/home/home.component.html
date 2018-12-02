@@ -1,8 +1,10 @@
 <h1>Home</h1>
 <form>
 
-  Search:<input type="search" name="search" placeholder="Search with keywords" [(ngModel)]="searchString">
-  <button (click)="allLanguagesByKeywords(searchString)">Search</button>
+  Search:<input  class="form-control"  type="search" name="search" placeholder="Search with keywords" [(ngModel)]="searchString">
+  <button  class="btn btn-primary"  (click)="allLanguagesByKeywords(searchString)">Search</button>
   <br>
-  <button (click)="allLanguages()">All Languages</button>
+  <button  class="btn btn-primary"  (click)="allLanguages()">All Languages</button>
+  <br>
+  <button  class="btn btn-primary" name="addLang" *ngIf='adminUsers()'  [routerLink]="['/addLanguage']" routerLinkActive="router-link-active" >Add Language</button>
 </form>

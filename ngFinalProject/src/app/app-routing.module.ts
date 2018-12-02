@@ -1,3 +1,4 @@
+import { AddLanguageComponent } from './add-language/add-language.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NgModule } from '@angular/core';
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'languages/:id', component: DetailLanguageComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'addLanguage', component: AddLanguageComponent},
   { path: '**', component: NotFoundComponent }
 
 ];

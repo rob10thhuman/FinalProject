@@ -15,6 +15,7 @@ import { NvgComponent } from './nvg/nvg.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AddLanguageComponent } from './add-language/add-language.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     NvgComponent,
     AboutComponent,
     ContactComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AddLanguageComponent
   ],
   imports: [
     BrowserModule,
