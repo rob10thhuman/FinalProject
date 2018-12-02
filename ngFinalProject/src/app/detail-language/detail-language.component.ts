@@ -11,6 +11,7 @@ import { Language } from '../models/language';
 export class DetailLanguageComponent implements OnInit {
 
   language: Language = null;
+  comments: Comment[] = null;
   constructor(private langService: LanguageService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -27,5 +28,6 @@ export class DetailLanguageComponent implements OnInit {
       err => console.error('Observer got an error: ' + err)
     );
   }
+
 
 }
