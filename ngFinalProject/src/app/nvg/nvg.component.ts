@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-nvg',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NvgComponent implements OnInit {
 
-  constructor() { }
+  constructor( private authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  isLoggedIn() {
+    return this.authService.checkLogin();
   }
 
 }
