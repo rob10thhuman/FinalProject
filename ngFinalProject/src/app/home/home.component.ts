@@ -15,6 +15,6 @@ export class HomeComponent implements OnInit {
   }
 
   allLanguagesPage() {
-    this.router.navigateByUrl('list');
+    this.router.navigateByUrl('languages');
   }
 }

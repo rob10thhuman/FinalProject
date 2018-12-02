@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Language } from '../models/language';
 import { LanguageService } from '../language.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-langugage',
@@ -10,7 +11,7 @@ import { LanguageService } from '../language.service';
 export class ListLangugageComponent implements OnInit {
 
   languages: Language[] = [];
-  constructor(private langService: LanguageService) { }
+  constructor(private langService: LanguageService, private router: Router) { }
 
   ngOnInit() {
     this.indexLanguages();
@@ -23,5 +24,8 @@ export class ListLangugageComponent implements OnInit {
     );
   }
 
+  detailPage(id) {
+    this.router.navigateByUrl('languages/' + id);
+  }
 
 }
