@@ -10,7 +10,7 @@ import { DetailLanguageComponent } from './detail-language/detail-language.compo
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
-  { path: 'results', component: ListLangugageComponent },
+  { path: 'list', component: ListLangugageComponent },
   { path: 'detail', component: DetailLanguageComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},

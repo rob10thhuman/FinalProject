@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Language } from '../models/language';
+import { LanguageService } from '../language.service';
 
 @Component({
   selector: 'app-list-langugage',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListLangugageComponent implements OnInit {
 
-  constructor() { }
+  languages: Language[] = [];
+  constructor(private langService: LanguageService) { }
 
   ngOnInit() {
+    this.indexLanguages();
   }
+
+  indexLanguages() {
+    this.langService.index().subscribe(
+      data => this.languages = data,
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
 
 }
