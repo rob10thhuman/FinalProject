@@ -1,5 +1,6 @@
 package com.skilldistillery.languagerater.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,15 @@ public class LanguageServiceImpl implements LanguageService {
 	@Override
 	public List<Language> index() {
 		return langRepo.findAll();
+	}
+	@Override
+	public List<Language> indexByKeywords(String keywords) {
+		List<Language> langs = new ArrayList<>();
+		String[] words = keywords.trim().split("\\s+");
+		for(String word : words) {
+			langs.addAll(langRepo.findByKeyword("%" + word + "%"));
+		}
+		return langs;
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import com.skilldistillery.languagerater.entities.Language;
 public interface LanguageService {
 
 	List<Language> index();
+	List<Language> indexByKeywords(String keywords);
 
 	boolean destroy(int id);
 

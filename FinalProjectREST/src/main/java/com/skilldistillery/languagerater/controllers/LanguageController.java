@@ -29,6 +29,11 @@ public class LanguageController {
 		return langSer.index();
 	}
 	
+	@GetMapping("languages/search/{keywords}")
+	public List<Language> indexBySearch(@PathVariable String keywords) {
+		return langSer.indexByKeywords(keywords);
+	}
+	
 	@GetMapping("languages/{id}")
 	public Language show(@PathVariable int id) {
 		return langSer.show(id);

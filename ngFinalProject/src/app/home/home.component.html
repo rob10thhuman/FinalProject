@@ -1,8 +1,8 @@
 <h1>Home</h1>
 <form>
 
-  Search:<input type="search" placeholder="Search with keywords">
-  <button>Search</button>
+  Search:<input type="search" name="search" placeholder="Search with keywords" [(ngModel)]="searchString">
+  <button (click)="allLanguagesByKeywords(searchString)">Search</button>
   <br>
-  <button (click)="allLanguagesPage()">All Languages</button>
+  <button (click)="allLanguages()">All Languages</button>
 </form>

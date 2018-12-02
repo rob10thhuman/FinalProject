@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
   { path: 'languages', component: ListLangugageComponent },
+  { path: 'languages/search/:searchString', component: ListLangugageComponent },
   { path: 'languages/:id', component: DetailLanguageComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},

@@ -9,12 +9,18 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  searchString: string = null;
+
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  allLanguagesPage() {
+  allLanguages() {
     this.router.navigateByUrl('languages');
+  }
+
+  allLanguagesByKeywords(search: string) {
+    this.router.navigateByUrl('languages/search/' + search);
   }
 }

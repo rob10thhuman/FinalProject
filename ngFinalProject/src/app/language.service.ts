@@ -27,6 +27,11 @@ export class LanguageService {
     index() {
       return this.http.get<Language[]>(this.url + '?sorted=true', this.httpOptions ).pipe(
         catchError(this.handleError));
+      }
+
+    indexBySearch(search: string) {
+      return this.http.get<Language[]>(this.url + '/search/' + search, this.httpOptions ).pipe(
+        catchError(this.handleError));
     }
 
     show(id: string) {
