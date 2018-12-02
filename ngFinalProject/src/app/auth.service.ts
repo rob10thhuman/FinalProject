@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -8,8 +9,7 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class AuthService {
 
-   // will replace with enviroment later
-   private url = 'http://localhost:8087/';
+  private url = environment.baseUrl;
 
   constructor(private http: HttpClient) {}
 

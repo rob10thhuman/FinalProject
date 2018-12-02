@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -10,9 +11,7 @@ import { throwError } from 'rxjs';
 })
 export class LanguageService {
 
-  // will replace with enviroment later
-  private baseUrl = 'http://localhost:8087/';
-  private url = this.baseUrl + 'api/languages';
+  private url = environment.baseUrl + 'api/languages';
 
   private token = this.authService.getToken();
   private  httpOptions = {

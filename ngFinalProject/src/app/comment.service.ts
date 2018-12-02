@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Comment } from './models/comment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -10,9 +11,7 @@ import { throwError } from 'rxjs';
 })
 export class CommentService {
 
-  // will replace with enviroment later
-  private baseUrl = 'http://localhost:8087/';
-  private url = this.baseUrl + 'api/comments';
+  private url = environment.baseUrl + 'api/comments';
 
   private token = this.authService.getToken();
   private  httpOptions = {
