@@ -40,8 +40,5 @@ export class ListLangugageComponent implements OnInit {
     this.router.navigateByUrl('languages/' + id);
   }
 
-  hasLanguages() {
-    return this.languages.length > 0;
-  }
 
 }

@@ -5,12 +5,11 @@ import java.util.List;
 import com.skilldistillery.languagerater.entities.Comment;
 
 public interface CommentService {
-	public List<Comment> index();
-	public Comment show(int id);
-	public Comment create(Comment c);
-	public Comment update(int id, Comment c);
-	public boolean delete(int id);
+	public List<Comment> index(String username);
+	public Comment show(String username, int id);
+	public Comment create(String username, Comment c);
+	public Comment update(String username, int id, Comment c);
+	public boolean delete(String username, int id);
 	
-	public List<Comment> indexByUsername(String username);
 	public List<Comment> indexByLanguageName(String langName);
 }

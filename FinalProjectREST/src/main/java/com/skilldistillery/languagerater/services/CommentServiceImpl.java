@@ -7,47 +7,51 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.languagerater.entities.Comment;
+import com.skilldistillery.languagerater.entities.User;
 import com.skilldistillery.languagerater.repositories.CommentRepository;
+import com.skilldistillery.languagerater.repositories.UserRepository;
 
 @Service
 public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
 	CommentRepository commentRepo;
+	
+	@Autowired
+	UserRepository userRepo;
 
 	@Override
-	public List<Comment> index() {
-		return commentRepo.findAll();
+	public List<Comment> index(String username) {
+		return commentRepo.findCommentsByUsername(username);
 	}
 
 	@Override
-	public Comment show(int id) {
-		Optional<Comment> opt = commentRepo.findById(id);
-		if (opt.isPresent()) {
-			return opt.get();
-		} else {
-			return null;
-		}
+	public Comment show(String username, int id) {
+		return commentRepo.findByUsernameAndId(username, id);
 	}
 
 	@Override
-	public Comment create(Comment c) {
-		return commentRepo.saveAndFlush(c);
+	public Comment create(String username, Comment comment) {
+		User u = userRepo.findByUsername(username);
+		comment = commentRepo.saveAndFlush(comment);
+		u.addComment(comment);
+		userRepo.saveAndFlush(u);
+		return comment;
 	}
 
 	@Override
-	public Comment update(int id, Comment c) {
-		Comment existing = null;
-		Optional<Comment> opt = commentRepo.findById(id);
+	public Comment update(String username, int id, Comment comment) {
+		
+		
+		Comment existing = commentRepo.findByUsernameAndId(username, id);
 
-		if (opt.isPresent()) {
-			existing = opt.get();
+		if (existing != null) {
 			
-			existing.setComment(c.getComment());
-			existing.setDateAdded(c.getDateAdded());
-			existing.setDateUpdated(c.getDateUpdated());
-			existing.setUser(c.getUser());
-			existing.setLanguage(c.getLanguage());
+			existing.setComment(comment.getComment());
+			existing.setDateAdded(comment.getDateAdded());
+			existing.setDateUpdated(comment.getDateUpdated());
+			existing.setUser(comment.getUser());
+			existing.setLanguage(comment.getLanguage());
 			
 			existing = commentRepo.saveAndFlush(existing);
 
@@ -56,26 +60,26 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(String username, int id) {
 		boolean deleted = false;
-		Comment c = show(id);
+		Comment c = commentRepo.findByUsernameAndId(username, id);
 		
 		if(c != null && commentRepo.existsById(c.getId())) {
+			User u = userRepo.findByUsername(username);
+			u.removeComment(c);
+			
 			commentRepo.delete(c);
+			userRepo.saveAndFlush(u);
 			deleted = true;
 		}
 		
 		return deleted;
 	} 
-
-	@Override
-	public List<Comment> indexByUsername(String username) {
-		return commentRepo.findCommentsByUsername(username);
-	}
-
+	
 	@Override
 	public List<Comment> indexByLanguageName(String langName) {
 		return commentRepo.findCommentsByLanguageName(langName);
 	}
+
 
 }

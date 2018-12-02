@@ -1,5 +1,6 @@
 package com.skilldistillery.languagerater.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -39,6 +40,8 @@ public class User {
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments; 
 	
+	
+	// setters and getters 
 	
 	public List<Comment> getComments() {
 		return comments;
@@ -108,7 +111,28 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	
+	// add and remove methods
+	
+	public void addComment(Comment comment) {
+		if (comments == null)
+			comments = new ArrayList<>();
+		if (!comments.contains(comment)) {
+			comments.add(comment);
+			comment.setUser(this);
+		}
+	}
 
+	public void removeComment(Comment comment) {
+		if (comments != null && comments.contains(comment)) {
+			comments.remove(comment);
+			comment.setUser(null);
+		}
+	}
+
+	
+	// toString
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -135,6 +159,7 @@ public class User {
 	}
 
 
+	// constructors
 	
 	public User(int id, String username, String password, String email, String fName, String lName, Boolean active,
 			String role, List<Comment> comments) {
@@ -153,5 +178,7 @@ public class User {
 	public User() {
 		
 	}
+	
+	
 
 }

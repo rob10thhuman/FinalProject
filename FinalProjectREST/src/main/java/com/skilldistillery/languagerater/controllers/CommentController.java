@@ -1,9 +1,7 @@
 package com.skilldistillery.languagerater.controllers;
 
+import java.security.Principal;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,94 +26,34 @@ public class CommentController {
 	CommentService commentSvc;
 	
 	@GetMapping("comments")
-	public List<Comment> index(HttpServletResponse resp, HttpServletRequest req){
-		String newUrl = req.getRequestURL().toString();
-		resp.setHeader("Location", newUrl);
-		return commentSvc.index();
+	public List<Comment> index(Principal principal){
+		return commentSvc.index(principal.getName());
 	}
 	
 	@GetMapping("comments/{id}")
-	public Comment commentsById(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
-		Comment c = commentSvc.show(id);
-		if(c != null) {
-			String newUrl = req.getRequestURL().toString();
-			resp.setHeader("Location", newUrl);
-			resp.setStatus(200);
-		}
-		else {
-			resp.setStatus(404);
-			
-		}
-		return c;
+	public Comment commentsById(@PathVariable int id, Principal principal) {
+		return commentSvc.show(principal.getName(), id);
 	}
 	
 	@PostMapping("comments")
-	public Comment createComment(@RequestBody Comment c,  HttpServletResponse resp,
-			HttpServletRequest req) {
-		String newUrl = "";
-		c = commentSvc.create(c);
-		if (c == null) {
-			resp.setStatus(400);
-			newUrl = req.getRequestURL().toString();
-		} else {
-			resp.setStatus(201);
-			newUrl = req.getRequestURL().toString() + "/" + (c.getId());
-		}
-		resp.setHeader("Location", newUrl);
-		return c;
+	public Comment createComment(@RequestBody Comment comment, Principal principal) {
+		return commentSvc.create(principal.getName(), comment);
 	}
 	
 	@PutMapping("comments/{id}")
-	public Comment updateComment(@PathVariable int id, @RequestBody Comment c, HttpServletResponse resp,
-			HttpServletRequest req) {
-		String newUrl = "";
-		c = commentSvc.update(id, c);
-		if (c == null) {
-			resp.setStatus(400);
-			newUrl = req.getRequestURL().toString();
-		} else {
-			resp.setStatus(200);
-			newUrl = req.getRequestURL().toString() + "/" + (c.getId());
-		}
-		resp.setHeader("Location", newUrl);
-		return c;
+	public Comment updateComment(@PathVariable int id, @RequestBody Comment comment, Principal principal) {
+		return commentSvc.update(principal.getName(), id, comment);
 	}
 	
 	@DeleteMapping("comments/{id}")
-	public boolean deleteComment(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
-		boolean deleteSuccess = commentSvc.delete(id);
-		resp.setStatus(!deleteSuccess ? 400 : 200);
-		return deleteSuccess;
-	}
-	
-	@GetMapping("comments/users/{username}")
-	public List<Comment> indexByUsername(@PathVariable String username, HttpServletResponse resp, HttpServletRequest req){
-		List<Comment> comments = commentSvc.indexByUsername(username);
-		if(comments != null) {
-			String newUrl = req.getRequestURL().toString();
-			resp.setHeader("Location", newUrl);
-			resp.setStatus(200);
-		}
-		else {
-			resp.setStatus(404);
-			
-		}
-		return comments;
+	public boolean deleteComment(@PathVariable int id, Principal principal) {
+		return commentSvc.delete(principal.getName(), id);
 	}
 
 	@GetMapping("comments/languages/{langName}")
-	public List<Comment> indexByLanguageName(@PathVariable String langName, HttpServletResponse resp, HttpServletRequest req){
-		List<Comment> comments = commentSvc.indexByLanguageName(langName);
-		if(comments != null) {
-			String newUrl = req.getRequestURL().toString();
-			resp.setHeader("Location", newUrl);
-			resp.setStatus(200);
-		}
-		else {
-			resp.setStatus(404);
-			
-		}
-		return comments;
+	public List<Comment> indexByLanguageName(@PathVariable String langName){
+		return commentSvc.indexByLanguageName(langName);
+		
 	}
 
 }
