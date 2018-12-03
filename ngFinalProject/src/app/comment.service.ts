@@ -27,6 +27,12 @@ export class CommentService {
     return this.http.get<Comment[]>(this.url + '?sorted=true', this.httpOptions ).pipe(
       catchError(this.handleError));
   }
+  languageIndex(languageName: string) {
+    return this.http.get<Comment[]>(this.url + '/languages/' + languageName, this.httpOptions ).pipe(
+      catchError(this.handleError));
+  }
+
+
 
   show(id: string) {
     return this.http.get<Comment>(this.url + '/' + id, this.httpOptions ).pipe(

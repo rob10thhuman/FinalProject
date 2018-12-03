@@ -2,6 +2,7 @@ import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Language } from '../models/language';
+import { CommentService } from '../comment.service';
 
 @Component({
   selector: 'app-detail-language',
@@ -11,8 +12,8 @@ import { Language } from '../models/language';
 export class DetailLanguageComponent implements OnInit {
 
   language: Language = null;
-  comments: Comment[] = null;
-  constructor(private langService: LanguageService, private route: ActivatedRoute) { }
+  comments = null;
+  constructor(private langService: LanguageService, private commentService: CommentService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     const langId = this.route.snapshot.paramMap.get('id');
@@ -24,7 +25,18 @@ export class DetailLanguageComponent implements OnInit {
 
   showLanguage(id: string) {
     this.langService.show(id).subscribe(
-      data => this.language = data,
+      data => {
+        this.language = data;
+        this.showCommentsForLanguage();
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  showCommentsForLanguage() {
+    this.commentService.languageIndex(this.language.name).subscribe(
+
+      data => this.comments = data,
       err => console.error('Observer got an error: ' + err)
     );
   }
