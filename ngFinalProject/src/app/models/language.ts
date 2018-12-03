@@ -5,6 +5,7 @@ export class Language {
   creator: string;
   yearCreated: string;
   info: string;
+  rating: number;
 
   constructor(
     id?: number,
@@ -12,7 +13,8 @@ export class Language {
     logo?: string,
     creator?: string,
     yearCreated?: string,
-    info?: string
+    info?: string,
+    rating?: number
   ) {
     this.id = id;
     this.name = name;
@@ -20,5 +22,6 @@ export class Language {
     this.creator = creator;
     this.yearCreated = yearCreated;
     this.info = info;
+    this.rating = rating;
   }
 }

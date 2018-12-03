@@ -1,10 +1,13 @@
 package com.skilldistillery.languagerater.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +31,17 @@ public class Language {
 
 	@Column(name = "info")
 	private String info;
+	
+	@OneToMany(mappedBy="language")
+	private List<LanguageRating> lRatings; 	
+
+	public List<LanguageRating> getlRatings() {
+		return lRatings;
+	}
+
+	public void setlRatings(List<LanguageRating> lRatings) {
+		this.lRatings = lRatings;
+	}
 
 	public int getId() {
 		return id;
@@ -84,22 +98,28 @@ public class Language {
 		builder.append(logo);
 		builder.append(", creator=");
 		builder.append(creator);
-		builder.append(", yrCreated=");
+		builder.append(", yearCreated=");
 		builder.append(yearCreated);
 		builder.append(", info=");
 		builder.append(info);
+		builder.append(", lRatings=");
+		builder.append(lRatings);
 		builder.append("]");
 		return builder.toString();
 	}
 
-	public Language(int id, String name, String logo, String creator, String yrCreated, String info) {
+	
+
+	public Language(int id, String name, String logo, String creator, String yearCreated, String info,
+			List<LanguageRating> lRatings) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.logo = logo;
 		this.creator = creator;
-		this.yearCreated = yrCreated;
+		this.yearCreated = yearCreated;
 		this.info = info;
+		this.lRatings = lRatings;
 	}
 
 	public Language() {
