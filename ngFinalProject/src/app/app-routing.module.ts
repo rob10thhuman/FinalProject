@@ -1,3 +1,5 @@
+import { ContactComponent } from './contact/contact.component';
+import { AboutComponent } from './about/about.component';
 import { AddLanguageComponent } from './add-language/add-language.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -10,6 +12,8 @@ import { DetailLanguageComponent } from './detail-language/detail-language.compo
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'contact', component: ContactComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'home', component: HomeComponent },
   { path: 'languages', component: ListLangugageComponent },
   { path: 'languages/search/:searchString', component: ListLangugageComponent },

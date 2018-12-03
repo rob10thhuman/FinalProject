@@ -24,7 +24,7 @@ public class LanguageController {
 	@Autowired
 	LanguageService langSer;
 	
-	@GetMapping("languages")
+	@GetMapping("languages/index")
 	public List<Language> index() {
 		return langSer.index();
 	}
