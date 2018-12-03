@@ -1,3 +1,5 @@
+import { Rating } from './rating';
+
 export class Language {
   id: number;
   name: string;
@@ -5,7 +7,7 @@ export class Language {
   creator: string;
   yearCreated: string;
   info: string;
-  lRatings: number;
+  lRatings: Rating[];
 
   constructor(
     id?: number,
@@ -14,7 +16,7 @@ export class Language {
     creator?: string,
     yearCreated?: string,
     info?: string,
-    lRatings?: number
+    lRatings?: Rating[]
   ) {
     this.id = id;
     this.name = name;
