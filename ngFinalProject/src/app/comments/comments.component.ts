@@ -1,3 +1,4 @@
+import { Comment } from './../models/comment';
 import { AuthService } from './../auth.service';
 import { CommentService } from './../comment.service';
 import { Component, OnInit } from '@angular/core';
@@ -10,9 +11,9 @@ import { DetailLanguageComponent } from '../detail-language/detail-language.comp
 })
 export class CommentsComponent implements OnInit {
   comments = null;
-  newComment: Comment = new Comment();
+  newComment: Comment = null;
   updatingComment: Comment = null;
-  addingComment = false;
+
 
   constructor(
     private commentService: CommentService,
@@ -37,18 +38,21 @@ export class CommentsComponent implements OnInit {
     this.commentService.create(comment).subscribe(
       data => {
         this.showCommentsForLanguage();
+        this.teardownAddingComment();
       },
       err => console.error('Observer got an error: ' + err)
     );
-    this.setAddingComment(false);
-    this.newComment = null;
+    this.newComment.comment = null;
   }
 
   updateComment(id, comment) {
     this.commentService
       .update(id, comment)
       .subscribe(
-        data => this.showCommentsForLanguage(),
+        data => {
+          this.showCommentsForLanguage();
+          this.teardownUpdatingComment();
+        },
         err => console.error('Observer got an error: ' + err)
       );
   }
@@ -62,18 +66,30 @@ export class CommentsComponent implements OnInit {
       );
   }
 
-  setAddingComment(bool: boolean) {
-    this.addingComment = bool;
+  setupAddingComment() {
+    this.newComment = new Comment();
   }
+  teardownAddingComment() {
+    this.newComment = null;
+  }
+
+  setupUpdatingComment(comment: Comment) {
+    this.updatingComment = comment;
+  }
+  teardownUpdatingComment() {
+    this.updatingComment = null;
+  }
+
 
   isLoggedIn() {
     return this.authService.checkLogin();
   }
 
   isLoggedInUsername(username) {
-    // const user = JSON.parse(this.authService.getToken());
-    // console.log(user);
-    // return user.username === username;
-    return false;
+    return username === this.authService.getUsername();
+  }
+
+  checkUpdatingFormConditions(comment: Comment) {
+    return this.updatingComment && this.updatingComment === comment;
   }
 }

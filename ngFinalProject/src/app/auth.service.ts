@@ -26,6 +26,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           localStorage.setItem('token' , token);
+          localStorage.setItem('username', username);
           return res;
         }),
         catchError((err: any) => {
@@ -51,6 +52,7 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
   }
 
   checkLogin() {
@@ -67,4 +69,9 @@ export class AuthService {
   getToken() {
     return localStorage.getItem('token');
   }
+
+  getUsername() {
+    return localStorage.getItem('username');
+  }
+
 }

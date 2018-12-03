@@ -11,7 +11,8 @@ import { throwError } from 'rxjs';
 })
 export class CommentService {
 
-  private url = environment.baseUrl + 'api/comments';
+  private notAuthUrl = environment.baseUrl + 'api/notAuth/comments';
+  private authUrl = environment.baseUrl + 'api/auth/comments';
 
   private token = this.authService.getToken();
   private  httpOptions = {
@@ -24,33 +25,33 @@ export class CommentService {
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   index() {
-    return this.http.get<Comment[]>(this.url + '?sorted=true', this.httpOptions ).pipe(
+    return this.http.get<Comment[]>(this.notAuthUrl + '?sorted=true', this.httpOptions ).pipe(
       catchError(this.handleError));
   }
   languageIndex(languageName: string) {
-    return this.http.get<Comment[]>(this.url + '/languages/' + languageName, this.httpOptions ).pipe(
+    return this.http.get<Comment[]>(this.notAuthUrl + '/languages/' + languageName, this.httpOptions ).pipe(
       catchError(this.handleError));
   }
 
 
 
   show(id: string) {
-    return this.http.get<Comment>(this.url + '/' + id, this.httpOptions ).pipe(
+    return this.http.get<Comment>(this.notAuthUrl + '/' + id, this.httpOptions ).pipe(
       catchError(this.handleError));
   }
 
   create(data: Comment) {
-    return this.http.post<Comment>(this.url, data, this.httpOptions).pipe(
+    return this.http.post<Comment>(this.authUrl, data, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 
   destroy(id: number) {
-    return this.http.delete<Comment>( this.url + '/' + id, this.httpOptions).pipe(
+    return this.http.delete<Comment>( this.authUrl + '/' + id, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 
   update(id: number, data: Comment) {
-    return this.http.put<Comment>(this.url + '/' + id, data, this.httpOptions).pipe(
+    return this.http.put<Comment>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 
