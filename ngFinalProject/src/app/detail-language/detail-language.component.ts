@@ -25,7 +25,10 @@ export class DetailLanguageComponent implements OnInit {
 
   showLanguage(id: string) {
     this.langService.show(id).subscribe(
-      data => this.language = data,
+      data => {
+        this.language = data;
+        this.showCommentsForLanguage();
+      },
       err => console.error('Observer got an error: ' + err)
     );
   }
