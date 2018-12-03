@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "language")
 public class Language {
@@ -32,6 +34,7 @@ public class Language {
 	@Column(name = "info")
 	private String info;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="language")
 	private List<LanguageRating> lRatings; 	
 
