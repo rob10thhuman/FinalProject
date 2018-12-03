@@ -21,16 +21,22 @@ export class LanguageService {
     })
   };
 
+  private  httpOptionsUnAuth = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+    })
+  };
+
   constructor(private http: HttpClient,
     private authService: AuthService) { }
 
     index() {
-      return this.http.get<Language[]>(this.url + '?sorted=true', this.httpOptions ).pipe(
+      return this.http.get<Language[]>(this.url + '/index' + '?sorted=true', this.httpOptionsUnAuth ).pipe(
         catchError(this.handleError));
       }
 
     indexBySearch(search: string) {
-      return this.http.get<Language[]>(this.url + '/search/' + search, this.httpOptions ).pipe(
+      return this.http.get<Language[]>(this.url + '/search/' + search, this.httpOptionsUnAuth ).pipe(
         catchError(this.handleError));
     }
 

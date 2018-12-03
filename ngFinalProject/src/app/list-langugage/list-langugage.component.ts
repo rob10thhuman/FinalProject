@@ -11,7 +11,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class ListLangugageComponent implements OnInit {
 
   languages: Language[] = [];
-  constructor(private langService: LanguageService, private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private langService: LanguageService,
+    private router: Router,
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit() {
     const searchString = this.route.snapshot.paramMap.get('searchString');
