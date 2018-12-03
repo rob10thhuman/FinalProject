@@ -16,6 +16,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AddLanguageComponent } from './add-language/add-language.component';
+import { RatingComponent } from './rating/rating.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AddLanguageComponent } from './add-language/add-language.component';
     AboutComponent,
     ContactComponent,
     NotFoundComponent,
-    AddLanguageComponent
+    AddLanguageComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
