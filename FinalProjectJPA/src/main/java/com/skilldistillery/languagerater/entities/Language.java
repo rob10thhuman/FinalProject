@@ -34,7 +34,6 @@ public class Language {
 	@Column(name = "info")
 	private String info;
 	
-	@JsonIgnore
 	@OneToMany(mappedBy="language")
 	private List<LanguageRating> lRatings; 	
 
