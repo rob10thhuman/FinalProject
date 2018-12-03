@@ -11,7 +11,8 @@ import { throwError } from 'rxjs';
 })
 export class LanguageService {
 
-  private url = environment.baseUrl + 'api/languages';
+  private notAuthUrl = environment.baseUrl + 'api/notAuth/languages';
+  private authUrl = environment.baseUrl + 'api/auth/languages';
 
   private token = this.authService.getToken();
   private  httpOptions = {
@@ -31,32 +32,32 @@ export class LanguageService {
     private authService: AuthService) { }
 
     index() {
-      return this.http.get<Language[]>(this.url + '/index' + '?sorted=true', this.httpOptionsUnAuth ).pipe(
+      return this.http.get<Language[]>(this.notAuthUrl + '/index' + '?sorted=true', this.httpOptionsUnAuth ).pipe(
         catchError(this.handleError));
       }
 
     indexBySearch(search: string) {
-      return this.http.get<Language[]>(this.url + '/search/' + search, this.httpOptionsUnAuth ).pipe(
+      return this.http.get<Language[]>(this.notAuthUrl + '/search/' + search, this.httpOptionsUnAuth ).pipe(
         catchError(this.handleError));
     }
 
     show(id: string) {
-      return this.http.get<Language>(this.url + '/' + id, this.httpOptions ).pipe(
+      return this.http.get<Language>(this.notAuthUrl + '/' + id, this.httpOptionsUnAuth ).pipe(
         catchError(this.handleError));
     }
 
     create(data: Language) {
-      return this.http.post<Language>(this.url, data, this.httpOptions).pipe(
+      return this.http.post<Language>(this.authUrl, data, this.httpOptions).pipe(
         catchError(this.handleError));
     }
 
     destroy(id: number) {
-      return this.http.delete<Language>( this.url + '/' + id, this.httpOptions).pipe(
+      return this.http.delete<Language>( this.authUrl + '/' + id, this.httpOptions).pipe(
         catchError(this.handleError));
     }
 
     update(id: number, data: Language) {
-      return this.http.put<Language>(this.url + '/' + id, data, this.httpOptions).pipe(
+      return this.http.put<Language>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
         catchError(this.handleError));
     }
 
