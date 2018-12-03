@@ -1,3 +1,4 @@
+import { Rating } from './../models/rating';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

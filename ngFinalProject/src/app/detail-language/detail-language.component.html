@@ -12,9 +12,11 @@
     </tr>
     <tr>
         <td>Ratings</td>
-        <td *ngFor="let lRatings of language.lRatings">{{lRatings.rating}}</td>
+        <td *ngFor="let lRatings of language.lRatings" id="ratingsList">{{lRatings.rating}}</td>
       </tr>
-  </table>
+    </table>
+
+  Avg Rating: <span> {{ avgRating }} </span>
 
   {{ language.info }}
   <app-rating></app-rating>

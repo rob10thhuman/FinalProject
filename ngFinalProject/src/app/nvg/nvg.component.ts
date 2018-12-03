@@ -8,6 +8,8 @@ import { AuthService } from '../auth.service';
 })
 export class NvgComponent implements OnInit {
 
+  public isCollapsed = false;
+
   constructor( private authService: AuthService) { }
 
   ngOnInit() {
