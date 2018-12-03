@@ -1,9 +1,10 @@
+import { RatingService } from './../rating.service';
+import { Language } from './../models/language';
+import { Comment } from './../models/comment';
 import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Language } from '../models/language';
 import { CommentService } from '../comment.service';
-import { RatingService } from '../rating.service';
 
 @Component({
   selector: 'app-detail-language',
@@ -14,6 +15,9 @@ export class DetailLanguageComponent implements OnInit {
 
   language: Language = null;
   comments = null;
+  newComment: Comment = new Comment();
+  updatingComment: Comment = null;
+  addingComment = false;
   rating = null;
 
   constructor(private langService: LanguageService, private commentService: CommentService,
@@ -49,9 +53,44 @@ export class DetailLanguageComponent implements OnInit {
   showCommentsForLanguage() {
     this.commentService.languageIndex(this.language.name).subscribe(
 
-      data => this.comments = data,
+      data => {
+        this.comments = data;
+
+      },
       err => console.error('Observer got an error: ' + err)
     );
+  }
+
+  addComment(comment) {
+    comment.language = this.language;
+    this.commentService.create(comment).subscribe(
+      data => {
+
+        this.showCommentsForLanguage();
+      },
+      err => console.error('Observer got an error: ' + err)
+      );
+      this.setAddingComment(false);
+      this.newComment = null;
+    }
+
+  updateComment(id, comment) {
+      this.commentService.update(id, comment).subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+
+        );
+      }
+
+  deleteComment(id) {
+      this.commentService.destroy(id).subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  setAddingComment (bool: boolean) {
+    this.addingComment = bool;
   }
 
 

@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        .antMatchers("/register").permitAll()
 	        .antMatchers("/*").permitAll()
 	        .antMatchers("/api/languages/index").permitAll()
+	        .antMatchers("/api/comments/languages/{langName}").permitAll()
 	        .antMatchers("/api/languages/search/{keywords}").permitAll()
 	        .antMatchers("/api/languages/{id}").permitAll()
 	        .anyRequest().authenticated()

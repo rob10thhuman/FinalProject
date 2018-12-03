@@ -27,4 +27,7 @@ export class RatingService {
   constructor(private http: HttpClient,
     private authService: AuthService) { }
 
+    show(id) {
+      console.log('test');
+    }
 }
