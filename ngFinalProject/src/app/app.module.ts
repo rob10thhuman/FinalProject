@@ -17,6 +17,7 @@ import { ContactComponent } from './contact/contact.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AddLanguageComponent } from './add-language/add-language.component';
 import { RatingComponent } from './rating/rating.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { RatingComponent } from './rating/rating.component';
     ContactComponent,
     NotFoundComponent,
     AddLanguageComponent,
-    RatingComponent
+    RatingComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

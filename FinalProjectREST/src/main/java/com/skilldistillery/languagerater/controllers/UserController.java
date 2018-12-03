@@ -28,64 +28,30 @@ public class UserController {
 	@Autowired
 	UserService userSvc;
 	
-	@GetMapping("users")
-	public List<User> index(HttpServletResponse resp, HttpServletRequest req){
-		String newUrl = req.getRequestURL().toString();
-		resp.setHeader("Location", newUrl);
+	@GetMapping("auth/users")
+	public List<User> index(){
 		return userSvc.index();
 	}
 	
-	@GetMapping("users/{id}")
-	public User userById(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
-		User u = userSvc.show(id);
-		if(u != null) {
-			String newUrl = req.getRequestURL().toString();
-			resp.setHeader("Location", newUrl);
-			resp.setStatus(200);
-		}
-		else {
-			resp.setStatus(404);
-			
-		}
-		return u;
+	@GetMapping("auth/users/{id}")
+	public User userById(@PathVariable int id) {
+		return userSvc.show(id);
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public User userByUsername(@RequestParam(value="username") String username, HttpServletResponse resp, HttpServletRequest req) {
-		User u = userSvc.showByUsername(username);
-		if(u != null) {
-			String newUrl = req.getRequestURL().toString();
-			resp.setHeader("Location", newUrl);
-			resp.setStatus(200);
-		}
-		else {
-			resp.setStatus(404);
-			
-		}
-		return u;
+	@GetMapping("auth/users/username/{username}")
+	public User userByUsername(@PathVariable String username) {
+		return userSvc.showByUsername(username);
 	}
 	
 	
-	@PutMapping("users/{id}")
-	public User updateUser(@PathVariable int id, @RequestBody User user, HttpServletResponse resp,
-			HttpServletRequest req) {
-		String newUrl = "";
-		user = userSvc.update(id, user);
-		if (user == null) {
-			resp.setStatus(404);
-			newUrl = req.getRequestURL().toString();
-		} else {
-			resp.setStatus(200);
-			newUrl = req.getRequestURL().toString() + "/" + (user.getId());
-		}
-		resp.setHeader("Location", newUrl);
-		return user;
+	@PutMapping("auth/users/{id}")
+	public User updateUser(@PathVariable int id, @RequestBody User user) {
+		return userSvc.update(id, user);
 	}
 	
-	@DeleteMapping("users/{id}")
-	public boolean deleteUser(@PathVariable int id, HttpServletResponse resp, HttpServletRequest req) {
+	@DeleteMapping("auth/users/{id}")
+	public boolean deleteUser(@PathVariable int id) {
 		boolean deleteSuccess = userSvc.delete(id);
-		resp.setStatus(!deleteSuccess ? 404 : 200);
 		return deleteSuccess;
 	}
 }
