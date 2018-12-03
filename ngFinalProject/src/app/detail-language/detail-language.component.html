@@ -21,11 +21,11 @@
   <br>
   <br>
   <h4>Comments</h4>
-  <button *ngIf="!addingComment" (click)="setAddingComment(true)">
+  <button *ngIf="!addingComment && isLoggedIn()" (click)="setAddingComment(true)">
     Add New Comment
   </button>
 
-  <form *ngIf="addingComment && isLoggedIn()" >
+  <form *ngIf="addingComment" >
     <textarea
       rows="5"
       cols="40"
@@ -45,6 +45,8 @@
       {{ comment.user.username }} Date:
       {{ comment.dateAdded | date: 'shortDate' }}
       <p>{{ comment.comment }}</p>
+      <button *ngIf="isLoggedInUsername(comment.user.username)">Edit</button>
+      <button *ngIf="isLoggedInUsername(comment.user.username)">Delete</button>
     </li>
   </ul>
 </div>
