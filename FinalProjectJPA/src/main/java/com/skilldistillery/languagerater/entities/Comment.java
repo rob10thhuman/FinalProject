@@ -14,6 +14,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name="comment")
@@ -31,7 +32,7 @@ public class Comment {
 	
 	@Column(name="date_updated")
 	@Temporal(TemporalType.DATE)
-	@CreationTimestamp
+	@UpdateTimestamp
 	private Date dateUpdated;  
 	
 	@ManyToOne
