@@ -25,7 +25,7 @@
     Add New Comment
   </button>
 
-  <form *ngIf="addingComment">
+  <form *ngIf="addingComment && isLoggedIn()" >
     <textarea
       rows="5"
       cols="40"
