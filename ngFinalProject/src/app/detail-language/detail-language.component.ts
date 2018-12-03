@@ -1,7 +1,9 @@
+import { Comment } from './../models/comment';
 import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Language } from '../models/language';
+
 import { CommentService } from '../comment.service';
 
 @Component({
@@ -13,6 +15,10 @@ export class DetailLanguageComponent implements OnInit {
 
   language: Language = null;
   comments = null;
+  newComment: Comment = new Comment();
+  updatingComment: Comment = null;
+  addingComment = false;
+
   constructor(private langService: LanguageService, private commentService: CommentService, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -39,6 +45,36 @@ export class DetailLanguageComponent implements OnInit {
       data => this.comments = data,
       err => console.error('Observer got an error: ' + err)
     );
+  }
+
+  addComment(comment) {
+    this.commentService.create(comment).subscribe(
+      data => {
+        this.showCommentsForLanguage();
+      },
+      err => console.error('Observer got an error: ' + err)
+      );
+      this.setAddingComment(false);
+      this.newComment = null;
+    }
+
+  updateComment(id, comment) {
+      this.commentService.update(id, comment).subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+
+        );
+      }
+
+  deleteComment(id) {
+      this.commentService.destroy(id).subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  setAddingComment (bool: boolean) {
+    this.addingComment = bool;
   }
 
 
