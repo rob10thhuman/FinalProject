@@ -14,4 +14,5 @@ public interface LanguageRepository extends JpaRepository<Language, Integer> {
 			+ "OR l.yearCreated LIKE :word "
 			+ "OR l.info LIKE :word")
 	List<Language> findByKeyword(@Param("word") String word);
+	
 }
