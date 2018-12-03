@@ -1,9 +1,9 @@
+import { RatingService } from './../rating.service';
 import { Language } from './../models/language';
 import { Comment } from './../models/comment';
 import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import { CommentService } from '../comment.service';
 
 @Component({
@@ -18,8 +18,10 @@ export class DetailLanguageComponent implements OnInit {
   newComment: Comment = new Comment();
   updatingComment: Comment = null;
   addingComment = false;
+  rating = null;
 
-  constructor(private langService: LanguageService, private commentService: CommentService, private route: ActivatedRoute) { }
+  constructor(private langService: LanguageService, private commentService: CommentService,
+    private ratingService: RatingService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     const langId = this.route.snapshot.paramMap.get('id');
@@ -27,6 +29,15 @@ export class DetailLanguageComponent implements OnInit {
       this.showLanguage(langId);
     }
 
+  }
+
+  showRating(id: string) {
+    this.ratingService.show(id).subscribe(
+      data => {
+        this.rating = data;
+      },
+      err => console.log('could not get rating info' + err)
+    );
   }
 
   showLanguage(id: string) {
