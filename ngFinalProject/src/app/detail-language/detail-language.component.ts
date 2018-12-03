@@ -29,7 +29,6 @@ export class DetailLanguageComponent implements OnInit {
     this.langService.show(id).subscribe(
       data => {
         this.language = data;
-        this.showRatings();
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -44,21 +43,6 @@ export class DetailLanguageComponent implements OnInit {
     // console.log(user);
     // return user.username === username;
     return false;
-  }
-
-  showRatings () {
-    const ratings = this.language.lRatings;
-    console.log(ratings);
-    let count = 0;
-    let sum = 0;
-    for (; count < ratings.length; count++) {
-      count++;
-      this.avgRating += this.language.lRatings[count].rating;
-      sum += this.language.lRatings[count].rating;
-    }
-    this.avgRating = count === 0 ? 0 : sum / count;
-    console.log(this.avgRating);
-    return this.avgRating;
   }
 
 }

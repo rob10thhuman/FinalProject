@@ -10,13 +10,7 @@
       <td>Year Created</td>
       <td>{{ language.yearCreated }}</td>
     </tr>
-    <tr>
-        <td>Ratings</td>
-        <td *ngFor="let lRatings of language.lRatings" id="ratingsList">{{lRatings.rating}}</td>
-      </tr>
     </table>
-
-  Avg Rating: <span> {{ avgRating }} </span>
 
   {{ language.info }}
   <app-rating></app-rating>
