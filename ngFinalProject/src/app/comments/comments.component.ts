@@ -3,6 +3,8 @@ import { AuthService } from './../auth.service';
 import { CommentService } from './../comment.service';
 import { Component, OnInit } from '@angular/core';
 import { DetailLanguageComponent } from '../detail-language/detail-language.component';
+import { VoteService } from '../vote.service';
+import { Vote } from '../models/vote';
 
 @Component({
   selector: 'app-comments',
@@ -17,6 +19,7 @@ export class CommentsComponent implements OnInit {
 
   constructor(
     private commentService: CommentService,
+    private voteService: VoteService,
     private detail: DetailLanguageComponent,
     private authService: AuthService
   ) {}
@@ -65,6 +68,42 @@ export class CommentsComponent implements OnInit {
         err => console.error('Observer got an error: ' + err)
       );
   }
+
+  getVotesForComment(id) {
+    this.voteService.indexByCommentId(id).subscribe(
+      data => {
+        console.log(data);
+
+        // const votes = data;
+        // let upvoteCount = 0;
+        // let downvoteCount = 0;
+        // votes.forEach((vote) => {
+        //   if (vote.vote) {
+        //     upvoteCount++;
+        //   } else {
+        //     downvoteCount++;
+        //   }
+        // });
+        // console.log(upvoteCount);
+        // console.log(downvoteCount);
+
+        // return upvoteCount - downvoteCount;
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  voteComment(comment: Comment, vote: boolean) {
+    const newVote = new Vote();
+    newVote.vote = vote;
+    newVote.comment = comment;
+    newVote.user = comment.user;
+    this.voteService.create(newVote).subscribe(
+      data => this.showCommentsForLanguage(),
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
 
   setupAddingComment() {
     this.newComment = new Comment();
