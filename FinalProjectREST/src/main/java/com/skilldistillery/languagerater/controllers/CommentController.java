@@ -25,32 +25,32 @@ public class CommentController {
 	@Autowired
 	CommentService commentSvc;
 	
-	@GetMapping("comments")
+	@GetMapping("notAuth/comments")
 	public List<Comment> index(Principal principal){
 		return commentSvc.index(principal.getName());
 	}
 	
-	@GetMapping("comments/{id}")
+	@GetMapping("notAuth/comments/{id}")
 	public Comment commentsById(@PathVariable int id, Principal principal) {
 		return commentSvc.show(principal.getName(), id);
 	}
 	
-	@PostMapping("comments")
+	@PostMapping("auth/comments")
 	public Comment createComment(@RequestBody Comment comment, Principal principal) {
 		return commentSvc.create(principal.getName(), comment);
 	}
 	
-	@PutMapping("comments/{id}")
+	@PutMapping("auth/comments/{id}")
 	public Comment updateComment(@PathVariable int id, @RequestBody Comment comment, Principal principal) {
 		return commentSvc.update(principal.getName(), id, comment);
 	}
 	
-	@DeleteMapping("comments/{id}")
+	@DeleteMapping("auth/comments/{id}")
 	public boolean deleteComment(@PathVariable int id, Principal principal) {
 		return commentSvc.delete(principal.getName(), id);
 	}
 
-	@GetMapping("comments/languages/{langName}")
+	@GetMapping("notAuth/comments/languages/{langName}")
 	public List<Comment> indexByLanguageName(@PathVariable String langName){
 		return commentSvc.indexByLanguageName(langName);
 		
