@@ -1,0 +1,29 @@
+<h4>Comments</h4>
+  <button *ngIf="!addingComment && isLoggedIn()" (click)="setAddingComment(true)">
+    Add New Comment
+  </button>
+
+  <form *ngIf="addingComment" >
+    <textarea
+      rows="5"
+      cols="40"
+      name="comment"
+      [(ngModel)]="newComment.comment"
+    ></textarea>
+    <button (click)="addComment(newComment)" class="btn btn-success">
+      Add
+    </button>
+    <button (click)="setAddingComment(false)" class="btn btn-danger">
+      Cancel
+    </button>
+  </form>
+
+<ul>
+    <li *ngFor="let comment of comments">
+      {{ comment.user.username }} Date:
+      {{ comment.dateAdded | date: 'shortDate' }}
+      <p>{{ comment.comment }}</p>
+      <button *ngIf="isLoggedInUsername(comment.user.username)">Edit</button>
+      <button *ngIf="isLoggedInUsername(comment.user.username)">Delete</button>
+    </li>
+  </ul>
