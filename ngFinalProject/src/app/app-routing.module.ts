@@ -9,12 +9,14 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ListLangugageComponent } from './list-langugage/list-langugage.component';
 import { DetailLanguageComponent } from './detail-language/detail-language.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'profile', component: UserProfileComponent },
   { path: 'languages', component: ListLangugageComponent },
   { path: 'languages/search/:searchString', component: ListLangugageComponent },
   { path: 'languages/:id', component: DetailLanguageComponent },
