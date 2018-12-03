@@ -1,5 +1,9 @@
 <h4>Comments</h4>
-<button class="btn-success" *ngIf="!newComment && isLoggedIn()" (click)="setupAddingComment()">
+<button
+  class="btn-success"
+  *ngIf="!newComment && isLoggedIn()"
+  (click)="setupAddingComment()"
+>
   Add New Comment
 </button>
 
@@ -19,45 +23,53 @@
 
 <ul>
   <li *ngFor="let comment of comments" class="comment">
-    {{ comment.user.username }} Date:
-    {{ comment.dateAdded | date: 'shortDate' }}
+    {{ comment.user.username }}
+    Date: {{ comment.dateAdded | date: 'shortDate' }}
+    <!-- Votes: {{ getVotesForComment(comment.id) }} -->
     <p>{{ comment.comment }}</p>
-    <div class="btn-group">
-      <button
-        class="btn btn-primary"
-        *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
-        (click)="setupUpdatingComment(comment)"
-      >
+    <div
+      class="btn-group"
+      *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
+    >
+      <button class="btn btn-primary" (click)="setupUpdatingComment(comment)">
         Edit
       </button>
-      <button
-        class="btn btn-danger"
-        *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
-        (click)="deleteComment(comment.id)"
-      >
+      <button class="btn btn-danger" (click)="deleteComment(comment.id)">
         Delete
       </button>
     </div>
-    <form *ngIf="checkUpdatingFormConditions(comment)">
-        <textarea
-          rows="5"
-          cols="40"
-          name="comment"
-          [(ngModel)]="updatingComment.comment"
-        ></textarea>
-        <br />
-        <div class="btn-group">
-          <button
-            (click)="updateComment(updatingComment.id, updatingComment)"
-            class="btn btn-primary"
-          >
-            Update
-          </button>
-          <button (click)="teardownUpdatingComment()" class="btn btn-danger">
-            Cancel
-          </button>
-        </div>
-      </form>
-  </li>
 
+    <div
+      class="btn-group"
+      *ngIf="!isLoggedInUsername(comment.user.username) && !updatingComment"
+    >
+      <button class="btn btn-success" (click)="voteComment(comment, true)">
+        Upvote
+      </button>
+      <button class="btn btn-danger" (click)="voteComment(comment, false)">
+        Downvote
+      </button>
+    </div>
+
+    <form *ngIf="checkUpdatingFormConditions(comment)">
+      <textarea
+        rows="5"
+        cols="40"
+        name="comment"
+        [(ngModel)]="updatingComment.comment"
+      ></textarea>
+      <br />
+      <div class="btn-group">
+        <button
+          (click)="updateComment(updatingComment.id, updatingComment)"
+          class="btn btn-primary"
+        >
+          Update
+        </button>
+        <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </li>
 </ul>
