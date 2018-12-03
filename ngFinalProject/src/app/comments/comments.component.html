@@ -1,29 +1,63 @@
 <h4>Comments</h4>
-  <button *ngIf="!addingComment && isLoggedIn()" (click)="setAddingComment(true)">
-    Add New Comment
-  </button>
+<button class="btn-success" *ngIf="!newComment && isLoggedIn()" (click)="setupAddingComment()">
+  Add New Comment
+</button>
 
-  <form *ngIf="addingComment" >
-    <textarea
-      rows="5"
-      cols="40"
-      name="comment"
-      [(ngModel)]="newComment.comment"
-    ></textarea>
-    <button (click)="addComment(newComment)" class="btn btn-success">
-      Add
-    </button>
-    <button (click)="setAddingComment(false)" class="btn btn-danger">
-      Cancel
-    </button>
-  </form>
+<form *ngIf="newComment">
+  <textarea
+    rows="5"
+    cols="40"
+    name="comment"
+    [(ngModel)]="newComment.comment"
+  ></textarea>
+  <br />
+  <button (click)="addComment(newComment)" class="btn btn-success">Add</button>
+  <button (click)="teardownAddingComment()" class="btn btn-danger">
+    Cancel
+  </button>
+</form>
 
 <ul>
-    <li *ngFor="let comment of comments">
-      {{ comment.user.username }} Date:
-      {{ comment.dateAdded | date: 'shortDate' }}
-      <p>{{ comment.comment }}</p>
-      <button *ngIf="isLoggedInUsername(comment.user.username)">Edit</button>
-      <button *ngIf="isLoggedInUsername(comment.user.username)">Delete</button>
-    </li>
-  </ul>
+  <li *ngFor="let comment of comments" class="comment">
+    {{ comment.user.username }} Date:
+    {{ comment.dateAdded | date: 'shortDate' }}
+    <p>{{ comment.comment }}</p>
+    <div class="btn-group">
+      <button
+        class="btn btn-primary"
+        *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
+        (click)="setupUpdatingComment(comment)"
+      >
+        Edit
+      </button>
+      <button
+        class="btn btn-danger"
+        *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
+        (click)="deleteComment(comment.id)"
+      >
+        Delete
+      </button>
+    </div>
+    <form *ngIf="checkUpdatingFormConditions(comment)">
+        <textarea
+          rows="5"
+          cols="40"
+          name="comment"
+          [(ngModel)]="updatingComment.comment"
+        ></textarea>
+        <br />
+        <div class="btn-group">
+          <button
+            (click)="updateComment(updatingComment.id, updatingComment)"
+            class="btn btn-primary"
+          >
+            Update
+          </button>
+          <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+            Cancel
+          </button>
+        </div>
+      </form>
+  </li>
+
+</ul>
