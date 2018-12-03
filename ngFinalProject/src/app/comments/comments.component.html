@@ -25,7 +25,7 @@
   <li *ngFor="let comment of comments" class="comment">
 
     {{ comment.user.username }}
-    Date: {{ comment.dateAdded | date: 'shortDate' }}
+    Date: {{ comment.dateUpdated | date: 'shortDate' }}
 
     <p>{{ comment.comment }}</p>
     <div
