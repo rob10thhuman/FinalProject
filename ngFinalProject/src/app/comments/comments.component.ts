@@ -26,6 +26,7 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit() {
     this.showCommentsForLanguage();
+
   }
 
   showCommentsForLanguage() {
@@ -69,29 +70,15 @@ export class CommentsComponent implements OnInit {
       );
   }
 
-  getVotesForComment(id) {
+  votesByCommentId(id) {
     this.voteService.indexByCommentId(id).subscribe(
       data => {
-        console.log(data);
-
-        // const votes = data;
-        // let upvoteCount = 0;
-        // let downvoteCount = 0;
-        // votes.forEach((vote) => {
-        //   if (vote.vote) {
-        //     upvoteCount++;
-        //   } else {
-        //     downvoteCount++;
-        //   }
-        // });
-        // console.log(upvoteCount);
-        // console.log(downvoteCount);
-
-        // return upvoteCount - downvoteCount;
+        return data[0].vote;
       },
       err => console.error('Observer got an error: ' + err)
     );
   }
+
 
   voteComment(comment: Comment, vote: boolean) {
     const newVote = new Vote();
