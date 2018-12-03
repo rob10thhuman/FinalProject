@@ -24,32 +24,32 @@ public class LanguageController {
 	@Autowired
 	LanguageService langSer;
 	
-	@GetMapping("languages/index")
+	@GetMapping("notAuth/languages/index")
 	public List<Language> index() {
 		return langSer.index();
 	}
 	
-	@GetMapping("languages/search/{keywords}")
+	@GetMapping("notAuth/languages/search/{keywords}")
 	public List<Language> indexBySearch(@PathVariable String keywords) {
 		return langSer.indexByKeywords(keywords);
 	}
 	
-	@GetMapping("languages/{id}")
+	@GetMapping("notAuth/languages/{id}")
 	public Language show(@PathVariable int id) {
 		return langSer.show(id);
 	}
 	
-	@PostMapping("languages")
+	@PostMapping("auth/languages/post")
 	public Language add(@RequestBody Language lang) {
 		return langSer.create(lang);
 	}
 	
-	@PutMapping("languages/{id}")
+	@PutMapping("auth/languages/{id}")
 	public Language update(@RequestBody Language lang, @PathVariable int id ) {
 		return langSer.update(lang, id);
 	}
 	
-	@DeleteMapping("languages/{id}")
+	@DeleteMapping("auth/languages/{id}")
 	public boolean delete(@PathVariable int id ) {
 		return langSer.destroy(id);
 	}
