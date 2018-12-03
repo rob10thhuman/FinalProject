@@ -3,7 +3,6 @@ import { Comment } from './../models/comment';
 import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Language } from '../models/language';
 
 import { CommentService } from '../comment.service';
 
