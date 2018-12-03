@@ -1,3 +1,4 @@
+import { Language } from './../models/language';
 import { Comment } from './../models/comment';
 import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
@@ -42,14 +43,19 @@ export class DetailLanguageComponent implements OnInit {
   showCommentsForLanguage() {
     this.commentService.languageIndex(this.language.name).subscribe(
 
-      data => this.comments = data,
+      data => {
+        this.comments = data;
+
+      },
       err => console.error('Observer got an error: ' + err)
     );
   }
 
   addComment(comment) {
+    comment.language = this.language;
     this.commentService.create(comment).subscribe(
       data => {
+
         this.showCommentsForLanguage();
       },
       err => console.error('Observer got an error: ' + err)
