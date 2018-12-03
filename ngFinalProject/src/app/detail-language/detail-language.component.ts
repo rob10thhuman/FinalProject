@@ -4,6 +4,7 @@ import { LanguageService } from './../language.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../comment.service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-detail-language',
@@ -19,7 +20,7 @@ export class DetailLanguageComponent implements OnInit {
   addingComment = false;
   rating = null;
 
-  constructor(private langService: LanguageService, private commentService: CommentService,
+  constructor(private langService: LanguageService, private authService: AuthService, private commentService: CommentService,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -83,5 +84,15 @@ export class DetailLanguageComponent implements OnInit {
     this.addingComment = bool;
   }
 
+  isLoggedIn() {
+    return this.authService.checkLogin();
+  }
+
+  isLoggedInUsername(username) {
+    // const user = JSON.parse(this.authService.getToken());
+    // console.log(user);
+    // return user.username === username;
+    return false;
+  }
 
 }

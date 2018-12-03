@@ -18,7 +18,7 @@ export class UserProfileComponent implements OnInit {
 
   showUser() {
     const u = localStorage.getItem('token');
-    console.log(u);
+    console.log(atob(u));
 
     this.userService.showByUsername('test').subscribe(
       data => this.user = data,
