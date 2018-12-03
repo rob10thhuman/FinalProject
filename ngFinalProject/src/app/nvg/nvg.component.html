@@ -4,12 +4,12 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/home']">Home</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" [routerLink]="['/about']">About</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/contact']">Contact</a>
-        </li>
+        </li> -->
         <li class="nav-item" *ngIf='!isLoggedIn()'>
           <a class="nav-link" [routerLink]="['/register']">Register</a>
         </li>
