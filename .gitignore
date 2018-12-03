@@ -10,3 +10,4 @@ bin
 *.bak
 .classpath
 /.recommenders/
+/node_modules/
