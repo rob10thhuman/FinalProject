@@ -11,8 +11,8 @@ import { throwError } from 'rxjs';
 })
 export class LanguageService {
 
-  private notAuthUrl = environment.baseUrl + 'api/notAuth/languages/';
-  private authUrl = environment.baseUrl + 'api/auth/languages/';
+  private notAuthUrl = environment.baseUrl + 'api/notAuth/languages';
+  private authUrl = environment.baseUrl + 'api/auth/languages';
 
   private token = this.authService.getToken();
   private  httpOptions = {
@@ -42,7 +42,7 @@ export class LanguageService {
     }
 
     show(id: string) {
-      return this.http.get<Language>(this.notAuthUrl + '/' + id, this.httpOptions ).pipe(
+      return this.http.get<Language>(this.notAuthUrl + '/' + id, this.httpOptionsUnAuth ).pipe(
         catchError(this.handleError));
     }
 
