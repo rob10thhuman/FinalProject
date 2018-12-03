@@ -24,12 +24,4 @@ export class HomeComponent implements OnInit {
     this.router.navigateByUrl('languages/search/' + search);
   }
 
-  adminUsers() {
-    console.log('admin user');
-    const notSureWhatToPutHere = false;
-    if (notSureWhatToPutHere) {
-      return true;
-    }
-    return false;
-  }
 }
