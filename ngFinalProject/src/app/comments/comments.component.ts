@@ -73,7 +73,7 @@ export class CommentsComponent implements OnInit {
   votesByCommentId(id) {
     this.voteService.indexByCommentId(id).subscribe(
       data => {
-        return data[0].vote;
+        return data;
       },
       err => console.error('Observer got an error: ' + err)
     );
