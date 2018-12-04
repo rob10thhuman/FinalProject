@@ -25,6 +25,7 @@
   <li *ngFor="let comment of comments" class="comment">
     {{ comment.user.username }}
     Date: {{ comment.dateUpdated | date: 'shortDate' }}
+    Votes: {{comment.votes | calculateVotes}}
     <p>{{ comment.comment }}</p>
     <div
       class="btn-group"
@@ -42,7 +43,7 @@
       class="btn-group"
       *ngIf="!isLoggedInUsername(comment.user.username) && !updatingComment"
     >
-      <button class="btn btn-success" (click)="voteComment(comment, true)">
+      <button  class="btn btn-success" (click)="voteComment(comment, true)">
         Upvote
       </button>
       <button class="btn btn-danger" (click)="voteComment(comment, false)">

@@ -40,8 +40,8 @@ export class VoteService {
       catchError(this.handleError));
   }
 
-  create(data: Vote) {
-    return this.http.post<Vote>(this.authUrl, data, this.httpOptions).pipe(
+  create(id, vote: Vote) {
+    return this.http.post<Vote>(this.authUrl + '/' + id, vote, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 

@@ -21,6 +21,7 @@ import { RatingComponent } from './rating/rating.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CommentsComponent } from './comments/comments.component';
 import { SearchComponent } from './search/search.component';
+import { CalculateVotesPipe } from './calculate-votes.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { SearchComponent } from './search/search.component';
     RatingComponent,
     UserProfileComponent,
     CommentsComponent,
-    SearchComponent
+    SearchComponent,
+    CalculateVotesPipe
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,9 @@ import { SearchComponent } from './search/search.component';
     HttpClientModule,
     NgbModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    CalculateVotesPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
