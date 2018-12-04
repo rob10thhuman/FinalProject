@@ -23,10 +23,9 @@
 
 <ul>
   <li *ngFor="let comment of comments" class="comment">
-
     {{ comment.user.username }}
     Date: {{ comment.dateUpdated | date: 'shortDate' }}
-
+    Votes: {{comment.votes.length}}
     <p>{{ comment.comment }}</p>
     <div
       class="btn-group"
