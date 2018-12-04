@@ -22,20 +22,22 @@ export class RatingComponent implements OnInit {
     console.log(ratings);
     let count = 0;
     let sum = 0;
-    console.log('ratings.length');
-    console.log(ratings.length);
+    console.log('ratings.length: ' + ratings.length);
     for (let i = 0; i < ratings.length; i++) {
-      console.log('i');
-      console.log(i);
+      console.log('ratings data: ' + this.detail.language.lRatings[i].rating);
+      console.log('i:' + i);
       count++;
       // this.avgRating = this.avgRating + this.detail.language.lRatings[i].rating;
       sum += this.detail.language.lRatings[i].rating;
-      console.log('count');
-      console.log(count);
+      console.log('count:' + count);
     }
     this.avgRating = count === 0 ? 0 : sum / count;
     console.log(this.avgRating);
     return this.avgRating;
+  }
+
+  test() {
+    console.log('clicked');
   }
 
 }
