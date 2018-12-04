@@ -32,14 +32,7 @@ export class RatingComponent implements OnInit {
   ngOnInit() {
     this.showRatings();
     this.getCurrentUser();
-
-    const userId = this.currentUser.id;
-    console.log(userId);
-    // const userId = 1;
-    const langId = this.route.snapshot.paramMap.get('id');
-    this.findRating(userId, langId);
   }
-
 
   showRatings () {
     const ratings = this.detail.language.lRatings;
@@ -55,9 +48,28 @@ export class RatingComponent implements OnInit {
       sum += this.detail.language.lRatings[i].rating;
       console.log('count:' + count);
     }
-    this.avgRating = count === 0 ? 0 : (sum / count).toFixed(2);
+    this.avgRating = count === 0 ? 0 : (sum / count);
     console.log(this.avgRating);
     return this.avgRating;
+  }
+
+  getCurrentUser() {
+    const username = this.authService.getUsername();
+    console.log(username);
+    this.userService
+      .showByUsername(username)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.currentUser = data;
+          const userId = this.currentUser.id;
+          console.log('current user below:');
+          console.log(userId);
+          const langId = this.route.snapshot.paramMap.get('id');
+          this.findRating(userId, langId);
+        },
+        err => console.error('Observer got an error: ' + err)
+      );
   }
 
   findRating(userId, languageId) {
@@ -86,17 +98,5 @@ export class RatingComponent implements OnInit {
     // need to now update the db w/the newValue using the logged in usename
 
     // should then recalculate the average?
-  }
-
-  getCurrentUser() {
-    const username = this.authService.getUsername();
-    this.userService
-      .showByUsername(username)
-      .subscribe(
-        data => {
-          this.currentUser = data;
-        },
-        err => console.error('Observer got an error: ' + err)
-      );
   }
 }
