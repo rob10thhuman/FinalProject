@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-nvg',
@@ -8,15 +10,23 @@ import { AuthService } from '../auth.service';
 })
 export class NvgComponent implements OnInit {
 
-  public isCollapsed = false;
+  model = null;
 
-  constructor( private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+    ) { }
 
   ngOnInit() {
   }
 
   isLoggedIn() {
     return this.authService.checkLogin();
+  }
+
+  logoutUser() {
+    this.authService.logout();
+    this.router.navigateByUrl('home');
   }
 
 }
