@@ -1,6 +1,8 @@
 package com.skilldistillery.languagerater.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,12 +11,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="comment")
@@ -43,6 +48,9 @@ public class Comment {
 	@ManyToOne
 	@JoinColumn(name="language_id")
 	private Language language;
+	
+	@OneToMany(mappedBy="comment")
+	private List<Vote> votes;
 
 	public int getId() {
 		return id;
@@ -88,6 +96,16 @@ public class Comment {
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
+	
+	public List<Vote> getVotes() {
+		return votes;
+	}
+
+
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
+	}
+
 
 	@Override
 	public String toString() {
@@ -104,11 +122,13 @@ public class Comment {
 		builder.append(user);
 		builder.append(", language=");
 		builder.append(language.getName());
+		builder.append(", votes=");
+		builder.append(votes.size());
 		builder.append("]");
 		return builder.toString();
 	}
 
-	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Language language) {
+	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Language language, List<Vote> votes) {
 		super();
 		this.id = id;
 		this.comment = comment;
@@ -116,10 +136,29 @@ public class Comment {
 		this.dateUpdated = dateUpdated;
 		this.user = user;
 		this.language = language;
+		this.votes = votes;
 	} 
 	
 	public Comment() {
 		
+	}
+	
+	// add and remove methods
+	
+	public void addVote(Vote vote) {
+		if (votes == null)
+			votes = new ArrayList<>();
+		if (!votes.contains(vote)) {
+			votes.add(vote);
+			vote.setComment(this);
+		}
+	}
+
+	public void removeVote(Vote vote) {
+		if (votes != null && votes.contains(vote)) {
+			votes.remove(vote);
+			vote.setComment(null);
+		}
 	}
 
 }
