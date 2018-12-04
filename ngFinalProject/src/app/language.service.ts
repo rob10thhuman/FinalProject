@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { Language } from './models/language';
 import { throwError } from 'rxjs';
+import { Rating } from './models/rating';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,11 @@ export class LanguageService {
 
     update(id: number, data: Language) {
       return this.http.put<Language>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
+        catchError(this.handleError));
+    }
+
+    updateRating(id: number, data: Rating) {
+      return this.http.put<Rating>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
         catchError(this.handleError));
     }
 
