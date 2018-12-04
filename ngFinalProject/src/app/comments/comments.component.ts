@@ -89,20 +89,19 @@ export class CommentsComponent implements OnInit {
     const vote = this.hasVotedOnComment(comment.votes);
 
     if (vote && vote.vote === voteValue) {
+      console.log('i changed my vote');
+
       vote.vote = !vote.vote;
       this.voteService.destroy(vote.id);
     } else {
+      console.log('i voted for first time');
       const newVote = new Vote();
       newVote.vote = voteValue;
       newVote.comment = comment;
       newVote.user = this.currentUser;
-      this.voteService.create(comment.id, newVote).subscribe(
-        data => {
-          this.showCommentsForLanguage();
-        },
-        err => console.error('Observer got an error: ' + err)
-      );
-    }
+      this.voteService.create(comment.id, newVote);
+      }
+      this.showCommentsForLanguage();
   }
 
   setupAddingComment() {
