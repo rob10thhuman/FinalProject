@@ -1,7 +1,13 @@
-<div style="align-items: center" >
-
-  <ul>
-  <li *ngFor="let lang of languages" (click)="detailPage(lang.id)">{{lang.name}}</li>
-</ul>
-
+<div style="align-items: center">
+  <h2 >
+    Top 10 Languages:
+  </h2>
+  <div class="border hoverDiv rounded" *ngFor="let lang of languages" (click)="detailPage(lang.id)" >
+    <div class="p-1 ml-4">
+      <h3>
+        {{ lang.name }}
+      </h3>
+    </div>
+    <br>
+  </div>
 </div>
