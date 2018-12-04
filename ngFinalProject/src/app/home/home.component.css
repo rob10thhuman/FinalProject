@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
+.lang-title {
+  background-color: darkgreen;
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+}
