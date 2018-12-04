@@ -36,8 +36,10 @@ export class RatingComponent implements OnInit {
     return this.avgRating;
   }
 
-  test() {
-    console.log('clicked');
+  updateRating(newValue) {
+    console.log('clicked: ' + newValue);
+    // need to now update the db w/the newValue using the logged in usename
+    // should then recalculate the average?
   }
 
 }

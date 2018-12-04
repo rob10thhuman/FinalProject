@@ -6,7 +6,8 @@
 </div> -->
 
 <div>
-    <ngb-rating [(rate)]="avgRating" max="5" (click)="test()"></ngb-rating>
+    <ngb-rating [(rate)]="avgRating" max="5" (rateChange)="updateRating($event)">
+    </ngb-rating>
     <hr>
     <pre>Rate: <b>{{avgRating}}</b></pre>
 </div>
