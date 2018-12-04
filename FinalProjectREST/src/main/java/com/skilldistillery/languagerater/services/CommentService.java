@@ -13,4 +13,5 @@ public interface CommentService {
 	public boolean delete(String username, int id);
 	
 	public List<Comment> indexByLanguageName(String langName);
+	public List<Comment> indexByUserame(String username);
 }

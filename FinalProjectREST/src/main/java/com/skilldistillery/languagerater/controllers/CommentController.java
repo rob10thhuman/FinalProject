@@ -55,5 +55,10 @@ public class CommentController {
 		return commentSvc.indexByLanguageName(langName);
 		
 	}
+	@GetMapping("auth/comments/usernames/{langName}")
+	public List<Comment> indexByUsername(@PathVariable String username){
+		return commentSvc.indexByUserame(username);
+		
+	}
 
 }

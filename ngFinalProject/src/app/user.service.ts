@@ -38,7 +38,7 @@ export class UserService {
   }
 
   destroy(id: number) {
-    return this.http.delete<Comment>( this.url + 'auth/users' + id, this.httpOptions).pipe(
+    return this.http.delete<User>( this.url + 'auth/users/' + id, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 
