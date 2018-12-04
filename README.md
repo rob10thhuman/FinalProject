@@ -18,4 +18,4 @@ A full-stack application that allows programmers to gather information about pro
 
 # Database
 
-![Language Rater database](https://github.com/rob10thhuman/FinalProject/tree/master/DB/languagedb.png)
+![Language Rater database](/DB/languagedb.png)
