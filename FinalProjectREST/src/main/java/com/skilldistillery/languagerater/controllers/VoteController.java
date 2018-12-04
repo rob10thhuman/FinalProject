@@ -45,9 +45,9 @@ public class VoteController {
 		return voteSvc.create(id, vote);
 	}
 	
-	@PutMapping("auth/votes/{id}")
-	public Vote updateVote(@PathVariable int id, @RequestBody Vote vote) {
-		return voteSvc.update(id, vote);
+	@PutMapping("auth/votes/{commentId}/{id}")
+	public Vote updateVote(@PathVariable("commentId") int commentId, @PathVariable("id") int id, @RequestBody Vote vote) {
+		return voteSvc.update(commentId, id, vote);
 	}
 	
 	@DeleteMapping("auth/votes/{id}")

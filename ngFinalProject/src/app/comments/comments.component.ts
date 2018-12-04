@@ -88,20 +88,42 @@ export class CommentsComponent implements OnInit {
   voteComment(comment: Comment, voteValue: boolean) {
     const vote = this.hasVotedOnComment(comment.votes);
 
-    if (vote && vote.vote === voteValue) {
-      console.log('i changed my vote');
+    if (vote) {
+      if (vote.vote === voteValue) {
+        this.voteService.destroy(vote.id).subscribe(
+          data => {
+            console.log('i cancel my vote');
+            this.showCommentsForLanguage();
+          },
+          err => console.error('Observer got an error: ' + err)
+        );
+      } else {
+        vote.vote = !vote.vote;
+        console.log(comment.id);
 
-      vote.vote = !vote.vote;
-      this.voteService.destroy(vote.id);
+        console.log(vote);
+
+        this.voteService.update(comment.id, vote.id, vote).subscribe(
+          data => {
+            console.log('i change my vote');
+            this.showCommentsForLanguage();
+          },
+          err => console.error('Observer got an error: ' + err)
+        );
+      }
     } else {
-      console.log('i voted for first time');
       const newVote = new Vote();
       newVote.vote = voteValue;
       newVote.comment = comment;
       newVote.user = this.currentUser;
-      this.voteService.create(comment.id, newVote);
-      }
-      this.showCommentsForLanguage();
+      this.voteService.create(comment.id, newVote).subscribe(
+        data => {
+          console.log('my first vote');
+          this.showCommentsForLanguage();
+        },
+        err => console.error('Observer got an error: ' + err)
+      );
+    }
   }
 
   setupAddingComment() {
@@ -139,5 +161,20 @@ export class CommentsComponent implements OnInit {
     return null;
   }
 
-  getVoteButtonNgClass(votes: Vote[]) {}
+  isUpVoted(votes: Vote[]) {
+    const theVote = this.hasVotedOnComment(votes);
+    if (!theVote) {
+      return 'btn btn-outline-success';
+    }
+    return theVote.vote ? 'btn btn-success' : 'btn btn-outline-success';
+  }
+  isDownVoted(votes: Vote[]) {
+    const theVote = this.hasVotedOnComment(votes);
+    if (!theVote) {
+      return 'btn btn-outline-danger';
+    }
+    return !theVote.vote ? 'btn btn-danger' : 'btn btn-outline-danger';
+  }
+
+
 }
