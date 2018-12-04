@@ -3,6 +3,7 @@ package com.skilldistillery.languagerater.services;
 import java.util.List;
 
 import com.skilldistillery.languagerater.entities.Comment;
+import com.skilldistillery.languagerater.entities.Vote;
 
 public interface CommentService {
 	public List<Comment> index(String username);

@@ -6,10 +6,19 @@
 </div> -->
 
 <div>
-    <ngb-rating [(rate)]="avgRating" max="5" (rateChange)="updateRating($event)">
-    </ngb-rating>
+    Average Rating: <b>{{avgRating}}</b><BR>
+    <ngb-rating [(rate)]="avgRating" max="5" [readonly]="readonly">
     <hr>
-    <pre>Rate: <b>{{avgRating}}</b></pre>
+</ngb-rating>
+</div>
+
+<div> <hr></div>
+
+<div>
+    User Rating: <b>{{userRating}}</b><BR>
+    <ngb-rating max="5" (rateChange)="updateRating($event)">
+    </ngb-rating>
+
 </div>
 
 <!-- <div class="rate">
