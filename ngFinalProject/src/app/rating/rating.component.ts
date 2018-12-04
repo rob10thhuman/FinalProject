@@ -33,9 +33,10 @@ export class RatingComponent implements OnInit {
     this.showRatings();
     this.getCurrentUser();
 
-    const userId = this.currentUser.id;
-    console.log(userId);
     // const userId = 1;
+    const userId = this.currentUser.id;
+    console.log('current user below:');
+    console.log(userId);
     const langId = this.route.snapshot.paramMap.get('id');
     this.findRating(userId, langId);
   }
@@ -55,7 +56,7 @@ export class RatingComponent implements OnInit {
       sum += this.detail.language.lRatings[i].rating;
       console.log('count:' + count);
     }
-    this.avgRating = count === 0 ? 0 : (sum / count).toFixed(2);
+    this.avgRating = count === 0 ? 0 : (sum / count);
     console.log(this.avgRating);
     return this.avgRating;
   }
@@ -90,6 +91,7 @@ export class RatingComponent implements OnInit {
 
   getCurrentUser() {
     const username = this.authService.getUsername();
+    console.log(username);
     this.userService
       .showByUsername(username)
       .subscribe(
