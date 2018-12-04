@@ -15,3 +15,7 @@ A full-stack application that allows programmers to gather information about pro
 - JavaScript, Angular
 - SQL
 - Spring
+
+# Database
+
+![Language Rater database](https://github.com/rob10thhuman/FinalProject/tree/master/DB/languagedb.pdf)
