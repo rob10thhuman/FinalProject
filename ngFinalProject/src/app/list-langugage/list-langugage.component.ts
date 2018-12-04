@@ -33,6 +33,7 @@ export class ListLangugageComponent implements OnInit {
       err => console.error('Observer got an error: ' + err)
     );
   }
+
   indexLanguagesBySearch(search: string) {
     this.langService.indexBySearch(search).subscribe(
       data => this.languages = data,

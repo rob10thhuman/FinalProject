@@ -1,10 +1,5 @@
 <h1>Home</h1>
-<form>
 
-  Search:<input  class="form-control"  type="search" name="search" placeholder="Search with keywords" [(ngModel)]="searchString">
-  <button  class="btn btn-primary"  (click)="allLanguagesByKeywords(searchString)">Search</button>
-  <br>
-  <app-list-langugage>load</app-list-langugage>
-  <br>
-</form>
+<app-search>load</app-search>
+<app-list-langugage>load</app-list-langugage>
 

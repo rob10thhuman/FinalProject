@@ -10,12 +10,16 @@
       <td>Year Created</td>
       <td>{{ language.yearCreated }}</td>
     </tr>
-    </table>
+    <tr>
+      <td>Language Info</td>
+      <td>{{ language.info }}</td>
+    </tr>
+  </table>
 
-  {{ language.info }}
-  <app-rating></app-rating>
-  <br>
-  <br>
-  <app-comments></app-comments>
-
+  <div>
+    <app-rating>load</app-rating>
+    <br />
+    <br />
+  </div>
+  <div><app-comments>load</app-comments></div>
 </div>

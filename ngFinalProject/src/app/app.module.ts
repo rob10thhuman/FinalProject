@@ -20,6 +20,7 @@ import { AddLanguageComponent } from './add-language/add-language.component';
 import { RatingComponent } from './rating/rating.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CommentsComponent } from './comments/comments.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { CommentsComponent } from './comments/comments.component';
     AddLanguageComponent,
     RatingComponent,
     UserProfileComponent,
-    CommentsComponent
+    CommentsComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
