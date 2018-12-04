@@ -15,4 +15,5 @@ public interface LanguageRatingRepository extends JpaRepository<LanguageRating, 
 
 	@Query("SELECT lr FROM LanguageRating lr WHERE lr.user.id = :userId AND lr.language.id = :languageId")
 	LanguageRating findByUserIdAndLanguageId2(@Param("userId") Integer userId, @Param("languageId") Integer languageId);
+	
 }

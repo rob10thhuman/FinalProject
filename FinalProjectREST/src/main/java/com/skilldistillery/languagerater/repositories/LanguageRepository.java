@@ -15,4 +15,7 @@ public interface LanguageRepository extends JpaRepository<Language, Integer> {
 			+ "OR l.info LIKE :word")
 	List<Language> findByKeyword(@Param("word") String word);
 	
+//	@Query("SELECT l from Language l where l.id = :id")
+//	Language findByLanguageId(@Param("id") int id); 
+//	
 }
