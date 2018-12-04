@@ -1,10 +1,10 @@
+import { Vote } from './../models/vote';
 import { Comment } from './../models/comment';
 import { AuthService } from './../auth.service';
 import { CommentService } from './../comment.service';
 import { Component, OnInit } from '@angular/core';
 import { DetailLanguageComponent } from '../detail-language/detail-language.component';
 import { VoteService } from '../vote.service';
-import { Vote } from '../models/vote';
 
 @Component({
   selector: 'app-comments',
@@ -86,7 +86,10 @@ export class CommentsComponent implements OnInit {
     newVote.comment = comment;
     newVote.user = comment.user;
     this.voteService.create(newVote).subscribe(
-      data => this.showCommentsForLanguage(),
+      data => {
+        this.showCommentsForLanguage();
+        console.log('upvote');
+      },
       err => console.error('Observer got an error: ' + err)
     );
   }
@@ -118,4 +121,5 @@ export class CommentsComponent implements OnInit {
   checkUpdatingFormConditions(comment: Comment) {
     return this.updatingComment && this.updatingComment === comment;
   }
+
 }

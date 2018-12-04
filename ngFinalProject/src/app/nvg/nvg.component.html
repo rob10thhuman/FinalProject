@@ -1,36 +1,80 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-end">
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#langNavBar"
-    aria-controls="langNavBar"
-    aria-expanded="true"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="langNavBar">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/home']">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/about']">About</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/contact']">Contact</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn()">
-        <a class="nav-link" [routerLink]="['/profile']">Profile</a>
-      </li>
-      <li class="nav-item" *ngIf="!isLoggedIn()">
-        <a class="nav-link" [routerLink]="['/register']">Register</a>
-      </li>
-      <li class="nav-item" *ngIf="!isLoggedIn()">
-        <a class="nav-link" [routerLink]="['/login']">Login</a>
-      </li>
-      <li class="nav-item" *ngIf="isLoggedIn()"><app-logout></app-logout></li>
-    </ul>
+<nav class="nav justify-content-end">
+  <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="model" >
+    <label ngbButtonLabel class="btn-dark">
+      <input ngbButton type="radio" [routerLink]="['/home']" /> Home
+    </label>
+    <label ngbButtonLabel class="btn-dark" [routerLink]="['/about']">
+      <input ngbButton type="radio" /> About
+    </label>
+    <label ngbButtonLabel class="btn-dark" [routerLink]="['/contact']">
+      <input ngbButton type="radio"/> Contact
+    </label>
+    <label *ngIf="isLoggedIn()" ngbButtonLabel class="btn-dark" [routerLink]="['/profile']" >
+      <input ngbButton type="radio"/> Profile
+    </label>
+    <label *ngIf="isLoggedIn()" ngbButtonLabel class="btn-dark" >
+      <input ngbButton type="radio"   (click)="logoutUser()" /> Logout
+    </label>
+    <label *ngIf="!isLoggedIn()" ngbButtonLabel class="btn-dark" [routerLink]="['/register']" >
+      <input ngbButton type="radio" /> Register
+    </label>
+    <label *ngIf="!isLoggedIn()" ngbButtonLabel class="btn-dark" [routerLink]="['/login']"  >
+      <input ngbButton type="radio" /> Login
+    </label>
   </div>
+  <pre>{{ model }}</pre>
 </nav>
+
+<!--
+  <nav class="nav justify-content-end">
+    <a class="nav-item nav-link" [routerLink]="['/home']" >Home</a>
+    <a class="nav-item nav-link" [routerLink]="['/about']" >About</a>
+    <a class="nav-item nav-link" [routerLink]="['/contact']" >Contact</a>
+    <div *ngIf="isLoggedIn()">
+      <a class="nav-item nav-link" [routerLink]="['/profile']" >Profile</a>
+    </div>
+    <div *ngIf="!isLoggedIn()">
+      <a class="nav-item nav-link" [routerLink]="['/register']" >Register</a>
+    </div>
+    <div *ngIf="!isLoggedIn()">
+      <a class="nav-item nav-link" [routerLink]="['/login']" >Login</a>
+    </div>
+    <div *ngIf="isLoggedIn()">
+      <app-logout></app-logout>
+    </div>
+  </nav>
+-->
+
+<!--
+  <nav class="navbar navbar-expand-sm navbar-light bg-light justify-content-end">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#langNavBar" aria-controls="langNavBar" aria-expanded="true" aria-label="Toggle navigation" >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse justify-content-end" id="langNavBar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/home']">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/about']">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/contact']">Contact</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/profile']">Profile</a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/register']">Register</a>
+        </li>
+        <li class="nav-item" *ngIf="!isLoggedIn()">
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
+        </li>
+        <li class="nav-item" *ngIf="isLoggedIn()"><app-logout></app-logout></li>
+      </ul>
+    </div>
+  </nav>
+-->
