@@ -32,6 +32,10 @@ export class CommentService {
     return this.http.get<Comment[]>(this.notAuthUrl + '/languages/' + languageName, this.httpOptions ).pipe(
       catchError(this.handleError));
   }
+  usernameIndex(username: string) {
+    return this.http.get<Comment[]>(this.notAuthUrl + '/usernames/' + username, this.httpOptions ).pipe(
+      catchError(this.handleError));
+  }
 
 
 

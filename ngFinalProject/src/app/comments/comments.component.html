@@ -43,11 +43,11 @@
       class="btn-group"
       *ngIf="!isLoggedInUsername(comment.user.username) && !updatingComment"
     >
-      <button  class="btn btn-success" (click)="voteComment(comment, true)">
-        Upvote
+      <button [ngClass]="isUpVoted(comment.votes)"  (click)="voteComment(comment, true)">
+        &#8593;
       </button>
-      <button class="btn btn-danger" (click)="voteComment(comment, false)">
-        Downvote
+      <button [ngClass]="isDownVoted(comment.votes)" (click)="voteComment(comment, false)">
+        &#8595;
       </button>
     </div>
 

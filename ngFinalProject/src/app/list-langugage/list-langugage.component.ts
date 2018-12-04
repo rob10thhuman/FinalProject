@@ -10,6 +10,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListLangugageComponent implements OnInit {
 
+  title = 'Error!';
+
   languages: Language[] = [];
   constructor(
     private langService: LanguageService,
@@ -29,14 +31,20 @@ export class ListLangugageComponent implements OnInit {
 
   indexLanguages() {
     this.langService.index().subscribe(
-      data => this.languages = data,
+      data => {
+        this.languages = data;
+        this.title = 'Top 10 Languages:';
+      },
       err => console.error('Observer got an error: ' + err)
     );
   }
 
   indexLanguagesBySearch(search: string) {
     this.langService.indexBySearch(search).subscribe(
-      data => this.languages = data,
+      data => {
+        this.languages = data;
+        this.title = 'Search Results:';
+      },
       err => console.error('Observer got an error: ' + err)
     );
   }

@@ -50,8 +50,8 @@ export class VoteService {
       catchError(this.handleError));
   }
 
-  update(id: number, data: Vote) {
-    return this.http.put<Vote>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
+  update(commentId: number, id: number, data: Vote) {
+    return this.http.put<Vote>(this.authUrl + '/' + commentId + '/' + id, data, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 

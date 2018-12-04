@@ -1,7 +1,28 @@
 <h1>Username: {{user.username}}</h1>
 <h1>Email: {{user.email}}</h1>
-<div class="btn-group">
-  <button class="btn btn-primary">Edit Profile</button>
-  <button class="btn btn-danger">Delete Profile</button>
-
+<div *ngIf="!editingProfile && !deletingProfile" class="btn-group">
+  <button class="btn btn-primary" (click)="setupEditUser()"> Edit Profile</button>
+  <button class="btn btn-danger" (click)="setDeletingProfile(true)">Delete Profile</button>
 </div>
+
+<div *ngIf="deletingProfile && !editingProfile" class="btn-group">
+  <h3>Are you sure you want to delete your profile?</h3>
+  <button class="btn btn-primary" (click)="deactivateUser(user)">Delete</button>
+  <button class="btn btn-danger" (click)="setDeletingProfile(false)">Cancel</button>
+</div>
+
+<form *ngIf="editingProfile && !deletingProfile">
+  Username: <input type="text" name="username" [(ngModel)] = "editingUser.username">
+  <br>
+  Email: <input type="text" name="email" [(ngModel)] = "editingUser.email">
+  <br>
+  <!-- Password: <input type="text" name="password" [(ngModel)] = "user.password">
+  <br> -->
+  <button class="btn btn-primary" (click)="updateUser()">Edit</button>
+  <button class="btn btn-danger" (click)="tearDownEditUser()">Cancel</button>
+</form>
+
+<!-- Recent Comments:
+<ul>
+  <li *ngFor="let comment of comments">{{comment.comment}}</li>
+</ul> -->

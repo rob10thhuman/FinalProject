@@ -85,6 +85,11 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepo.findCommentsByLanguageName(langName);
 	}
 
+	@Override
+	public List<Comment> indexByUserame(String username) {
+		return commentRepo.findCommentsByUsername(username);
+	}
+
 
 
 

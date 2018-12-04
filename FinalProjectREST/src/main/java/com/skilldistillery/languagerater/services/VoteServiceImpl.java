@@ -52,18 +52,21 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	@Override
-	public Vote update(int id, Vote v) {
+	public Vote update(int commentId, int id, Vote v) {
 		Vote existing = null;
 		Optional<Vote> opt = voteRepo.findById(id);
-
-		if (opt.isPresent()) {
+		Optional<Comment> c = commentRepo.findById(commentId);
+		
+		if (opt.isPresent() && c.isPresent()) {
 			existing = opt.get();
-
-			existing.setComment(v.getComment());
+			Comment comment = c.get();
+			
 			existing.setVote(v.isVote());
 			existing.setUser(v.getUser());
+			comment.addVote(existing);
+			commentRepo.saveAndFlush(comment);
 		}
-		return existing;
+		return voteRepo.saveAndFlush(existing);
 	}
 
 	@Override
