@@ -49,6 +49,7 @@ public class Comment {
 	@JoinColumn(name="language_id")
 	private Language language;
 	
+//	@JsonIgnore
 	@OneToMany(mappedBy="comment")
 	private List<Vote> votes;
 

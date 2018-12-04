@@ -6,8 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.skilldistillery.languagerater.entities.User;
+import com.skilldistillery.languagerater.entities.Comment;
 import com.skilldistillery.languagerater.entities.Vote;
+import com.skilldistillery.languagerater.repositories.CommentRepository;
 import com.skilldistillery.languagerater.repositories.VoteRepository;
 
 @Service
@@ -16,6 +17,9 @@ public class VoteServiceImpl implements VoteService {
 	@Autowired
 	VoteRepository voteRepo;
 
+	@Autowired
+	CommentRepository commentRepo;
+	
 	@Override
 	public List<Vote> index() {
 		return voteRepo.findAll();
@@ -37,7 +41,13 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	@Override
-	public Vote create(Vote v) {
+	public Vote create(int id, Vote v) {
+		Optional<Comment> opt = commentRepo.findById(id);
+		if(opt.isPresent()) {
+			Comment c = opt.get();
+			c.addVote(v);
+			commentRepo.saveAndFlush(c);
+		}
 		return voteRepo.saveAndFlush(v);
 	}
 

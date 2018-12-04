@@ -1,15 +1,16 @@
 package com.skilldistillery.languagerater.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.languagerater.entities.Comment;
 import com.skilldistillery.languagerater.entities.User;
+import com.skilldistillery.languagerater.entities.Vote;
 import com.skilldistillery.languagerater.repositories.CommentRepository;
 import com.skilldistillery.languagerater.repositories.UserRepository;
+import com.skilldistillery.languagerater.repositories.VoteRepository;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -20,6 +21,9 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	UserRepository userRepo;
 
+	@Autowired
+	VoteRepository voteRepo;
+	
 	@Override
 	public List<Comment> index(String username) {
 		return commentRepo.findCommentsByUsername(username);
@@ -80,6 +84,8 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> indexByLanguageName(String langName) {
 		return commentRepo.findCommentsByLanguageName(langName);
 	}
+
+
 
 
 }

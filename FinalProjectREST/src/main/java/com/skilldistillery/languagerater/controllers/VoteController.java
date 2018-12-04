@@ -1,6 +1,5 @@
 package com.skilldistillery.languagerater.controllers;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.languagerater.entities.Comment;
 import com.skilldistillery.languagerater.entities.Vote;
 import com.skilldistillery.languagerater.services.VoteService;
 
@@ -40,9 +40,9 @@ public class VoteController {
 		return voteSvc.show( id);
 	}
 	
-	@PostMapping("auth/votes")
-	public Vote createVote(@RequestBody Vote vote) {
-		return voteSvc.create(vote);
+	@PostMapping("auth/votes/{id}")
+	public Vote createVote(@PathVariable int id, @RequestBody Vote vote) {
+		return voteSvc.create(id, vote);
 	}
 	
 	@PutMapping("auth/votes/{id}")
