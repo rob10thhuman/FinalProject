@@ -16,7 +16,7 @@
 
 <div>
     User Rating: <b>{{userRating}}</b><BR>
-    <ngb-rating max="5" (rateChange)="updateRating($event)">
+    <ngb-rating [(rate)]="userRating" max="5" (rateChange)="updateRating($event)">
     </ngb-rating>
 
 </div>
