@@ -1,6 +1,5 @@
 import { User } from './user';
 import { Comment } from './comment';
-import { timingSafeEqual } from 'crypto';
 
 export class Vote {
   id: number;
