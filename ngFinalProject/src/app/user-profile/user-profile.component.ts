@@ -14,20 +14,20 @@ import { Router } from '@angular/router';
 export class UserProfileComponent implements OnInit {
   user: User = new User();
   editingUser: User = null;
-  // comments: Comment[] = null;
+  comments = [];
   deletingProfile = false;
   editingProfile = false;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    // private commentService: CommentService,
+    private commentService: CommentService,
     private router: Router
   ) {}
 
   ngOnInit() {
     this.showUser();
-    // this.getUserComments();
+    this.getUserComments();
   }
 
   showUser() {
@@ -64,21 +64,17 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  // getUserComments() {
-  //   const username = this.authService.getUsername();
-  //   console.log('1: ' + username);
-
-  //   this.commentService
-  //     .usernameIndex(username)
-  //     .subscribe(
-  //       data => {
-  //         console.log('this is it');
-
-  //         this.comments = data;
-  //       },
-  //       err => console.error('Observer got an error: ' + err)
-  //     );
-  // }
+  getUserComments() {
+    const username = this.authService.getUsername();
+    this.commentService
+      .usernameIndex(username)
+      .subscribe(
+        data => {
+          this.comments = data;
+        },
+        err => console.error('Observer got an error: ' + err)
+      );
+  }
 
   setDeletingProfile(bool: boolean) {
     this.deletingProfile = bool;

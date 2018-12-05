@@ -1,7 +1,7 @@
 <h1>Username: {{user.username}}</h1>
 <h1>Email: {{user.email}}</h1>
 <div *ngIf="!editingProfile && !deletingProfile" class="btn-group">
-  <button class="btn btn-primary" (click)="setupEditUser()"> Edit Profile</button>
+  <button class="btn btn-primary" (click)="setupEditUser()"> Edit Email</button>
   <button class="btn btn-danger" (click)="setDeletingProfile(true)">Delete Profile</button>
 </div>
 
@@ -12,8 +12,7 @@
 </div>
 
 <form *ngIf="editingProfile && !deletingProfile">
-  Username: <input type="text" name="username" [(ngModel)] = "editingUser.username">
-  <br>
+
   Email: <input type="text" name="email" [(ngModel)] = "editingUser.email">
   <br>
   <!-- Password: <input type="text" name="password" [(ngModel)] = "user.password">
@@ -21,8 +20,15 @@
   <button class="btn btn-primary" (click)="updateUser()">Edit</button>
   <button class="btn btn-danger" (click)="tearDownEditUser()">Cancel</button>
 </form>
+<br>
+  <h2>Recent Comments:</h2>
+  <ul>
+    <li *ngFor="let comment of comments">
+      <h4>Comment posted on {{ comment.dateUpdated | date: 'shortDate' }}</h4>
+      <h4>Language: {{comment.language.name}}</h4>
+      <h5>Votes: {{comment.votes | calculateVotes}}</h5>
+     <p>{{comment.comment}}</p>
 
-<!-- Recent Comments:
-<ul>
-  <li *ngFor="let comment of comments">{{comment.comment}}</li>
-</ul> -->
+
+    </li>
+  </ul>

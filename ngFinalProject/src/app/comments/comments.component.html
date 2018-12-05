@@ -41,7 +41,7 @@
 
     <div
       class="btn-group"
-      *ngIf="!isLoggedInUsername(comment.user.username) && !updatingComment"
+      *ngIf="!isLoggedInUsername(comment.user.username) && !updatingComment && isLoggedIn()"
     >
       <button [ngClass]="isUpVoted(comment.votes)"  (click)="voteComment(comment, true)">
         &#8593;
