@@ -11,6 +11,7 @@
 <!--entities  --> 
 <class>com.skilldistillery.languagerater.entities.AuthController</class> 
 <class>com.skilldistillery.languagerater.entities.Comment</class> 
+<class>com.skilldistillery.languagerater.entities.SubComment</class> 
 <class>com.skilldistillery.languagerater.entities.Language</class> 
 <class>com.skilldistillery.languagerater.entities.User</class> 
 <class>com.skilldistillery.languagerater.entities.Language</class> 
