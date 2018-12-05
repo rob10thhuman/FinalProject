@@ -174,16 +174,16 @@ export class CommentsComponent implements OnInit {
   isUpVoted(votes: Vote[]) {
     const theVote = this.hasVotedOnComment(votes);
     if (!theVote) {
-      return 'btn btn-outline-success';
+      return 'badge badge-pill badge-secondary';
     }
-    return theVote.vote ? 'btn btn-success' : 'btn btn-outline-success';
+    return theVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
   }
   isDownVoted(votes: Vote[]) {
     const theVote = this.hasVotedOnComment(votes);
     if (!theVote) {
-      return 'btn btn-outline-danger';
+      return 'badge badge-pill badge-secondary';
     }
-    return !theVote.vote ? 'btn btn-danger' : 'btn btn-outline-danger';
+    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
   }
 
   setSortQuery(query: string) {

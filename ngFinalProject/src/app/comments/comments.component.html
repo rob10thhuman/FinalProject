@@ -26,8 +26,107 @@
   </div>
 </form>
 <br />
-<ul>
-  <div class="btn-group">
+
+<table
+  *ngFor="let comment of (comments | sortComments: sortQuery)"
+  class="comment"
+>
+  <tr>
+    <td
+      *ngIf="
+        !isLoggedInUsername(comment.user.username) &&
+        !updatingComment &&
+        isLoggedIn()
+      "
+    >
+      <span
+        [ngClass]="isUpVoted(comment.votes)"
+        (click)="voteComment(comment, true)"
+      >
+        &#8593;
+      </span>
+    </td>
+    <td>
+      <span class="badge badge-warning">{{ comment.user.username }}</span>
+    </td>
+    <td>
+      <span class="badge badge-primary">
+        Votes
+        <span class="badge badge-light">{{
+          comment.votes | calculateVotes
+        }}</span>
+      </span>
+    </td>
+    <td>
+      <span class="badge badge-warning">
+        Date
+        <span class="badge badge-light">{{
+          comment.dateUpdated | date: 'shortDate'
+        }}</span>
+      </span>
+    </td>
+  </tr>
+  <tr>
+    <td
+      *ngIf="
+        !isLoggedInUsername(comment.user.username) &&
+        !updatingComment &&
+        isLoggedIn()
+      "
+    >
+      <span
+        [ngClass]="isDownVoted(comment.votes)"
+        (click)="voteComment(comment, false)"
+      >
+        &#8595;
+      </span>
+    </td>
+    <td><!-- empty space --></td>
+    <td>
+      <blockquote>{{ comment.comment }}</blockquote>
+    </td>
+  </tr>
+  <tr class="btn-group" *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment">
+    <td>
+        <button
+        class="badge badge-pill badge-primary"
+        (click)="setupUpdatingComment(comment)"
+      >
+        Edit
+      </button>
+      <button
+        class="badge badge-pill badge-danger"
+        (click)="deleteComment(comment.id)"
+      >
+        Delete
+      </button>
+    </td>
+  </tr>
+</table>
+
+<form *ngIf="updatingComment">
+    <textarea
+      rows="5"
+      cols="40"
+      name="comment"
+      [(ngModel)]="updatingComment.comment"
+    ></textarea>
+    <br />
+    <div class="btn-group">
+      <button
+        (click)="updateComment(updatingComment.id, updatingComment)"
+        class="btn btn-primary"
+      >
+        Update
+      </button>
+      <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+        Cancel
+      </button>
+    </div>
+  </form>
+
+<!-- <ul>
+   <div class="btn-group">
     <h5>Sory By:</h5>
     <button
       [ngClass]="sortQuery === 'TOP' ? 'btn btn-info' : 'btn btn-outline-info'"
@@ -36,22 +135,29 @@
       Top
     </button>
     <button
-      [ngClass]="sortQuery === 'NEWEST' ? 'btn btn-info' : 'btn btn-outline-info'"
+      [ngClass]="
+        sortQuery === 'NEWEST' ? 'btn btn-info' : 'btn btn-outline-info'
+      "
       (click)="setSortQuery('NEWEST')"
     >
       Newest
     </button>
     <button
-      [ngClass]="sortQuery === 'OLDEST' ? 'btn btn-info' : 'btn btn-outline-info'"
+      [ngClass]="
+        sortQuery === 'OLDEST' ? 'btn btn-info' : 'btn btn-outline-info'
+      "
       (click)="setSortQuery('OLDEST')"
     >
       Oldest
     </button>
   </div>
-  <li *ngFor=" let comment of comments | sortComments:sortQuery " class="comment">
-    {{ comment.user.username }} <br />
-    Posted on: {{ comment.dateUpdated | date: 'shortDate' }} <br />
-    Votes: {{ comment.votes | calculateVotes }}
+  <li
+    *ngFor="let comment of (comments | sortComments: sortQuery)"
+    class="comment"
+  >
+    {{ comment.user.username }} Posted on:
+    {{ comment.dateUpdated | date: 'shortDate' }} Votes:
+    {{ comment.votes | calculateVotes }}
     <div
       class="btn-group"
       *ngIf="
@@ -60,18 +166,18 @@
         isLoggedIn()
       "
     >
-      <button
+      <span
         [ngClass]="isUpVoted(comment.votes)"
         (click)="voteComment(comment, true)"
       >
         &#8593;
-      </button>
-      <button
+      </span>
+      <span
         [ngClass]="isDownVoted(comment.votes)"
         (click)="voteComment(comment, false)"
       >
         &#8595;
-      </button>
+      </span>
     </div>
     <p>{{ comment.comment }}</p>
     <div
@@ -91,26 +197,27 @@
         Delete
       </button>
     </div>
-
-    <form *ngIf="updatingComment">
-      <textarea
-        rows="5"
-        cols="40"
-        name="comment"
-        [(ngModel)]="updatingComment.comment"
-      ></textarea>
-      <br />
-      <div class="btn-group">
-        <button
-          (click)="updateComment(updatingComment.id, updatingComment)"
-          class="btn btn-primary"
-        >
-          Update
-        </button>
-        <button (click)="teardownUpdatingComment()" class="btn btn-danger">
-          Cancel
-        </button>
-      </div>
-    </form>
   </li>
-</ul>
+
+</ul> -->
+
+<form *ngIf="updatingComment">
+    <textarea
+      rows="5"
+      cols="40"
+      name="comment"
+      [(ngModel)]="updatingComment.comment"
+    ></textarea>
+    <br />
+    <div class="btn-group">
+      <button
+        (click)="updateComment(updatingComment.id, updatingComment)"
+        class="btn btn-primary"
+      >
+        Update
+      </button>
+      <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+        Cancel
+      </button>
+    </div>
+  </form>

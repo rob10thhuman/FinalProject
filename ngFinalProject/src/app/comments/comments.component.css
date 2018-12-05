@@ -1,3 +1,13 @@
 .comment {
   border-top: solid;
 }
+
+table {
+  border: solid;
+  background-color: bisque;
+  width: 33%;
+}
+
+/* td {
+  width:20%;
+} */
