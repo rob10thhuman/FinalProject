@@ -38,11 +38,5 @@ export class DetailLanguageComponent implements OnInit {
     return this.authService.checkLogin();
   }
 
-  isLoggedInUsername(username) {
-    // const user = JSON.parse(this.authService.getToken());
-    // console.log(user);
-    // return user.username === username;
-    return false;
-  }
 
 }

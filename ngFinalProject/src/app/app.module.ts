@@ -23,6 +23,7 @@ import { CommentsComponent } from './comments/comments.component';
 import { SearchComponent } from './search/search.component';
 import { CalculateVotesPipe } from './calculate-votes.pipe';
 import { ResourcesComponent } from './resources/resources.component';
+import { SortCommentsPipe } from './sort-comments.pipe';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ResourcesComponent } from './resources/resources.component';
     CommentsComponent,
     SearchComponent,
     CalculateVotesPipe,
-    ResourcesComponent
+    ResourcesComponent,
+    SortCommentsPipe,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { ResourcesComponent } from './resources/resources.component';
     NgbModule.forRoot()
   ],
   providers: [
-    CalculateVotesPipe
+    CalculateVotesPipe,
+    SortCommentsPipe
   ],
   bootstrap: [AppComponent]
 })
