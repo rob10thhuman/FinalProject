@@ -22,6 +22,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CommentsComponent } from './comments/comments.component';
 import { SearchComponent } from './search/search.component';
 import { CalculateVotesPipe } from './calculate-votes.pipe';
+import { ResourcesComponent } from './resources/resources.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CalculateVotesPipe } from './calculate-votes.pipe';
     UserProfileComponent,
     CommentsComponent,
     SearchComponent,
-    CalculateVotesPipe
+    CalculateVotesPipe,
+    ResourcesComponent
   ],
   imports: [
     BrowserModule,
