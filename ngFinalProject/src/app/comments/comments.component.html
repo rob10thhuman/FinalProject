@@ -15,10 +15,13 @@
     [(ngModel)]="newComment.comment"
   ></textarea>
   <br />
-  <button (click)="addComment(newComment)" class="btn btn-success">Add</button>
-  <button (click)="teardownAddingComment()" class="btn btn-danger">
-    Cancel
-  </button>
+  <div class="btn-group">
+    <button (click)="addComment(newComment)" class="btn btn-outline-success">Add</button>
+    <button (click)="teardownAddingComment()" class="btn btn-outline-danger">
+      Cancel
+    </button>
+
+  </div>
 </form>
 
 <ul>
@@ -31,10 +34,10 @@
       class="btn-group"
       *ngIf="isLoggedInUsername(comment.user.username ) && !updatingComment"
     >
-      <button class="btn btn-primary" (click)="setupUpdatingComment(comment)">
+      <button class="btn btn-outline-primary" (click)="setupUpdatingComment(comment)">
         Edit
       </button>
-      <button class="btn btn-danger" (click)="deleteComment(comment.id)">
+      <button class="btn btn-outline-danger" (click)="deleteComment(comment.id)">
         Delete
       </button>
     </div>

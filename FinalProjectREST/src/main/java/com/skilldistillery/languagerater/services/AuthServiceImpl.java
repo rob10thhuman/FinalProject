@@ -1,6 +1,7 @@
 package com.skilldistillery.languagerater.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,6 +49,19 @@ public class AuthServiceImpl implements AuthService {
 		userRepo.saveAndFlush(user);
 		return user;
 	}
+
+	@Override
+	public boolean verifyPassword(int id, String password) {
+		Optional<User> opt = userRepo.findById(id);
+		
+		if(opt.isPresent()) {
+			String userPassword = opt.get().getPassword();
+			return encoder.matches(password, userPassword);
+		}
+		return false;
+	}
+	
+	
 
 
 }
