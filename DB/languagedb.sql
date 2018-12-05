@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` VARCHAR(45) NULL DEFAULT NULL,
   `active` TINYINT(4) NOT NULL,
   `role` VARCHAR(45) NULL DEFAULT NULL,
+  `reputation` INT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 5
@@ -60,7 +61,7 @@ DROP TABLE IF EXISTS `comment` ;
 
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `comment` VARCHAR(45) NULL DEFAULT NULL,
+  `comment` VARCHAR(2000) NULL DEFAULT NULL,
   `date_added` DATETIME NULL DEFAULT NULL,
   `date_updated` DATETIME NULL DEFAULT NULL,
   `user_id` INT(11) NOT NULL,
@@ -120,7 +121,8 @@ CREATE TABLE IF NOT EXISTS `vote` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `vote` TINYINT(4) NOT NULL,
   `user_id` INT(11) NOT NULL,
-  `comment_id` INT(11) NOT NULL,
+  `comment_id` INT(11) NULL,
+  `sub_comment_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `comment_id_idx` (`comment_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
@@ -137,6 +139,34 @@ CREATE TABLE IF NOT EXISTS `vote` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `sub_comment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sub_comment` ;
+
+CREATE TABLE IF NOT EXISTS `sub_comment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `comment` VARCHAR(2000) NULL,
+  `date_added` DATETIME NULL,
+  `date_updated` DATETIME NULL,
+  `user_id` INT NOT NULL,
+  `comment_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `sub_comment_user_id_idx` (`user_id` ASC),
+  INDEX `sub_comment_comment_id_idx` (`comment_id` ASC),
+  CONSTRAINT `sub_comment_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `sub_comment_comment_id`
+    FOREIGN KEY (`comment_id`)
+    REFERENCES `comment` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE = '';
 GRANT USAGE ON *.* TO admin@localhost;
@@ -161,7 +191,7 @@ INSERT INTO `language` (`id`, `name`, `logo`, `creator`, `year_created`, `info`)
 INSERT INTO `language` (`id`, `name`, `logo`, `creator`, `year_created`, `info`) VALUES (4, 'C++', 'cpp-icon-medium.png', 'Bjarne Stroustrup', 1985, 'Description: C++ is a language ideal for low-level and systems programming. Based on C, C++ extends its predecessor with object-oriented programming and an expanded standard library.');
 INSERT INTO `language` (`id`, `name`, `logo`, `creator`, `year_created`, `info`) VALUES (5, 'C', 'c-icon-medium.png', 'Dennis Ritchie', 1972, 'Description: C is the oldest programming language that still enjoys wide use. Code written in C has the ability to work directly with a computer\'s memory system, making it dangerous yet powerful.');
 INSERT INTO `language` (`id`, `name`, `logo`, `creator`, `year_created`, `info`) VALUES (6, 'Swift', 'swift-icon-medium.png', 'Apple, Inc.', 2014, 'Description: Swift is a relatively recent programming language developed by Apple. Swift is specialized for mobile application development and is designed to prevent some common errors that arise in older languages.');
-INSERT INTO `language` (`id`, `name`, `logo`, `creator`, `year_created`, `info`) VALUES (7, 'Go', 'go-icon-medium.png', 'Google, Inc.', 2009, 'Description: Go is a systems programming language developed by Google. It hopes to learn from older systems languages like C to maintain a high level of speed while increasing safety.');
+INSERT INTO `language` (`id`, `name`, `logo`, `creator`, `year_created`, `info`) VALUES (7, 'Go', 'go-logo.png', 'Google, Inc.', 2009, 'Description: Go is a systems programming language developed by Google. It hopes to learn from older systems languages like C to maintain a high level of speed while increasing safety.');
 
 COMMIT;
 
@@ -171,10 +201,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `languagedb`;
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (1, 'rob', '$2a$10$kN23QoxVbJF8O1RALWZD.ORjz9R4g0ZKpjeYElDVkppXIR65dnaEm', 'rob@10thHuman.com', 'Rob', 'Thompson', 1, 'standard');
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (2, 'josh', '$2a$10$I2hDXE/PxjIPLIFBn5xDTOa19vxuyOcSkE8QcJ8C0KgyT1ocxTMVO', 'josh@josh.com', 'Josh', 'O', 1, 'standard');
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (3, 'henry', '$2a$10$fK5OmZfKwzlaJ44aZU8FEu1ngMoNqvoPKZNQFYMsjXDkIW3/0P8y6', 'henry@henry.com', 'Henry', 'Z', 1, 'standard');
-INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`) VALUES (4, 'brandon', '$2a$10$WTcVPuvML2RuSv.eoSCV2OGnp0dQsP/R3IydsWOjMqx.tcVVBm.fa', 'brandon@brandon.com', 'Brandon', 'Jaloway', 1, 'standard');
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`, `reputation`) VALUES (1, 'rob', '$2a$10$kN23QoxVbJF8O1RALWZD.ORjz9R4g0ZKpjeYElDVkppXIR65dnaEm', 'rob@10thHuman.com', 'Rob', 'Thompson', 1, 'standard', NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`, `reputation`) VALUES (2, 'josh', '$2a$10$I2hDXE/PxjIPLIFBn5xDTOa19vxuyOcSkE8QcJ8C0KgyT1ocxTMVO', 'josh@josh.com', 'Josh', 'O', 1, 'standard', NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`, `reputation`) VALUES (3, 'henry', '$2a$10$fK5OmZfKwzlaJ44aZU8FEu1ngMoNqvoPKZNQFYMsjXDkIW3/0P8y6', 'henry@henry.com', 'Henry', 'Z', 1, 'standard', NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `first_name`, `last_name`, `active`, `role`, `reputation`) VALUES (4, 'brandon', '$2a$10$WTcVPuvML2RuSv.eoSCV2OGnp0dQsP/R3IydsWOjMqx.tcVVBm.fa', 'brandon@brandon.com', 'Brandon', 'Jaloway', 1, 'standard', NULL);
 
 COMMIT;
 
@@ -232,7 +262,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `languagedb`;
-INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`) VALUES (1, 0, 1, 1);
-INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`) VALUES (2, 1, 2, 1);
+INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`, `sub_comment_id`) VALUES (1, 0, 1, 1, NULL);
+INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`, `sub_comment_id`) VALUES (2, 1, 2, 1, NULL);
 
 COMMIT;
