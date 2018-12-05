@@ -2,8 +2,25 @@
   <br>
   <br>
 
-  <h2>{{title}}</h2>
-  <div class="border hoverDiv rounded" *ngFor="let lang of languages" (click)="detailPage(lang.id)" >
+  <div class="container">
+    <div class="row">
+     <div class="col-sm">
+       <h2>Top 10 Languages</h2>
+    </div>
+
+    <div class="col-sm">
+
+    </div>
+
+    <div class="col-sm" style="text-align: right">
+        <!-- <h2>Resources</h2> -->
+
+    </div>
+
+  </div>
+</div>
+
+  <div class="container border hoverDiv rounded" *ngFor="let lang of languages" (click)="detailPage(lang.id)" >
     <div class="p-1 ml-4">
       <div class="row">
         <div class="col d-flex align-items-center">

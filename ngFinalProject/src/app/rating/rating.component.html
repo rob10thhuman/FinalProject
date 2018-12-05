@@ -6,19 +6,49 @@
 </div> -->
 
 <div id="average">
-    Average Rating: <b>{{avgRating}}</b><BR>
+    Average Rating: <b>{{avgRating == -1 ? "No ratings available!" : avgRating}}</b><BR>
     <ngb-rating [(rate)]="avgRating" max="5" [readonly]="readonly">
     <hr>
 </ngb-rating>
 </div>
 
+<div>
+    Avg Cat1 Rating: <BR>
+    <ngb-rating max="5"></ngb-rating>
+  </div>
+
+<div>
+    Avg Cat2 Rating: <BR>
+    <ngb-rating max="5"></ngb-rating>
+</div>
+
+<div>
+    Avg Cat3 Rating: <BR>
+    <ngb-rating max="5"></ngb-rating>
+</div>
+
 <div> <hr></div>
 
 <div>
-    User Rating: <b>{{userRating}}</b><BR>
+    User Rating: <b>{{userRating === 0 ? "Not yet rated" : userRating}}</b><BR>
     <ngb-rating [(rate)]="userRating" max="5" (rateChange)="passRating($event)">
     </ngb-rating>
 
+</div>
+
+<div>
+  User Cat1 Rating: <BR>
+  <ngb-rating max="5"></ngb-rating>
+</div>
+
+<div>
+    User Cat2 Rating: <BR>
+    <ngb-rating max="5"></ngb-rating>
+</div>
+
+<div>
+      User Cat3 Rating: <BR>
+      <ngb-rating max="5"></ngb-rating>
 </div>
 
 <!-- <div class="rate">

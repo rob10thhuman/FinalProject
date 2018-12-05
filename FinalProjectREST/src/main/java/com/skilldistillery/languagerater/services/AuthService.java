@@ -7,5 +7,7 @@ public interface AuthService {
 	User register(User user);
 
 	boolean checkDB(User user);
+	
+	boolean verifyPassword(int id, String password);
 
 }

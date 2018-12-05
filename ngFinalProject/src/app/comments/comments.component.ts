@@ -1,3 +1,4 @@
+import { SortCommentsPipe } from './../sort-comments.pipe';
 import { CalculateVotesPipe } from './../calculate-votes.pipe';
 import { Vote } from './../models/vote';
 import { Comment } from './../models/comment';
@@ -16,15 +17,18 @@ import { User } from '../models/user';
   styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
-  comments: Comment[] = null;
+  comments: Comment[] = [];
   newComment: Comment = null;
   updatingComment: Comment = null;
-  currentUse: User = new User();
+  currentUser: User = new User();
+
+  sortQuery = 'TOP';
 
   constructor(
     private commentService: CommentService,
     private voteService: VoteService,
     private votePipe: CalculateVotesPipe,
+    private sortComments: SortCommentsPipe,
     private userService: UserService,
     private detail: DetailLanguageComponent,
     private authService: AuthService
@@ -84,7 +88,6 @@ export class CommentsComponent implements OnInit {
         },
         err => console.error('Observer got an error: ' + err)
       );
-
     }
   }
 
@@ -183,5 +186,7 @@ export class CommentsComponent implements OnInit {
     return !theVote.vote ? 'btn btn-danger' : 'btn btn-outline-danger';
   }
 
-
+  setSortQuery(query: string) {
+    this.sortQuery = query;
+  }
 }
