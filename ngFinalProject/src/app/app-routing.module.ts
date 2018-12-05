@@ -1,3 +1,4 @@
+import { ResourcesComponent } from './resources/resources.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutComponent } from './about/about.component';
 import { AddLanguageComponent } from './add-language/add-language.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
   { path: 'addLanguage', component: AddLanguageComponent},
+  { path: 'resources', component: ResourcesComponent},
   { path: '**', component: NotFoundComponent }
 
 ];
