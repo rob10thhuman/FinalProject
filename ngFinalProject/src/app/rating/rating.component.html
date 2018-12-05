@@ -15,7 +15,7 @@
 <div> <hr></div>
 
 <div>
-    User Rating: <b>{{userRating}}</b><BR>
+    User Rating: <b>{{userRating === 0 ? "Not yet rated" : userRating}}</b><BR>
     <ngb-rating [(rate)]="userRating" max="5" (rateChange)="passRating($event)">
     </ngb-rating>
 
