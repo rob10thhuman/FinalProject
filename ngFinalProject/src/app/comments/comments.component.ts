@@ -188,6 +188,5 @@ export class CommentsComponent implements OnInit {
 
   setSortQuery(query: string) {
     this.sortQuery = query;
-    // this.showCommentsForLanguage();
   }
 }

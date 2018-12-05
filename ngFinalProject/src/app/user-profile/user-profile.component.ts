@@ -48,7 +48,7 @@ export class UserProfileComponent implements OnInit {
   verifyPasswordServerSide(password) {
     this.authService.verifyPassword(this.user.id, password).subscribe(
       data => {
-        this.passwordConfirmed = data.valueOf();
+        this.passwordConfirmed = data;
       },
       err => console.error('Observer got an error: ' + err),
 
@@ -109,7 +109,7 @@ export class UserProfileComponent implements OnInit {
       this.verifyPasswordServerSide(form.value.firstPassword);
       console.log(this.passwordConfirmed);
 
-      if (this.passwordConfirmed === true) {
+      if (this.passwordConfirmed) {
         this.passwordConfirmed = false;
         this.verifying = false;
         this.invalidPassword = false;
