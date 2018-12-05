@@ -6,7 +6,7 @@
 </div> -->
 
 <div id="average">
-    Average Rating: <b>{{avgRating}}</b><BR>
+    Average Rating: <b>{{avgRating == -1 ? "No ratings available!" : avgRating}}</b><BR>
     <ngb-rating [(rate)]="avgRating" max="5" [readonly]="readonly">
     <hr>
 </ngb-rating>
