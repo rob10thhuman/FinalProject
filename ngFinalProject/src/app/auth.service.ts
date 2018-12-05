@@ -9,44 +9,61 @@ import { User } from './models/user';
   providedIn: 'root'
 })
 export class AuthService {
-
   private url = environment.baseUrl;
 
   constructor(private http: HttpClient) {}
 
   login(username, password) {
     const token = this.generateBasicAuthToken(username, password);
-    const headers = new HttpHeaders()
-      .set('Authorization', `Basic ${token}`);
+    const headers = new HttpHeaders().set('Authorization', `Basic ${token}`);
 
-    return this.http
-      .get(this.url + 'authenticate', {headers})
-      .pipe(
-        tap((res) => {
-          localStorage.setItem('token' , token);
-          localStorage.setItem('username', username);
-          return res;
-        }),
-        catchError((err: any) => {
-          console.log(err);
-          return throwError('problem logging in');
-        })
-      );
+    return this.http.get(this.url + 'authenticate', { headers }).pipe(
+      tap(res => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
+        return res;
+      }),
+      catchError((err: any) => {
+        console.log(err);
+        return throwError('problem logging in');
+      })
+    );
   }
 
   register(user) {
     // create request to register a new account
-    return this.http.post(this.url + 'register', user)
-    .pipe(
-        tap((res) => {  // create a user and then upon success, log them in
-          console.log('registered!');
-          console.log(user.username);
-          console.log(user.password);
-          this.login(user.username, user.password);
-        }),
+    return this.http.post(this.url + 'register', user).pipe(
+      tap(res => {
+        // create a user and then upon success, log them in
+        console.log('registered!');
+        console.log(user.username);
+        console.log(user.password);
+        this.login(user.username, user.password);
+      }),
+      catchError((err: any) => {
+        console.log(err);
+        return throwError('problem registering');
+      })
+    );
+  }
+
+  verifyPassword(id, password) {
+    const token = this.getToken();
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${token}`
+      })
+    };
+    return this.http
+      .get(
+        this.url + 'verifyPassword/' + password + '/users/' + id,
+        httpOptions
+      )
+      .pipe(
         catchError((err: any) => {
           console.log(err);
-          return throwError('problem registering');
+          return throwError('problem Verifying Password');
         })
       );
   }
@@ -76,5 +93,4 @@ export class AuthService {
   getUsername() {
     return localStorage.getItem('username');
   }
-
 }
