@@ -16,12 +16,9 @@ export class AuthService {
 
   login(username, password) {
     const token = this.generateBasicAuthToken(username, password);
-
-    // Send token as Authorization header (this is spring security convention for basic auth)
     const headers = new HttpHeaders()
       .set('Authorization', `Basic ${token}`);
 
-    // create request to authenticate credentials
     return this.http
       .get(this.url + 'authenticate', {headers})
       .pipe(
@@ -55,8 +52,17 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
+    if (this.checkLogin()) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+    }
+  }
+
+  relogin(token: string, username: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
+    console.log(localStorage.length);
+
   }
 
   checkLogin() {

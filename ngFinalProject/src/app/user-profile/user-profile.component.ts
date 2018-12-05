@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  user: User = null;
+  user: User = new User();
   editingUser: User = null;
   // comments: Comment[] = null;
   deletingProfile = false;
@@ -21,7 +21,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private commentService: CommentService,
+    // private commentService: CommentService,
     private router: Router
   ) {}
 
@@ -56,6 +56,7 @@ export class UserProfileComponent implements OnInit {
   updateUser() {
     this.userService.update(this.editingUser.id, this.editingUser).subscribe(
       data => {
+        this.authService.login(this.editingUser.username, this.editingUser.password);
         this.tearDownEditUser();
         this.showUser();
       },

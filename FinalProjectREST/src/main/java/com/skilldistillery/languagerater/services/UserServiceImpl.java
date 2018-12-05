@@ -54,8 +54,7 @@ public class UserServiceImpl implements UserService {
 			existing.setRole(u.getRole());
 			existing.setUsername(u.getUsername());
 			existing.setPassword(u.getPassword());
-			
-			//TODO add a set for comments?
+			existing.setComments(u.getComments());
 			
 			existing = uRepo.saveAndFlush(existing);
 

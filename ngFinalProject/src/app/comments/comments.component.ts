@@ -134,7 +134,15 @@ export class CommentsComponent implements OnInit {
   }
 
   setupUpdatingComment(comment: Comment) {
-    this.updatingComment = comment;
+    this.updatingComment = new Comment();
+
+    this.updatingComment.id = comment.id;
+    this.updatingComment.comment = comment.comment;
+    this.updatingComment.dateAdded = comment.dateAdded;
+    this.updatingComment.dateUpdated = comment.dateUpdated;
+    this.updatingComment.language = comment.language;
+    this.updatingComment.user = comment.user;
+    this.updatingComment.votes = comment.votes;
   }
   teardownUpdatingComment() {
     this.updatingComment = null;
@@ -146,10 +154,6 @@ export class CommentsComponent implements OnInit {
 
   isLoggedInUsername(username) {
     return username === this.authService.getUsername();
-  }
-
-  checkUpdatingFormConditions(comment: Comment) {
-    return this.updatingComment && this.updatingComment === comment;
   }
 
   hasVotedOnComment(votes: Vote[]): Vote {

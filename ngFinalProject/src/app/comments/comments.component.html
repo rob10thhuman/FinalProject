@@ -1,6 +1,6 @@
 <h4>Comments</h4>
 <button
-  class="btn-success"
+  class="btn btn-dark"
   *ngIf="!newComment && isLoggedIn()"
   (click)="setupAddingComment()"
 >
@@ -51,7 +51,7 @@
       </button>
     </div>
 
-    <form *ngIf="checkUpdatingFormConditions(comment)">
+    <form *ngIf="updatingComment">
       <textarea
         rows="5"
         cols="40"

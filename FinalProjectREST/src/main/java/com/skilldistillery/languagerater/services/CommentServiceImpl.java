@@ -69,11 +69,8 @@ public class CommentServiceImpl implements CommentService {
 		Comment c = commentRepo.findByUsernameAndId(username, id);
 		
 		if(c != null && commentRepo.existsById(c.getId())) {
-			User u = userRepo.findByUsername(username);
-			u.removeComment(c);
-			
+			removeVotesFromComment(c);
 			commentRepo.delete(c);
-			userRepo.saveAndFlush(u);
 			deleted = true;
 		}
 		
@@ -88,6 +85,13 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> indexByUserame(String username) {
 		return commentRepo.findCommentsByUsername(username);
+	}
+	
+	private void removeVotesFromComment(Comment c) {
+		List<Vote> votes = c.getVotes();
+		for(Vote vote : votes) {
+			voteRepo.delete(vote);
+		}
 	}
 
 
