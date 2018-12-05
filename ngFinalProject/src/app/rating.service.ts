@@ -1,3 +1,4 @@
+import { Language } from './models/language';
 import { Injectable } from '@angular/core';
 import { Rating } from './models/rating';
 import { DetailLanguageComponent } from './detail-language/detail-language.component';
@@ -6,6 +7,8 @@ import { environment } from 'src/environments/environment';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { NG_MODEL_WITH_FORM_CONTROL_WARNING } from '@angular/forms/src/directives';
+import { User } from './models/user';
 
 
 @Injectable({
@@ -38,8 +41,20 @@ export class RatingService {
       catchError(this.handleError));
     }
 
-  create(data: Rating) {
-    return this.http.post<Rating>(this.authUrl, data, this.httpOptions).pipe(
+  create(userId: number, languageId: Language, ratingValue: number) {
+    console.log('- - - - - - - - - -');
+    console.log(ratingValue);
+    console.log(userId);
+    console.log(languageId);
+    console.log(this.notAuthUrl + '/' + languageId);
+    const data = new Rating ();
+    data.user = new User();
+    data.user.id = userId;
+    data.rating = ratingValue;
+    data.language = languageId;
+    console.log(data);
+
+    return this.http.post<Rating>(this.notAuthUrl + '/' + languageId, data, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 

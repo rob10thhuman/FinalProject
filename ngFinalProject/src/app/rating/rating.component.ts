@@ -81,14 +81,40 @@ export class RatingComponent implements OnInit {
     );
   }
 
-  addRating(rating) {
-    rating.language = this.detail.language;
-    this.ratingService.create(rating).subscribe(
+  passRating(rating) {
+    console.log(rating);
+    if (rating > 0) {
+    const username = this.authService.getUsername();
+    console.log(username);
+    this.userService
+      .showByUsername(username)
+      .subscribe(
+        data => {
+          console.log(data);
+          this.currentUser = data;
+          const userId = this.currentUser.id;
+          console.log('current user below before updating rating:');
+          console.log(userId);
+          const langId = this.route.snapshot.paramMap.get('id');
+          this.addRating(userId, langId, rating);
+        },
+        err => console.error('Observer got an error: ' + err)
+      );
+      }
+  }
+
+  addRating(userId, languageId, rating) {
+    console.log('= = = = = = = = = =');
+    console.log(rating);
+    console.log(typeof rating);
+    // rating.language = this.detail.language;
+    this.ratingService.create(userId, languageId, rating).subscribe(
       data => {
+        window.location.reload();
       },
       err => console.error('cannot add rating: ' + err)
     );
-    this.newRating.rating = null;
+    // this.newRating.rating = null;
   }
 
   updateRating(newValue) {
