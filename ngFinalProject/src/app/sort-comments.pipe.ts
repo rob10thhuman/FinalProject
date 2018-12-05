@@ -11,8 +11,36 @@ export class SortCommentsPipe implements PipeTransform {
     if (args === 'TOP') {
 
       comments.sort(function(a, b) {
+
+        const aVotes = a.votes;
+        const bVotes = b.votes;
+
+
+        let upCount = 0;
+        let downCount = 0;
+        aVotes.forEach(vote => {
+          if (vote.vote) {
+            upCount++;
+          } else {
+            downCount++;
+          }
+        });
+
+        const aTotal = upCount - downCount;
+
+         upCount = 0;
+         downCount = 0;
+        bVotes.forEach(vote => {
+          if (vote.vote) {
+            upCount++;
+          } else {
+            downCount++;
+          }
+        });
+
+        const bTotal = upCount - downCount;
         return (
-          this.votePipe.transform(a.votes) - this.votePipe.transform(b.votes)
+          bTotal - aTotal
         );
       });
 
