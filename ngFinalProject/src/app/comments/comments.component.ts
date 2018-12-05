@@ -19,7 +19,7 @@ export class CommentsComponent implements OnInit {
   comments: Comment[] = null;
   newComment: Comment = null;
   updatingComment: Comment = null;
-  currentUser: User = new User();
+  currentUse: User = new User();
 
   constructor(
     private commentService: CommentService,

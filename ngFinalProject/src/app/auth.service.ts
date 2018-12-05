@@ -58,13 +58,6 @@ export class AuthService {
     }
   }
 
-  relogin(token: string, username: string) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
-    console.log(localStorage.length);
-
-  }
-
   checkLogin() {
     if (localStorage.getItem('token')) {
       return true;

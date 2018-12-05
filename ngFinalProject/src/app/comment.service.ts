@@ -29,11 +29,11 @@ export class CommentService {
       catchError(this.handleError));
   }
   languageIndex(languageName: string) {
-    return this.http.get<Comment[]>(this.notAuthUrl + '/languages/' + languageName, this.httpOptions ).pipe(
+    return this.http.get<Comment[]>(this.notAuthUrl + '/languages/' + languageName ).pipe(
       catchError(this.handleError));
   }
   usernameIndex(username: string) {
-    return this.http.get<Comment[]>(this.notAuthUrl + '/usernames/' + username, this.httpOptions ).pipe(
+    return this.http.get<Comment[]>(this.authUrl + '/usernames/' + username, this.httpOptions ).pipe(
       catchError(this.handleError));
   }
 
