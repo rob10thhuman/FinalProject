@@ -56,9 +56,8 @@ export class UserProfileComponent implements OnInit {
   updateUser() {
     this.userService.update(this.editingUser.id, this.editingUser).subscribe(
       data => {
-        this.authService.login(this.editingUser.username, this.editingUser.password);
         this.tearDownEditUser();
-        this.showUser();
+
       },
       err => console.error('Observer got an error: ' + err)
     );

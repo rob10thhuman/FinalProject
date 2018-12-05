@@ -77,12 +77,15 @@ export class CommentsComponent implements OnInit {
 
   getCurrentUser() {
     const username = this.authService.getUsername();
-    this.userService.showByUsername(username).subscribe(
-      data => {
-        this.currentUser = data;
-      },
-      err => console.error('Observer got an error: ' + err)
-    );
+    if (username) {
+      this.userService.showByUsername(username).subscribe(
+        data => {
+          this.currentUser = data;
+        },
+        err => console.error('Observer got an error: ' + err)
+      );
+
+    }
   }
 
   voteComment(comment: Comment, voteValue: boolean) {

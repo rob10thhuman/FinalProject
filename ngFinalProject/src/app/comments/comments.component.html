@@ -29,7 +29,7 @@
     <p>{{ comment.comment }}</p>
     <div
       class="btn-group"
-      *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
+      *ngIf="isLoggedInUsername(comment.user.username ) && !updatingComment"
     >
       <button class="btn btn-primary" (click)="setupUpdatingComment(comment)">
         Edit

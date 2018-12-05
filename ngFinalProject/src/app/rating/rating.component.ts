@@ -56,6 +56,7 @@ export class RatingComponent implements OnInit {
   getCurrentUser() {
     const username = this.authService.getUsername();
     console.log(username);
+    if (username) {
     this.userService
       .showByUsername(username)
       .subscribe(
@@ -70,6 +71,9 @@ export class RatingComponent implements OnInit {
         },
         err => console.error('Observer got an error: ' + err)
       );
+
+
+    }
   }
 
   findRating(userId, languageId) {
