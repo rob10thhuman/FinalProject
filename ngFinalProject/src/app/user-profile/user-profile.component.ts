@@ -44,7 +44,6 @@ export class UserProfileComponent implements OnInit {
     this.user.active = false;
     this.userService.update(this.user.id, this.user).subscribe(
       data => {
-        console.log('deleted!');
         this.deletingProfile = false;
         this.authService.logout();
         this.router.navigateByUrl('/home');
@@ -56,7 +55,9 @@ export class UserProfileComponent implements OnInit {
   updateUser() {
     this.userService.update(this.editingUser.id, this.editingUser).subscribe(
       data => {
+        this.user = data;
         this.tearDownEditUser();
+        this.authService.login(this.user.username, this.user.password);
 
       },
       err => console.error('Observer got an error: ' + err)
