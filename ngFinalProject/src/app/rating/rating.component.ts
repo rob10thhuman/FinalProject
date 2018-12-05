@@ -37,18 +37,15 @@ export class RatingComponent implements OnInit {
   showRatings () {
     const ratings = this.detail.language.lRatings;
     console.log(ratings);
-    let count = 0;
     let sum = 0;
     console.log('ratings.length: ' + ratings.length);
     for (let i = 0; i < ratings.length; i++) {
       console.log('ratings data: ' + this.detail.language.lRatings[i].rating);
       console.log('i:' + i);
-      count++;
       // this.avgRating = this.avgRating + this.detail.language.lRatings[i].rating;
       sum += this.detail.language.lRatings[i].rating;
-      console.log('count:' + count);
     }
-    this.avgRating = count === 0 ? 0 : (sum / count);
+    this.avgRating = ratings.length === 0 ? -1 : (sum / ratings.length);
     console.log(this.avgRating);
     return this.avgRating;
   }
