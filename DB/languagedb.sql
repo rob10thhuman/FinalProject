@@ -172,6 +172,51 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `category`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `category` ;
+
+CREATE TABLE IF NOT EXISTS `category` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `category_rating`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `category_rating` ;
+
+CREATE TABLE IF NOT EXISTS `category_rating` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `category_id` INT NOT NULL,
+  `rating` INT NULL,
+  `user_id` INT NOT NULL,
+  `language_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `category_rating_category_id_idx` (`category_id` ASC),
+  INDEX `category_rating_user_id_idx` (`user_id` ASC),
+  INDEX `category_rating_language_id_idx` (`language_id` ASC),
+  CONSTRAINT `category_rating_category_id`
+    FOREIGN KEY (`category_id`)
+    REFERENCES `category` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `category_rating_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `category_rating_language_id`
+    FOREIGN KEY (`language_id`)
+    REFERENCES `language` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 SET SQL_MODE = '';
 GRANT USAGE ON *.* TO admin@localhost;
  DROP USER admin@localhost;
@@ -268,5 +313,17 @@ START TRANSACTION;
 USE `languagedb`;
 INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`, `sub_comment_id`) VALUES (1, 0, 1, 1, NULL);
 INSERT INTO `vote` (`id`, `vote`, `user_id`, `comment_id`, `sub_comment_id`) VALUES (2, 1, 2, 1, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `category`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `languagedb`;
+INSERT INTO `category` (`id`, `name`) VALUES (1, 'Safety');
+INSERT INTO `category` (`id`, `name`) VALUES (2, 'Ease of Learning');
+INSERT INTO `category` (`id`, `name`) VALUES (3, 'Speed');
 
 COMMIT;
