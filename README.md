@@ -16,6 +16,11 @@ A full-stack application that allows programmers to gather information about pro
 - SQL
 - Spring
 
+# Challenges Encountered
+
+- Difficulties with authentication, such as keeping the user logged in when they make edits to their profile
+- Processing star ratings and making sure user votes are always fully up to date
+
 # Database
 
 ![Language Rater database](/DB/languagedb.png)
