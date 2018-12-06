@@ -46,19 +46,19 @@ public class SubCommentServiceImpl implements SubCommentService {
 	public SubComment create(String username, int parentId, SubComment subComment) {
 		
 		User u = userRepo.findByUsername(username);
-		Optional<Comment> opt = commentRepo.findById(parentId);
 		u.addSubComment(subComment);
+		userRepo.saveAndFlush(u);
 		
+		Optional<Comment> opt = commentRepo.findById(parentId);
 		if(opt.isPresent()) {
 			Comment c = opt.get();
 			c.addSubComment(subComment);
 			commentRepo.saveAndFlush(c);
 		}
+		
 		subComment = subCommentRepo.saveAndFlush(subComment);
-		
-		userRepo.saveAndFlush(u);
-		
 		return subComment;
+		
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class SubCommentServiceImpl implements SubCommentService {
 			existing.setDateAdded(subComment.getDateAdded());
 			existing.setDateUpdated(subComment.getDateUpdated());
 			existing.setUser(subComment.getUser());
-			existing.setComment(subComment.getComment());
+			existing.setParentComment(subComment.getParentComment());
 			
 			Comment c = existing.getParentComment();
 			c.addSubComment(existing);

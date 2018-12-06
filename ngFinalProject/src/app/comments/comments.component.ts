@@ -108,10 +108,11 @@ export class CommentsComponent implements OnInit {
   voteComment(comment: Comment, voteValue: boolean) {
     const vote = this.hasVotedOnComment(comment.votes);
 
-    if (vote) {
+    if (vote !== null) {
       if (vote.vote === voteValue) {
         this.voteService.destroy(vote.id).subscribe(
           data => {
+            console.log('i cancel my vote parent');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
@@ -122,7 +123,7 @@ export class CommentsComponent implements OnInit {
 
         this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
           data => {
-            console.log('i change my vote');
+            console.log('i change my vote parent');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
@@ -135,8 +136,11 @@ export class CommentsComponent implements OnInit {
       newVote.user = this.currentUser;
       this.voteService.createForComment(comment.id, newVote).subscribe(
         data => {
-          console.log('my first vote');
+          console.log(data);
+          console.log('my first vote Parent');
           this.showCommentsForLanguage();
+
+
         },
         err => console.error('Observer got an error: ' + err)
       );
@@ -144,12 +148,14 @@ export class CommentsComponent implements OnInit {
   }
 
   voteSubComment(subComment: SubComment, voteValue: boolean) {
-    const vote = this.hasVotedOnComment(subComment.votes);
+    const vote = this.hasVotedOnSubComment(subComment.votes);
+    console.log(vote);
 
-    if (vote) {
+    if (vote !== null) {
       if (vote.vote === voteValue) {
         this.voteService.destroy(vote.id).subscribe(
           data => {
+            console.log('i cancel my vote child');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
@@ -160,6 +166,7 @@ export class CommentsComponent implements OnInit {
 
         this.voteService.updateForSubComment(subComment.id, vote.id, vote).subscribe(
           data => {
+            console.log('i change my vote child');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
@@ -172,7 +179,9 @@ export class CommentsComponent implements OnInit {
       newVote.user = this.currentUser;
       this.voteService.createForSubComment(subComment.id, newVote).subscribe(
         data => {
-          console.log('my first vote');
+          console.log(data);
+
+          console.log('my first vote Child');
           this.showCommentsForLanguage();
         },
         err => console.error('Observer got an error: ' + err)
@@ -223,22 +232,47 @@ export class CommentsComponent implements OnInit {
 
   hasVotedOnComment(votes: Vote[]): Vote {
     for (let i = 0; i < votes.length; i++) {
-      if (votes[i].user.username === this.authService.getUsername()) {
+      if (votes[i].user.username === this.authService.getUsername()
+      && votes[i].comment !== null) {
+
+        return votes[i];
+      }
+    }
+    return null;
+  }
+  hasVotedOnSubComment(votes: Vote[]): Vote {
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i].user.username === this.authService.getUsername()
+      && votes[i].subComment !== null) {
         return votes[i];
       }
     }
     return null;
   }
 
-  isUpVoted(votes: Vote[]) {
+  isUpVotedComment(votes: Vote[]) {
     const theVote = this.hasVotedOnComment(votes);
     if (!theVote) {
       return 'badge badge-pill badge-secondary';
     }
     return theVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
   }
-  isDownVoted(votes: Vote[]) {
+  isDownVotedComment(votes: Vote[]) {
     const theVote = this.hasVotedOnComment(votes);
+    if (!theVote) {
+      return 'badge badge-pill badge-secondary';
+    }
+    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
+  }
+  isUpVotedSubComment(votes: Vote[]) {
+    const theVote = this.hasVotedOnSubComment(votes);
+    if (!theVote) {
+      return 'badge badge-pill badge-secondary';
+    }
+    return theVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
+  }
+  isDownVotedSubComment(votes: Vote[]) {
+    const theVote = this.hasVotedOnSubComment(votes);
     if (!theVote) {
       return 'badge badge-pill badge-secondary';
     }

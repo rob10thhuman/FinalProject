@@ -75,7 +75,7 @@
         <div class="btn-group">
           <button
             *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
-            [ngClass]="isUpVoted(comment.votes)"
+            [ngClass]="isUpVotedComment(comment.votes)"
             (click)="voteComment(comment, true)"
           >
             &#8593;
@@ -85,7 +85,7 @@
           }}</span>
           <button
             *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
-            [ngClass]="isDownVoted(comment.votes)"
+            [ngClass]="isDownVotedComment(comment.votes)"
             (click)="voteComment(comment, false)"
           >
             &#8595;
@@ -175,7 +175,7 @@
         <div class="btn-group">
             <button
               *ngIf="!isLoggedInUsername(subComment.user.username) && isLoggedIn()"
-              [ngClass]="isUpVoted(subComment.votes)"
+              [ngClass]="isUpVotedSubComment(subComment.votes)"
               (click)="voteSubComment(subComment, true)"
             >
               &#8593;
@@ -185,7 +185,7 @@
             }}</span>
             <button
               *ngIf="!isLoggedInUsername(subComment.user.username) && isLoggedIn()"
-              [ngClass]="isDownVoted(subComment.votes)"
+              [ngClass]="isDownVotedSubComment(subComment.votes)"
               (click)="voteSubComment(subComment, false)"
             >
               &#8595;
