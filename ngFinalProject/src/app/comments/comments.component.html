@@ -1,4 +1,9 @@
 <h4>Comments</h4>
+
+<div *ngIf="comments.length === 0">
+  Nobody has commented yet! Would you like to be the first?
+</div>
+
 <button
   class="btn btn-dark"
   *ngIf="!newComment && isLoggedIn()"
@@ -27,6 +32,7 @@
 </form>
 <br />
 
+<div *ngIf="comments.length !== 0">
 <div class="btn-group">
   <h5>Sort By:</h5>
   <button
@@ -164,11 +170,6 @@
     </div>
   </div>
 
-
-
-
-
-
   <div *ngFor="let subComment of comment.subComments" class="card card-sub-comment">
     <div class="card-body">
         <div class="btn-group">
@@ -200,12 +201,6 @@
 
     </div>
   </div>
-
-
-<br>
-
-
-
-
+</div>
 
 </div>
