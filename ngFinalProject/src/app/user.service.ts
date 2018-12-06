@@ -32,6 +32,7 @@ export class UserService {
     return this.http.get<User>(this.url + 'auth/users/' + id, this.httpOptions ).pipe(
       catchError(this.handleError));
   }
+
   showByUsername(username: string) {
     return this.http.get<User>(this.url + 'auth/users/username/' + username, this.httpOptions ).pipe(
       catchError(this.handleError));
@@ -47,8 +48,19 @@ export class UserService {
       catchError(this.handleError));
   }
 
+  updateCurrentUser(data: User) {
+    return this.http.put<User>(this.url + 'auth/users/updateCurrentUser', data, this.httpOptions).pipe(
+      catchError(this.handleError));
+  }
+
   handleError(error: any) {
     console.error('Something Broke');
     return throwError(error.json().error || 'Server Error');
   }
+
+  getCurrentUser() {
+    return this.http.get<User>(this.url + 'auth/users/currentUser', this.httpOptions ).pipe(
+      catchError(this.handleError));
+  }
+
 }

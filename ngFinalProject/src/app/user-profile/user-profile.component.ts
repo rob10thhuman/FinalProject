@@ -17,11 +17,13 @@ export class UserProfileComponent implements OnInit {
   editingUser: User = null;
   comments = [];
   deletingProfile = false;
-  editingProfile = false;
+  confirmingPassword = false;
   verifying = false;
   invalidPassword = false;
   noMatchPassword = false;
   passwordConfirmed;
+  passwordToBeChecked = '';
+  destination = '';
 
   constructor(
     private userService: UserService,
@@ -32,34 +34,23 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.showUser();
-    this.getUserComments();
+    // this.getUserComments();
   }
 
   showUser() {
-    const username = this.authService.getUsername();
-    this.userService
-      .showByUsername(username)
-      .subscribe(
-        data => (this.user = data),
-        err => console.error('Observer got an error: ' + err)
-      );
-  }
-
-  verifyPasswordServerSide(password) {
-    this.authService.verifyPassword(this.user.id, password).subscribe(
+    this.userService.getCurrentUser().subscribe(
       data => {
-        this.passwordConfirmed = data;
+        this.user = data;
       },
-      err => console.error('Observer got an error: ' + err),
-
+      err => console.error('Observer got an error: ' + err)
     );
   }
 
   deactivateUser() {
     this.user.active = false;
-    this.userService.update(this.user.id, this.user).subscribe(
+    this.userService.updateCurrentUser(this.user).subscribe(
       data => {
-        this.deletingProfile = false;
+        console.log(data);
         this.authService.logout();
         this.router.navigateByUrl('/home');
       },
@@ -67,87 +58,130 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  updateUser() {
-    this.userService.update(this.editingUser.id, this.editingUser).subscribe(
-      data => {
-        this.user = data;
-        this.editingProfile = false;
-        this.editingUser = null;
-        this.authService.logout();
-      },
-      err => console.error('Observer got an error: ' + err)
-    );
+  editOrDelete(destination) {
+    let passwordMatch = false;
+    this.authService
+      .verifyPassword(this.user.id, this.passwordToBeChecked)
+      .subscribe(
+        data => {
+          if (data === true) {
+            passwordMatch = true;
+            if (this.destination === 'editing') {
+              this.router.navigateByUrl('/editProfile');
+            }
+            if (this.destination === 'deleting') {
+              this.deactivateUser();
+            }
+          } else {
+            this.invalidPassword = true;
+          }
+        },
+        err => {
+          passwordMatch = false;
+        }
+      );
   }
 
-  getUserComments() {
-    const username = this.authService.getUsername();
-    this.commentService.usernameIndex(username).subscribe(
-      data => {
-        this.comments = data;
-      },
-      err => console.error('Observer got an error: ' + err)
-    );
+  confirmPassword(givenDestination) {
+    this.destination = givenDestination;
+    this.confirmingPassword = true;
   }
 
-  setupEditUser() {
-    this.editingUser = new User();
-    this.editingUser.id = this.user.id;
-    this.editingUser.email = this.user.email;
-    this.editingUser.active = this.user.active;
-    this.editingUser.password = this.user.password;
-    this.editingUser.role = this.user.role;
-    this.editingUser.username = this.user.username;
-  }
-
-  confirmPassword(form: NgForm) {
+  cancelConfirm() {
+    this.passwordToBeChecked = '';
     this.invalidPassword = false;
-    this.noMatchPassword = false;
-
-    const firstCheck = form.value.firstPassword === form.value.confirmPassword;
-    if (firstCheck) {
-
-      this.verifyPasswordServerSide(form.value.firstPassword);
-      console.log(this.passwordConfirmed);
-
-      if (this.passwordConfirmed) {
-        this.passwordConfirmed = false;
-        this.verifying = false;
-        this.invalidPassword = false;
-        this.noMatchPassword = false;
-      } else {
-        this.invalidPassword = true;
-      }
-    } else {
-      this.noMatchPassword = true;
-    }
+    this.confirmingPassword = false;
   }
 
+  // verifyPasswordServerSide(password) {
+  //   this.authService.verifyPassword(this.user.id, password).subscribe(
+  //     data => {
+  //       this.passwordConfirmed = data;
+  //     },
+  //     err => console.error('Observer got an error: ' + err),
 
+  //   );
+  // }
 
-  verifyForDelete() {
-    this.verifying = true;
-    this.deletingProfile = true;
-  }
-  verifyForUpdate() {
-    this.setupEditUser();
-    this.verifying = true;
-    this.editingProfile = true;
-  }
+  // updateUser() {
+  //   this.userService.update(this.editingUser.id, this.editingUser).subscribe(
+  //     data => {
+  //       this.user = data;
+  //       this.editingProfile = false;
+  //       this.editingUser = null;
+  //       this.authService.logout();
+  //     },
+  //     err => console.error('Observer got an error: ' + err)
+  //   );
+  // }
 
-  cancelDelete() {
-    this.verifying = false;
-    this.deletingProfile = false;
-  }
-  cancelEditing() {
-    this.verifying = false;
-    this.editingProfile = false;
-    this.editingUser = null;
-  }
-  stopVerifying() {
-    this.verifying = false;
-    this.invalidPassword = false;
-    this.noMatchPassword = false;
-    this.deletingProfile = false;
-    this.editingProfile = false;
-  }
+  // getUserComments() {
+  //   const username = this.authService.getUsername();
+  //   this.commentService.usernameIndex(username).subscribe(
+  //     data => {
+  //       this.comments = data;
+  //     },
+  //     err => console.error('Observer got an error: ' + err)
+  //   );
+  // }
+
+  // setupEditUser() {
+  //   this.editingUser = new User();
+  //   this.editingUser.id = this.user.id;
+  //   this.editingUser.email = this.user.email;
+  //   this.editingUser.active = this.user.active;
+  //   this.editingUser.password = this.user.password;
+  //   this.editingUser.role = this.user.role;
+  //   this.editingUser.username = this.user.username;
+  // }
+
+  // confirmPassword(form: NgForm) {
+  //   this.invalidPassword = false;
+  //   this.noMatchPassword = false;
+
+  //   const firstCheck = form.value.firstPassword === form.value.confirmPassword;
+  //   if (firstCheck) {
+
+  //     this.verifyPasswordServerSide(form.value.firstPassword);
+  //     console.log(this.passwordConfirmed);
+
+  //     if (this.passwordConfirmed) {
+  //       this.passwordConfirmed = false;
+  //       this.verifying = false;
+  //       this.invalidPassword = false;
+  //       this.noMatchPassword = false;
+  //     } else {
+  //       this.invalidPassword = true;
+  //     }
+  //   } else {
+  //     this.noMatchPassword = true;
+  //   }
+  // }
+
+  // verifyForDelete() {
+  //   this.verifying = true;
+  //   this.deletingProfile = true;
+  // }
+  // verifyForUpdate() {
+  //   this.setupEditUser();
+  //   this.verifying = true;
+  //   this.editingProfile = true;
+  // }
+
+  // cancelDelete() {
+  //   this.verifying = false;
+  //   this.deletingProfile = false;
+  // }
+  // cancelEditing() {
+  //   this.verifying = false;
+  //   this.editingProfile = false;
+  //   this.editingUser = null;
+  // }
+  // stopVerifying() {
+  //   this.verifying = false;
+  //   this.invalidPassword = false;
+  //   this.noMatchPassword = false;
+  //   this.deletingProfile = false;
+  //   this.editingProfile = false;
+  // }
 }

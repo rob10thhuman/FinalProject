@@ -10,6 +10,6 @@ public interface UserService {
 	public User show(int id);
 	public User showByUsername(String username);
 	public User create(User u);
-	public User update(int id, User u);
 	public boolean delete(int id);
+	User update(String username, User u);
 }

@@ -56,16 +56,12 @@ export class AuthService {
       })
     };
     return this.http
-      .get(
-        this.url + 'verifyPassword/' + password + '/users/' + id,
-        httpOptions
-      )
-      .pipe(
+    .get( this.url + 'verifyPassword/' + password + '/users/' + id, httpOptions ) .pipe(
         catchError((err: any) => {
           console.log(err);
           return throwError('problem Verifying Password');
         })
-      );
+        );
   }
 
   logout() {

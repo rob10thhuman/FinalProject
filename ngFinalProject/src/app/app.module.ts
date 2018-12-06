@@ -24,6 +24,7 @@ import { SearchComponent } from './search/search.component';
 import { CalculateVotesPipe } from './calculate-votes.pipe';
 import { ResourcesComponent } from './resources/resources.component';
 import { SortCommentsPipe } from './sort-comments.pipe';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { SortCommentsPipe } from './sort-comments.pipe';
     CalculateVotesPipe,
     ResourcesComponent,
     SortCommentsPipe,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

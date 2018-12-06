@@ -7,6 +7,8 @@ export class User {
   password: string;
   active: boolean;
   role: string;
+  firstName: string;
+  lastName: string;
 
   constructor(
     id?: number,
@@ -15,7 +17,9 @@ export class User {
     username?: string,
     password?: string,
     active?: boolean,
-    role?: string
+    role?: string,
+    firstName?: string,
+    lastName?: string
   ) {
     this.id = id;
     this.email = email;
@@ -24,5 +28,7 @@ export class User {
     this.password = password;
     this.active = active;
     this.role = role;
+    this.firstName = firstName;
+    this.lastName = lastName;
   }
 }
