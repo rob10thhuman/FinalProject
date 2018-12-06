@@ -8,6 +8,9 @@ export class Language {
   yearCreated: string;
   info: string;
   lRatings: Rating[];
+  lCat1: Rating[];
+  lCat2: Rating[];
+  lCat3: Rating[];
 
   constructor(
     id?: number,
@@ -16,7 +19,10 @@ export class Language {
     creator?: string,
     yearCreated?: string,
     info?: string,
-    lRatings?: Rating[]
+    lRatings?: Rating[],
+    lCat1?: Rating[],
+    lCat2?: Rating[],
+    lCat3?: Rating[]
   ) {
     this.id = id;
     this.name = name;
@@ -25,5 +31,9 @@ export class Language {
     this.yearCreated = yearCreated;
     this.info = info;
     this.lRatings = lRatings;
+    this.lCat1 = lCat1;
+    this.lCat2 = lCat2;
+    this.lCat3 = lCat3;
+
   }
 }
