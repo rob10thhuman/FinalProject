@@ -40,14 +40,22 @@ public class VoteController {
 		return voteSvc.show( id);
 	}
 	
-	@PostMapping("auth/votes/{id}")
-	public Vote createVote(@PathVariable int id, @RequestBody Vote vote) {
-		return voteSvc.create(id, vote);
+	@PostMapping("auth/votes/comments/{id}")
+	public Vote createVoteForComment(@PathVariable int id, @RequestBody Vote vote) {
+		return voteSvc.createForComment(id, vote);
+	}
+	@PostMapping("auth/votes/sub-comments/{id}")
+	public Vote createVoteForSubComment(@PathVariable int id, @RequestBody Vote vote) {
+		return voteSvc.createForSubComment(id, vote);
 	}
 	
-	@PutMapping("auth/votes/{commentId}/{id}")
-	public Vote updateVote(@PathVariable("commentId") int commentId, @PathVariable("id") int id, @RequestBody Vote vote) {
-		return voteSvc.update(commentId, id, vote);
+	@PutMapping("auth/votes/comments/{commentId}/{id}")
+	public Vote updateVoteForComment(@PathVariable("commentId") int commentId, @PathVariable("id") int id, @RequestBody Vote vote) {
+		return voteSvc.updateForComment(commentId, id, vote);
+	}
+	@PutMapping("auth/votes/sub-comments/{subCommentId}/{id}")
+	public Vote updateVoteForSubComment(@PathVariable("subCommentId") int subCommentId, @PathVariable("id") int id, @RequestBody Vote vote) {
+		return voteSvc.updateForSubComment(subCommentId, id, vote);
 	}
 	
 	@DeleteMapping("auth/votes/{id}")

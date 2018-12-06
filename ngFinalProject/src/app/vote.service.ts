@@ -40,8 +40,12 @@ export class VoteService {
       catchError(this.handleError));
   }
 
-  create(id, vote: Vote) {
-    return this.http.post<Vote>(this.authUrl + '/' + id, vote, this.httpOptions).pipe(
+  createForComment(id, vote: Vote) {
+    return this.http.post<Vote>(this.authUrl + '/comments/' + id, vote, this.httpOptions).pipe(
+      catchError(this.handleError));
+  }
+  createForSubComment(id, vote: Vote) {
+    return this.http.post<Vote>(this.authUrl + '/sub-comments/' + id, vote, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 
@@ -50,8 +54,12 @@ export class VoteService {
       catchError(this.handleError));
   }
 
-  update(commentId: number, id: number, data: Vote) {
-    return this.http.put<Vote>(this.authUrl + '/' + commentId + '/' + id, data, this.httpOptions).pipe(
+  updateForComment(commentId: number, id: number, data: Vote) {
+    return this.http.put<Vote>(this.authUrl + '/comments/' + commentId + '/' + id, data, this.httpOptions).pipe(
+      catchError(this.handleError));
+  }
+  updateForSubComment(subCommentId: number, id: number, data: Vote) {
+    return this.http.put<Vote>(this.authUrl + '/sub-comments/' + subCommentId + '/' + id, data, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 

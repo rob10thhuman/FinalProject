@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="sub_comment")
 public class SubComment {
@@ -43,6 +45,7 @@ public class SubComment {
 	@JoinColumn(name="user_id")
 	private User user; 
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="comment_id")
 	private Comment parentComment;
@@ -106,27 +109,27 @@ public class SubComment {
 		this.votes = votes;
 	}
 
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SubComment [id=");
-		builder.append(id);
-		builder.append(", comment=");
-		builder.append(comment);
-		builder.append(", dateAdded=");
-		builder.append(dateAdded);
-		builder.append(", dateUpdated=");
-		builder.append(dateUpdated);
-		builder.append(", user=");
-		builder.append(user);
-		builder.append(", parentComment=");
-		builder.append(parentComment);
-		builder.append(", votes=");
-		builder.append(votes);
-		builder.append("]");
-		return builder.toString();
-	}
+//
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("SubComment [id=");
+//		builder.append(id);
+//		builder.append(", comment=");
+//		builder.append(comment);
+//		builder.append(", dateAdded=");
+//		builder.append(dateAdded);
+//		builder.append(", dateUpdated=");
+//		builder.append(dateUpdated);
+//		builder.append(", user=");
+//		builder.append(user);
+//		builder.append(", parentComment=");
+//		builder.append(parentComment);
+//		builder.append(", votes=");
+//		builder.append(votes.size());
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 	
 	

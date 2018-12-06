@@ -46,21 +46,21 @@ public class LanguageRating {
 		this.language = language;
 	}
 
-	// toString
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LanguageRating [id=");
-		builder.append(id);
-		builder.append(", rating=");
-		builder.append(rating);
-		builder.append(", user=");
-		builder.append(user);
-		builder.append(", language=");
-		builder.append(language);
-		builder.append("]");
-		return builder.toString();
-	}
+//	// toString
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("LanguageRating [id=");
+//		builder.append(id);
+//		builder.append(", rating=");
+//		builder.append(rating);
+//		builder.append(", user=");
+//		builder.append(user);
+//		builder.append(", language=");
+//		builder.append(language);
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 	
 	// hashcode and equals

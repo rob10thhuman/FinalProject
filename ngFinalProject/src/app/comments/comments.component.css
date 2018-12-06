@@ -1,9 +1,9 @@
 
-
-table {
+.card-comment {
   width: 50%;
 }
 
-td {
-  width:33%;
+.card-sub-comment {
+  width:50%;
+  margin-left: 20%;
 }

@@ -1,4 +1,9 @@
 <h4>Comments</h4>
+
+<div *ngIf="comments.length === 0">
+  Nobody has commented yet! Would you like to be the first?
+</div>
+
 <button
   class="btn btn-dark"
   *ngIf="!newComment && isLoggedIn()"
@@ -27,79 +32,101 @@
 </form>
 <br />
 
+<div *ngIf="comments.length !== 0">
 <div class="btn-group">
   <h5>Sort By:</h5>
-  <button [ngClass]="sortQuery === 'TOP' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-light'" (click)="setSortQuery('TOP')">Top Rated</button>
-  <button [ngClass]="sortQuery === 'OLDEST' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-light'" (click)="setSortQuery('OLDEST')">Oldest</button>
-  <button [ngClass]="sortQuery === 'NEWEST' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-light'" (click)="setSortQuery('NEWEST')">Newest</button>
-
-</div>
-<table
-
-  *ngFor="let comment of (comments | sortComments: sortQuery)"
-  class="table"
->
-  <tr class=" table-secondary">
-    <td>
-      <button *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
-      [ngClass]="isUpVoted(comment.votes)"  (click)="voteComment(comment, true)">
-        &#8593;
-    </button>
-          <span class="badge badge-pill badge-warning">{{comment.votes | calculateVotes}}</span>
-      <button *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
-      [ngClass]="isDownVoted(comment.votes)" (click)="voteComment(comment, false)">
-          &#8595;
-      </button>
-    </td>
-    <td>
-      <h5 style="color:blueviolet">{{ comment.user.username }}</h5>
-    </td>
-    <td>
-      <h5 style="color:blueviolet">
-        {{ comment.dateUpdated | date: 'shortDate' }}
-      </h5>
-    </td>
-  </tr>
-
-  <tr class="table-warning">
-
-    <td><!-- empty space --></td>
-    <td>
-      <blockquote>{{ comment.comment }}</blockquote>
-    </td>
-    <td><!-- empty space --></td>
-  </tr>
-  <tr>
-
-  </tr>
-
-  <tr
-  class="table-warning"
-  *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
-  >
-  <td>
-    <button
-    class="badge badge-pill badge-primary"
-    (click)="setupUpdatingComment(comment)"
-    >
-    Edit
-  </button>
-</td>
-<td>
-
   <button
-  class="badge badge-pill badge-danger"
-  (click)="deleteComment(comment.id)"
+    [ngClass]="
+      sortQuery === 'TOP'
+        ? 'badge badge-pill badge-primary'
+        : 'badge badge-pill badge-light'
+    "
+    (click)="setSortQuery('TOP')"
   >
-  Delete
-</button>
-</td>
-  <td><!-- empty space --></td>
-</tr>
-<tfoot>
-  <td>
-    <form *ngIf="updatingComment && isLoggedInUsername(comment.user.username)
-    && updatingComment.id === comment.id">
+    Top Rated
+  </button>
+  <button
+    [ngClass]="
+      sortQuery === 'OLDEST'
+        ? 'badge badge-pill badge-primary'
+        : 'badge badge-pill badge-light'
+    "
+    (click)="setSortQuery('OLDEST')"
+  >
+    Oldest
+  </button>
+  <button
+    [ngClass]="
+      sortQuery === 'NEWEST'
+        ? 'badge badge-pill badge-primary'
+        : 'badge badge-pill badge-light'
+    "
+    (click)="setSortQuery('NEWEST')"
+  >
+    Newest
+  </button>
+</div>
+
+<div *ngFor="let comment of comments">
+
+  <div class="card card-comment">
+    <div class="card-body">
+      <h5 class="card-title" style="color:blueviolet">
+        <div class="btn-group">
+          <button
+            *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
+            [ngClass]="isUpVoted(comment.votes)"
+            (click)="voteComment(comment, true)"
+          >
+            &#8593;
+          </button>
+          <span class="badge badge-pill badge-warning">{{
+            comment.votes | calculateVotes
+          }}</span>
+          <button
+            *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
+            [ngClass]="isDownVoted(comment.votes)"
+            (click)="voteComment(comment, false)"
+          >
+            &#8595;
+          </button>
+        </div>
+        {{ isLoggedInUsername(comment.user.username) ? '(YOU)' : '' }}
+        {{ comment.user.username }}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
+        {{ comment.dateUpdated | date: 'shortDate' }}
+      </h6>
+      <p class="card-text">{{ comment.comment }}</p>
+
+      <div
+        class="btn-group"
+        *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
+      >
+        <button
+          class="badge badge-pill badge-primary"
+          (click)="setupUpdatingComment(comment)"
+        >
+          Edit
+        </button>
+        <button
+          class="badge badge-pill badge-danger"
+          (click)="deleteComment(comment.id)"
+        >
+          Delete
+        </button>
+      </div>
+
+      <div class="btn-group" *ngIf="!isLoggedInUsername(comment.user.username)">
+        <button
+          class="badge badge-pill badge-primary"
+          (click)="setupReplyingComment(comment)"
+        >
+          Reply
+        </button>
+      </div>
+
+      <form *ngIf="updatingComment && updatingComment.id === comment.id">
         <textarea
           rows="5"
           cols="40"
@@ -119,12 +146,61 @@
           </button>
         </div>
       </form>
-    </td>
-</tfoot>
 
-</table>
+      <form *ngIf="replyingComment && replyingComment.parentComment.id === comment.id">
+        <textarea
+          rows="5"
+          cols="40"
+          name="comment"
+          [(ngModel)]="replyingComment.comment"
+        ></textarea>
+        <br />
+        <div class="btn-group">
+          <button
+            (click)="addReplyingComment(comment.id, replyingComment)"
+            class="btn btn-primary"
+          >
+            Add Reply
+          </button>
+          <button (click)="teardownReplyingComment()" class="btn btn-danger">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
+  <div *ngFor="let subComment of comment.subComments" class="card card-sub-comment">
+    <div class="card-body">
+        <div class="btn-group">
+            <button
+              *ngIf="!isLoggedInUsername(subComment.user.username) && isLoggedIn()"
+              [ngClass]="isUpVoted(subComment.votes)"
+              (click)="voteSubComment(subComment, true)"
+            >
+              &#8593;
+            </button>
+            <span class="badge badge-pill badge-warning">{{
+              subComment.votes | calculateVotes
+            }}</span>
+            <button
+              *ngIf="!isLoggedInUsername(subComment.user.username) && isLoggedIn()"
+              [ngClass]="isDownVoted(subComment.votes)"
+              (click)="voteSubComment(subComment, false)"
+            >
+              &#8595;
+            </button>
+          </div>
+      <h5 class="card-title" style="color:blueviolet">
+        {{ subComment.user.username }}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
+        {{ subComment.dateUpdated | date: 'shortDate' }}
+      </h6>
+      <p class="card-text">{{ subComment.comment }}</p>
 
+    </div>
+  </div>
+</div>
 
-
-
+</div>

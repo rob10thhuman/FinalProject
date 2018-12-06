@@ -1,6 +1,7 @@
 package com.skilldistillery.languagerater.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.skilldistillery.languagerater.entities.Comment;
 import com.skilldistillery.languagerater.entities.SubComment;
 import com.skilldistillery.languagerater.entities.User;
 import com.skilldistillery.languagerater.entities.Vote;
+import com.skilldistillery.languagerater.repositories.CommentRepository;
 import com.skilldistillery.languagerater.repositories.SubCommentRepository;
 import com.skilldistillery.languagerater.repositories.UserRepository;
 import com.skilldistillery.languagerater.repositories.VoteRepository;
@@ -20,10 +22,15 @@ public class SubCommentServiceImpl implements SubCommentService {
 	SubCommentRepository subCommentRepo;
 	
 	@Autowired
+	CommentRepository commentRepo;
+	
+	@Autowired
 	UserRepository userRepo;
 
 	@Autowired
 	VoteRepository voteRepo;
+	
+	
 	
 	@Override
 	public List<SubComment> index(String username) {
@@ -36,11 +43,21 @@ public class SubCommentServiceImpl implements SubCommentService {
 	}
 
 	@Override
-	public SubComment create(String username, SubComment subComment) {
+	public SubComment create(String username, int parentId, SubComment subComment) {
+		
 		User u = userRepo.findByUsername(username);
+		Optional<Comment> opt = commentRepo.findById(parentId);
 		u.addSubComment(subComment);
-		userRepo.saveAndFlush(u);
+		
+		if(opt.isPresent()) {
+			Comment c = opt.get();
+			c.addSubComment(subComment);
+			commentRepo.saveAndFlush(c);
+		}
 		subComment = subCommentRepo.saveAndFlush(subComment);
+		
+		userRepo.saveAndFlush(u);
+		
 		return subComment;
 	}
 
@@ -57,6 +74,11 @@ public class SubCommentServiceImpl implements SubCommentService {
 			existing.setDateUpdated(subComment.getDateUpdated());
 			existing.setUser(subComment.getUser());
 			existing.setComment(subComment.getComment());
+			
+			Comment c = existing.getParentComment();
+			c.addSubComment(existing);
+			commentRepo.saveAndFlush(c);
+			
 			existing = subCommentRepo.saveAndFlush(existing);
 
 		}
@@ -66,11 +88,16 @@ public class SubCommentServiceImpl implements SubCommentService {
 	@Override
 	public boolean delete(String username, int id) {
 		boolean deleted = false;
-		SubComment c = subCommentRepo.findByUsernameAndId(username, id);
+		SubComment sc = subCommentRepo.findByUsernameAndId(username, id);
 		
-		if(c != null && subCommentRepo.existsById(c.getId())) {
-			removeVotesFromSubComment(c);
-			subCommentRepo.delete(c);
+		if(sc != null && subCommentRepo.existsById(sc.getId())) {
+			removeVotesFromSubComment(sc);
+			Comment c = sc.getParentComment();
+			c.removeSubComment(sc);
+			commentRepo.saveAndFlush(c);
+			
+			
+			subCommentRepo.delete(sc);
 			deleted = true;
 		}
 		

@@ -169,34 +169,34 @@ public class User {
 	
 	// toString
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=");
-		builder.append(id);
-		builder.append(", username=");
-		builder.append(username);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", firstName=");
-		builder.append(firstName);
-		builder.append(", lastName=");
-		builder.append(lastName);
-		builder.append(", active=");
-		builder.append(active);
-		builder.append(", role=");
-		builder.append(role);
-		builder.append(", reputation=");
-		builder.append(reputation);
-		builder.append(", comments=");
-		builder.append(comments);
-		builder.append(", subComments=");
-		builder.append(subComments);
-		builder.append("]");
-		return builder.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("User [id=");
+//		builder.append(id);
+//		builder.append(", username=");
+//		builder.append(username);
+//		builder.append(", password=");
+//		builder.append(password);
+//		builder.append(", email=");
+//		builder.append(email);
+//		builder.append(", firstName=");
+//		builder.append(firstName);
+//		builder.append(", lastName=");
+//		builder.append(lastName);
+//		builder.append(", active=");
+//		builder.append(active);
+//		builder.append(", role=");
+//		builder.append(role);
+//		builder.append(", reputation=");
+//		builder.append(reputation);
+//		builder.append(", comments=");
+//		builder.append(comments.size());
+//		builder.append(", subComments=");
+//		builder.append(subComments.size());
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 
 	// constructors

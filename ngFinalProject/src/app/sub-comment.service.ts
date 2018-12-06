@@ -11,8 +11,8 @@ import { SubComment } from './models/sub-comment';
 })
 export class SubCommentService {
 
-  private notAuthUrl = environment.baseUrl + 'api/notAuth/subComments';
-  private authUrl = environment.baseUrl + 'api/auth/subComments';
+  private notAuthUrl = environment.baseUrl + 'api/notAuth/sub-comments';
+  private authUrl = environment.baseUrl + 'api/auth/sub-comments';
 
   private token = this.authService.getToken();
   private  httpOptions = {
@@ -40,8 +40,8 @@ export class SubCommentService {
       catchError(this.handleError));
   }
 
-  create(data: SubComment) {
-    return this.http.post<SubComment>(this.authUrl, data, this.httpOptions).pipe(
+  create(parentId, data: SubComment) {
+    return this.http.post<SubComment>(this.authUrl + '/' + parentId, data, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 
