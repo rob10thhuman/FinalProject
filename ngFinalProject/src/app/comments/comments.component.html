@@ -27,197 +27,104 @@
 </form>
 <br />
 
+<div class="btn-group">
+  <h5>Sort By:</h5>
+  <button [ngClass]="sortQuery === 'TOP' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-light'" (click)="setSortQuery('TOP')">Top Rated</button>
+  <button [ngClass]="sortQuery === 'OLDEST' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-light'" (click)="setSortQuery('OLDEST')">Oldest</button>
+  <button [ngClass]="sortQuery === 'NEWEST' ? 'badge badge-pill badge-primary' : 'badge badge-pill badge-light'" (click)="setSortQuery('NEWEST')">Newest</button>
+
+</div>
 <table
+
   *ngFor="let comment of (comments | sortComments: sortQuery)"
-  class="comment"
+  class="table"
 >
-  <tr>
-    <td
-      *ngIf="
-        !isLoggedInUsername(comment.user.username) &&
-        !updatingComment &&
-        isLoggedIn()
-      "
-    >
-      <span
-        [ngClass]="isUpVoted(comment.votes)"
-        (click)="voteComment(comment, true)"
-      >
+  <tr class=" table-secondary">
+    <td>
+      <button *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
+      [ngClass]="isUpVoted(comment.votes)"  (click)="voteComment(comment, true)">
         &#8593;
-      </span>
+    </button>
+          <span class="badge badge-pill badge-warning">{{comment.votes | calculateVotes}}</span>
+      <button *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
+      [ngClass]="isDownVoted(comment.votes)" (click)="voteComment(comment, false)">
+          &#8595;
+      </button>
     </td>
     <td>
-      <span class="badge badge-warning">{{ comment.user.username }}</span>
+      <h5 style="color:blueviolet">{{ comment.user.username }}</h5>
     </td>
     <td>
-      <span class="badge badge-primary">
-        Votes
-        <span class="badge badge-light">{{
-          comment.votes | calculateVotes
-        }}</span>
-      </span>
-    </td>
-    <td>
-      <span class="badge badge-warning">
-        Date
-        <span class="badge badge-light">{{
-          comment.dateUpdated | date: 'shortDate'
-        }}</span>
-      </span>
+      <h5 style="color:blueviolet">
+        {{ comment.dateUpdated | date: 'shortDate' }}
+      </h5>
     </td>
   </tr>
-  <tr>
-    <td
-      *ngIf="
-        !isLoggedInUsername(comment.user.username) &&
-        !updatingComment &&
-        isLoggedIn()
-      "
-    >
-      <span
-        [ngClass]="isDownVoted(comment.votes)"
-        (click)="voteComment(comment, false)"
-      >
-        &#8595;
-      </span>
-    </td>
+
+  <tr class="table-warning">
+
     <td><!-- empty space --></td>
     <td>
       <blockquote>{{ comment.comment }}</blockquote>
     </td>
+    <td><!-- empty space --></td>
   </tr>
-  <tr class="btn-group" *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment">
-    <td>
-        <button
-        class="badge badge-pill badge-primary"
-        (click)="setupUpdatingComment(comment)"
-      >
-        Edit
-      </button>
-      <button
-        class="badge badge-pill badge-danger"
-        (click)="deleteComment(comment.id)"
-      >
-        Delete
-      </button>
+  <tr>
+
+  </tr>
+
+  <tr
+  class="table-warning"
+  *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
+  >
+  <td>
+    <button
+    class="badge badge-pill badge-primary"
+    (click)="setupUpdatingComment(comment)"
+    >
+    Edit
+  </button>
+</td>
+<td>
+
+  <button
+  class="badge badge-pill badge-danger"
+  (click)="deleteComment(comment.id)"
+  >
+  Delete
+</button>
+</td>
+  <td><!-- empty space --></td>
+</tr>
+<tfoot>
+  <td>
+    <form *ngIf="updatingComment && isLoggedInUsername(comment.user.username)
+    && updatingComment.id === comment.id">
+        <textarea
+          rows="5"
+          cols="40"
+          name="comment"
+          [(ngModel)]="updatingComment.comment"
+        ></textarea>
+        <br />
+        <div class="btn-group">
+          <button
+            (click)="updateComment(updatingComment.id, updatingComment)"
+            class="btn btn-primary"
+          >
+            Update
+          </button>
+          <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+            Cancel
+          </button>
+        </div>
+      </form>
     </td>
-  </tr>
+</tfoot>
+
 </table>
 
-<form *ngIf="updatingComment">
-    <textarea
-      rows="5"
-      cols="40"
-      name="comment"
-      [(ngModel)]="updatingComment.comment"
-    ></textarea>
-    <br />
-    <div class="btn-group">
-      <button
-        (click)="updateComment(updatingComment.id, updatingComment)"
-        class="btn btn-primary"
-      >
-        Update
-      </button>
-      <button (click)="teardownUpdatingComment()" class="btn btn-danger">
-        Cancel
-      </button>
-    </div>
-  </form>
 
-<!-- <ul>
-   <div class="btn-group">
-    <h5>Sory By:</h5>
-    <button
-      [ngClass]="sortQuery === 'TOP' ? 'btn btn-info' : 'btn btn-outline-info'"
-      (click)="setSortQuery('TOP')"
-    >
-      Top
-    </button>
-    <button
-      [ngClass]="
-        sortQuery === 'NEWEST' ? 'btn btn-info' : 'btn btn-outline-info'
-      "
-      (click)="setSortQuery('NEWEST')"
-    >
-      Newest
-    </button>
-    <button
-      [ngClass]="
-        sortQuery === 'OLDEST' ? 'btn btn-info' : 'btn btn-outline-info'
-      "
-      (click)="setSortQuery('OLDEST')"
-    >
-      Oldest
-    </button>
-  </div>
-  <li
-    *ngFor="let comment of (comments | sortComments: sortQuery)"
-    class="comment"
-  >
-    {{ comment.user.username }} Posted on:
-    {{ comment.dateUpdated | date: 'shortDate' }} Votes:
-    {{ comment.votes | calculateVotes }}
-    <div
-      class="btn-group"
-      *ngIf="
-        !isLoggedInUsername(comment.user.username) &&
-        !updatingComment &&
-        isLoggedIn()
-      "
-    >
-      <span
-        [ngClass]="isUpVoted(comment.votes)"
-        (click)="voteComment(comment, true)"
-      >
-        &#8593;
-      </span>
-      <span
-        [ngClass]="isDownVoted(comment.votes)"
-        (click)="voteComment(comment, false)"
-      >
-        &#8595;
-      </span>
-    </div>
-    <p>{{ comment.comment }}</p>
-    <div
-      class="btn-group"
-      *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
-    >
-      <button
-        class="btn btn-outline-primary"
-        (click)="setupUpdatingComment(comment)"
-      >
-        Edit
-      </button>
-      <button
-        class="btn btn-outline-danger"
-        (click)="deleteComment(comment.id)"
-      >
-        Delete
-      </button>
-    </div>
-  </li>
 
-</ul> -->
 
-<form *ngIf="updatingComment">
-    <textarea
-      rows="5"
-      cols="40"
-      name="comment"
-      [(ngModel)]="updatingComment.comment"
-    ></textarea>
-    <br />
-    <div class="btn-group">
-      <button
-        (click)="updateComment(updatingComment.id, updatingComment)"
-        class="btn btn-primary"
-      >
-        Update
-      </button>
-      <button (click)="teardownUpdatingComment()" class="btn btn-danger">
-        Cancel
-      </button>
-    </div>
-  </form>
+
