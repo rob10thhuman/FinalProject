@@ -33,20 +33,28 @@ public class Vote {
 	@JoinColumn(name = "comment_id")
 	private Comment comment;
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "sub_comment_id")
+	private SubComment subComment;
+	
 	
 	// constructors
 	public Vote() {
 		super();
 	}
 
-
-	public Vote(int id, boolean vote, User user, Comment comment) {
+	public Vote(int id, boolean vote, User user, Comment comment, SubComment subComment) {
 		super();
 		this.id = id;
 		this.vote = vote;
 		this.user = user;
 		this.comment = comment;
+		this.subComment = subComment;
 	}
+
+
+
 
 
 	// hashcode and equal
@@ -75,20 +83,22 @@ public class Vote {
 
 	// toString
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Vote [id=");
-		builder.append(id);
-		builder.append(", vote=");
-		builder.append(vote);
-		builder.append(", user=");
-		builder.append(user);
-		builder.append(", comment=");
-		builder.append(comment);
-		builder.append("]");
-		return builder.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("Vote [id=");
+//		builder.append(id);
+//		builder.append(", vote=");
+//		builder.append(vote);
+//		builder.append(", user=");
+//		builder.append(user);
+//		builder.append(", comment=");
+//		builder.append(comment);
+//		builder.append(", subComment=");
+//		builder.append(subComment);
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 
 	// setters and getters
@@ -124,8 +134,14 @@ public class Vote {
 	public void setComment(Comment comment) {
 		this.comment = comment;
 	}
-	
-	
+
+	public SubComment getSubComment() {
+		return subComment;
+	}
+
+	public void setSubComment(SubComment subComment) {
+		this.subComment = subComment;
+	}
 	
 	
 

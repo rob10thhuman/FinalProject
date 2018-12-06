@@ -28,11 +28,12 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 	}
-	
+
 	@Override
 	public User showByUsername(String username) {
 		return uRepo.findByUsername(username);
 	}
+	
 
 	@Override
 	public User create(User u) {
@@ -40,25 +41,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User update(int id, User u) {
-		User existing = null;
-		Optional<User> opt = uRepo.findById(id);
-
-		if (opt.isPresent()) {
-			existing = opt.get();
-			
-			existing.setActive(u.getActive());
-			existing.setEmail(u.getEmail());
-			existing.setFirstName(u.getFirstName());
-			existing.setLastName(u.getLastName());
-			existing.setRole(u.getRole());
-			existing.setUsername(u.getUsername());
-			existing.setPassword(u.getPassword());
-			existing.setComments(u.getComments());
-			
-			existing = uRepo.saveAndFlush(existing);
-
-		}
+	public User update(String username, User u) {
+		User existing = uRepo.findByUsername(username);
+		existing.setActive(u.getActive());
+		existing.setEmail(u.getEmail());
+		existing.setFirstName(u.getFirstName());
+		existing.setLastName(u.getLastName());
+		existing.setRole(u.getRole());
+		existing.setUsername(u.getUsername());
+		existing.setPassword(u.getPassword());
+		existing.setComments(u.getComments());
+		existing = uRepo.saveAndFlush(existing);
 		return existing;
 	}
 
@@ -66,12 +59,12 @@ public class UserServiceImpl implements UserService {
 	public boolean delete(int id) {
 		boolean deleted = false;
 		User u = show(id);
-		
-		if(u != null && uRepo.existsById(u.getId())) {
+
+		if (u != null && uRepo.existsById(u.getId())) {
 			uRepo.delete(u);
 			deleted = true;
 		}
-		
+
 		return deleted;
-	} 
+	}
 }

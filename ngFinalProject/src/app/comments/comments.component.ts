@@ -10,6 +10,8 @@ import { VoteService } from '../vote.service';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { UserService } from '../user.service';
 import { User } from '../models/user';
+import { SubComment } from '../models/sub-comment';
+import { SubCommentService } from '../sub-comment.service';
 
 @Component({
   selector: 'app-comments',
@@ -20,12 +22,14 @@ export class CommentsComponent implements OnInit {
   comments: Comment[] = [];
   newComment: Comment = null;
   updatingComment: Comment = null;
+  replyingComment: SubComment = null;
   currentUser: User = new User();
 
   sortQuery = 'TOP';
 
   constructor(
     private commentService: CommentService,
+    private subCommentService: SubCommentService,
     private voteService: VoteService,
     private votePipe: CalculateVotesPipe,
     private sortComments: SortCommentsPipe,
@@ -57,7 +61,17 @@ export class CommentsComponent implements OnInit {
       },
       err => console.error('Observer got an error: ' + err)
     );
-    this.newComment.comment = null;
+  }
+
+  addReplyingComment(parentId, replyComment) {
+    this.subCommentService.create(parentId, replyComment).subscribe(
+      data => {
+        console.log(data);
+        this.showCommentsForLanguage();
+        this.teardownReplyingComment();
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
   }
 
   updateComment(id, comment) {
@@ -98,18 +112,15 @@ export class CommentsComponent implements OnInit {
       if (vote.vote === voteValue) {
         this.voteService.destroy(vote.id).subscribe(
           data => {
-            console.log('i cancel my vote');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
         );
       } else {
         vote.vote = !vote.vote;
-        console.log(comment.id);
 
-        console.log(vote);
 
-        this.voteService.update(comment.id, vote.id, vote).subscribe(
+        this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
           data => {
             console.log('i change my vote');
             this.showCommentsForLanguage();
@@ -122,7 +133,44 @@ export class CommentsComponent implements OnInit {
       newVote.vote = voteValue;
       newVote.comment = comment;
       newVote.user = this.currentUser;
-      this.voteService.create(comment.id, newVote).subscribe(
+      this.voteService.createForComment(comment.id, newVote).subscribe(
+        data => {
+          console.log('my first vote');
+          this.showCommentsForLanguage();
+        },
+        err => console.error('Observer got an error: ' + err)
+      );
+    }
+  }
+
+  voteSubComment(subComment: SubComment, voteValue: boolean) {
+    const vote = this.hasVotedOnComment(subComment.votes);
+
+    if (vote) {
+      if (vote.vote === voteValue) {
+        this.voteService.destroy(vote.id).subscribe(
+          data => {
+            this.showCommentsForLanguage();
+          },
+          err => console.error('Observer got an error: ' + err)
+        );
+      } else {
+        vote.vote = !vote.vote;
+
+
+        this.voteService.updateForSubComment(subComment.id, vote.id, vote).subscribe(
+          data => {
+            this.showCommentsForLanguage();
+          },
+          err => console.error('Observer got an error: ' + err)
+        );
+      }
+    } else {
+      const newVote = new Vote();
+      newVote.vote = voteValue;
+      newVote.subComment = subComment;
+      newVote.user = this.currentUser;
+      this.voteService.createForSubComment(subComment.id, newVote).subscribe(
         data => {
           console.log('my first vote');
           this.showCommentsForLanguage();
@@ -150,8 +198,19 @@ export class CommentsComponent implements OnInit {
     this.updatingComment.user = comment.user;
     this.updatingComment.votes = comment.votes;
   }
+
+  setupReplyingComment(comment: Comment) {
+    this.replyingComment = new SubComment();
+    this.replyingComment.parentComment = comment;
+    this.replyingComment.user = this.currentUser;
+
+
+  }
   teardownUpdatingComment() {
     this.updatingComment = null;
+  }
+  teardownReplyingComment() {
+    this.replyingComment = null;
   }
 
   isLoggedIn() {
@@ -174,19 +233,20 @@ export class CommentsComponent implements OnInit {
   isUpVoted(votes: Vote[]) {
     const theVote = this.hasVotedOnComment(votes);
     if (!theVote) {
-      return 'btn btn-outline-success';
+      return 'badge badge-pill badge-secondary';
     }
-    return theVote.vote ? 'btn btn-success' : 'btn btn-outline-success';
+    return theVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
   }
   isDownVoted(votes: Vote[]) {
     const theVote = this.hasVotedOnComment(votes);
     if (!theVote) {
-      return 'btn btn-outline-danger';
+      return 'badge badge-pill badge-secondary';
     }
-    return !theVote.vote ? 'btn btn-danger' : 'btn btn-outline-danger';
+    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
   }
 
   setSortQuery(query: string) {
     this.sortQuery = query;
+    this.comments = this.sortComments.transform(this.comments, this.sortQuery);
   }
 }

@@ -12,5 +12,8 @@ public interface VoteRepository extends JpaRepository<Vote, Integer> {
 	
 	@Query("SELECT v FROM Vote v WHERE v.comment.id = :id")
 	List<Vote> findVotesByCommentId(@Param("id") int id);
+	
+	@Query("SELECT v FROM Vote v WHERE v.user.id = :id")
+	List<Vote> findVotesByUserId(@Param("id") int id);
 
 }

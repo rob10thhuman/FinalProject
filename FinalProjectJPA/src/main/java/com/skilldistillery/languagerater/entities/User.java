@@ -36,10 +36,15 @@ public class User {
 	
 	private String role;
 	
+	private Integer reputation;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Comment> comments; 
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	private List<SubComment> subComments; 
 	
 	// setters and getters 
 	
@@ -50,7 +55,22 @@ public class User {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
+	
+	public Integer getReputation() {
+		return reputation;
+	}
 
+	public void setReputation(Integer reputation) {
+		this.reputation = reputation;
+	}
+
+	public List<SubComment> getSubComments() {
+		return subComments;
+	}
+
+	public void setSubComments(List<SubComment> subComments) {
+		this.subComments = subComments;
+	}
 
 	public int getId() {
 		return id;
@@ -129,55 +149,81 @@ public class User {
 			comment.setUser(null);
 		}
 	}
+	
+	public void addSubComment(SubComment subComment) {
+		if (subComments == null)
+			subComments = new ArrayList<>();
+		if (!subComments.contains(subComment)) {
+			subComments.add(subComment);
+			subComment.setUser(this);
+		}
+	}
+
+	public void removeSubComment(SubComment subComment) {
+		if (subComments != null && comments.contains(subComment)) {
+			subComments.remove(subComment);
+			subComment.setUser(null);
+		}
+	}
 
 	
 	// toString
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("User [id=");
-		builder.append(id);
-		builder.append(", username=");
-		builder.append(username);
-		builder.append(", password=");
-		builder.append(password);
-		builder.append(", email=");
-		builder.append(email);
-		builder.append(", fName=");
-		builder.append(firstName);
-		builder.append(", lName=");
-		builder.append(lastName);
-		builder.append(", active=");
-		builder.append(active);
-		builder.append(", role=");
-		builder.append(role);
-		builder.append(", comments=");
-		builder.append(comments);
-		builder.append("]");
-		return builder.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("User [id=");
+//		builder.append(id);
+//		builder.append(", username=");
+//		builder.append(username);
+//		builder.append(", password=");
+//		builder.append(password);
+//		builder.append(", email=");
+//		builder.append(email);
+//		builder.append(", firstName=");
+//		builder.append(firstName);
+//		builder.append(", lastName=");
+//		builder.append(lastName);
+//		builder.append(", active=");
+//		builder.append(active);
+//		builder.append(", role=");
+//		builder.append(role);
+//		builder.append(", reputation=");
+//		builder.append(reputation);
+//		builder.append(", comments=");
+//		builder.append(comments.size());
+//		builder.append(", subComments=");
+//		builder.append(subComments.size());
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 
 	// constructors
 	
-	public User(int id, String username, String password, String email, String fName, String lName, Boolean active,
-			String role, List<Comment> comments) {
+	
+
+	public User() {
+		
+	}
+
+	public User(int id, String username, String password, String email, String firstName, String lastName,
+			Boolean active, String role, Integer reputation, List<Comment> comments, List<SubComment> subComments) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
-		this.firstName = fName;
-		this.lastName = lName;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.active = active;
 		this.role = role;
+		this.reputation = reputation;
 		this.comments = comments;
+		this.subComments = subComments;
 	}
 
-	public User() {
-		
-	}
+	
 	
 	
 

@@ -1,35 +1,31 @@
 import { User } from './user';
-import { Language } from './language';
 import { Vote } from './vote';
-import { SubComment } from './sub-comment';
+import { Comment } from './comment';
 
-export class Comment {
+export class SubComment {
   id: number;
   comment: string;
+  parentComment: Comment;
   user: User;
-  language: Language;
   dateAdded: Date;
   dateUpdated: Date;
   votes: Vote[];
-  subComments: SubComment[];
 
   constructor(
     id?: number,
     comment?: string,
+    parentComment?: Comment,
     user?: User,
-    language?: Language,
     dateAdded?: Date,
     dateUpdated?: Date,
-    votes?: Vote[],
-    subComments?: SubComment[]
+    votes?: Vote[]
   ) {
     this.id = id;
     this.comment = comment;
+    this.parentComment = parentComment;
     this.user = user;
-    this.language = language;
     this.dateAdded = dateAdded;
     this.dateUpdated = dateUpdated;
     this.votes = votes;
-    this.subComments = subComments;
   }
 }

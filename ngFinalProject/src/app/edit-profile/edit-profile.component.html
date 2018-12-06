@@ -1,0 +1,51 @@
+<br /><br />
+
+<div class="jumbotron">
+    <div class="row">
+      <div class="col">First Name:</div>
+      <div class="col">
+          <input class="form-control" type="text" [(ngModel)]="user.firstName">
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col">
+        Last Name:
+      </div>
+      <div class="col">
+          <input class="form-control" type="text" [(ngModel)]="user.lastName">
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col">
+        Username:
+      </div>
+      <div class="col">
+          <input class="form-control" type="text" [(ngModel)]="user.username">
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col">
+        Email Address:
+      </div>
+      <div class="col">
+          <input class="form-control" type="text" [(ngModel)]="user.email">
+      </div>
+    </div>
+    <hr>
+    <!-- <div class="row">
+      <div class="col">
+        Password:
+      </div>
+      <div class="col">
+          <input class="form-control" type="password" [(ngModel)]="user.password">
+      </div>
+    </div>
+    <hr> -->
+  <div class="text-right">
+    <button class="btn btn-success" (click)="updateUser()">Save</button>
+    <button class="btn btn-danger" (click)="cancel()" >Cancel</button>
+  </div>
+</div>

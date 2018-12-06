@@ -93,26 +93,26 @@ public class Language {
 		this.info = info;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Language [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", logo=");
-		builder.append(logo);
-		builder.append(", creator=");
-		builder.append(creator);
-		builder.append(", yearCreated=");
-		builder.append(yearCreated);
-		builder.append(", info=");
-		builder.append(info);
-		builder.append(", lRatings=");
-		builder.append(lRatings);
-		builder.append("]");
-		return builder.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("Language [id=");
+//		builder.append(id);
+//		builder.append(", name=");
+//		builder.append(name);
+//		builder.append(", logo=");
+//		builder.append(logo);
+//		builder.append(", creator=");
+//		builder.append(creator);
+//		builder.append(", yearCreated=");
+//		builder.append(yearCreated);
+//		builder.append(", info=");
+//		builder.append(info);
+//		builder.append(", lRatings=");
+//		builder.append(lRatings.size());
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 	
 

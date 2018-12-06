@@ -1,3 +1,9 @@
-.comment {
-  border-top: solid;
+
+.card-comment {
+  width: 50%;
+}
+
+.card-sub-comment {
+  width:50%;
+  margin-left: 20%;
 }

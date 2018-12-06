@@ -26,6 +26,7 @@ import { ResourcesComponent } from './resources/resources.component';
 import { SortCommentsPipe } from './sort-comments.pipe';
 import { ChartsModule } from 'ng2-charts';
 import { UserGraphComponent } from './user-graph/user-graph.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { UserGraphComponent } from './user-graph/user-graph.component';
     ResourcesComponent,
     SortCommentsPipe,
     UserGraphComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

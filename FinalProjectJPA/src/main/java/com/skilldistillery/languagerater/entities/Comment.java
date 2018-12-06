@@ -51,6 +51,9 @@ public class Comment {
 	
 	@OneToMany(mappedBy="comment")
 	private List<Vote> votes;
+	
+	@OneToMany(mappedBy="parentComment")
+	private List<SubComment> subComments;
 
 	public int getId() {
 		return id;
@@ -105,6 +108,18 @@ public class Comment {
 	public void setVotes(List<Vote> votes) {
 		this.votes = votes;
 	}
+	
+	
+
+
+	public List<SubComment> getSubComments() {
+		return subComments;
+	}
+
+
+	public void setSubComments(List<SubComment> subComments) {
+		this.subComments = subComments;
+	}
 
 
 	@Override
@@ -121,14 +136,19 @@ public class Comment {
 		builder.append(", user=");
 		builder.append(user);
 		builder.append(", language=");
-		builder.append(language.getName());
+		builder.append(language);
 		builder.append(", votes=");
-		builder.append(votes.size());
+		builder.append(subComments);
+		builder.append(", subComments=");
+		builder.append(subComments.size());
 		builder.append("]");
 		return builder.toString();
 	}
 
-	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Language language, List<Vote> votes) {
+	
+	
+	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Language language,
+			List<Vote> votes, List<SubComment> subComments) {
 		super();
 		this.id = id;
 		this.comment = comment;
@@ -137,8 +157,10 @@ public class Comment {
 		this.user = user;
 		this.language = language;
 		this.votes = votes;
-	} 
-	
+		this.subComments = subComments;
+	}
+
+
 	public Comment() {
 		
 	}
@@ -158,6 +180,22 @@ public class Comment {
 		if (votes != null && votes.contains(vote)) {
 			votes.remove(vote);
 			vote.setComment(null);
+		}
+	}
+	
+	public void addSubComment(SubComment subComment) {
+		if (subComments == null)
+			subComments = new ArrayList<>();
+		if (!subComments.contains(subComment)) {
+			subComments.add(subComment);
+			subComment.setParentComment(this);
+		}
+	}
+	
+	public void removeSubComment(SubComment subComment) {
+		if (subComments != null && subComments.contains(subComment)) {
+			subComments.remove(subComment);
+			subComment.setParentComment(null);
 		}
 	}
 

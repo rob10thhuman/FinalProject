@@ -1,54 +1,124 @@
-<h1>Username: {{user.username}}</h1>
-<h1>Email: {{user.email}}</h1>
+<br /><br />
 
+<h1>Your Profile</h1>
 
-<div *ngIf="!editingProfile && !deletingProfile && !verifying" class="btn-group-vertical">
-  <button class="btn btn-dark" (click)="verifyForUpdate()"> Edit Profile</button>
-  <button class="btn btn-danger" (click)="verifyForDelete()">Delete Profile</button>
-</div>
-
-
-<form #verifyForm="ngForm" *ngIf="verifying">
-  <h3>Confirm your password</h3>
-  <h3 *ngIf="invalidPassword" style="color: red">Invalid Password. Try Again</h3>
-  <h3 *ngIf="noMatchPassword" style="color: red">Passwords Didnt Match. Try Again</h3>
-  <input type="password" name="firstPassword" ngModel>
-  <input type="password" name="confirmPassword" ngModel>
-  <div class="btn-group">
-    <button class="btn btn-outline-primary" (click)="confirmPassword(verifyForm)">Confirm Password</button>
-    <button class="btn btn-outline-danger" (click)="stopVerifying()">Cancel</button>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col">First Name:</div>
+    <div class="col">{{ user.firstName }}</div>
   </div>
-</form>
-
-
-
-<div *ngIf="deletingProfile && !editingProfile && !verifying" class="btn-group">
-  <h3>Are you sure you want to delete your profile?</h3>
-  <button class="btn btn-primary" (click)="deactivateUser(user)">Delete</button>
-  <button class="btn btn-danger" (click)="cancelDelete()">Cancel</button>
+  <hr />
+  <div class="row">
+    <div class="col">Last Name:</div>
+    <div class="col">{{ user.lastName }}</div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col">Username:</div>
+    <div class="col">{{ user.username }}</div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col">Email Address:</div>
+    <div class="col">{{ user.email }}</div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col">Reputation:</div>
+    <div class="col">{{ user.reputation }}</div>
+  </div>
+  <hr />
+  <div *ngIf="confirmingPassword">
+    <div *ngIf="destination === 'deleting'">
+      <div class="btn btn-danger">
+        <h3>
+          Are you sure you want to delete your account?
+        </h3>
+        If you are sure, please confirm your password.
+      </div>
+      <br>
+      <br>
+    </div>
+    <div *ngIf="invalidPassword">
+      <div class="alert alert-danger">Invalid Password</div>
+    </div>
+    <div>Confirm Password:</div>
+    <input
+      class="form-control"
+      type="password"
+      [(ngModel)]="passwordToBeChecked"
+    />
+    <button
+    class="btn"
+    [ngClass]="{'btn-danger': destination === 'deleting', 'btn-success': destination === 'editing'}"
+    (click)="editOrDelete()">Continue</button>
+    <button
+    class="btn"
+    [ngClass]="{'btn-success': destination === 'deleting', 'btn-danger': destination === 'editing'}"
+    (click)="cancelConfirm()">Cancel</button>
+  </div>
+  <div *ngIf="!confirmingPassword">
+    <button class="btn btn-success" (click)="confirmPassword('editing')">
+      Edit My Profile
+    </button>
+    <hr />
+    <br />
+    <br />
+    <button class="btn btn-danger" (click)="confirmPassword('deleting')">
+      Delete My Account
+    </button>
+  </div>
 </div>
 
+<!--
+  <div *ngIf="!editingProfile && !deletingProfile && !verifying" class="btn-group-vertical">
+    <button class="btn btn-dark" (click)="verifyForUpdate()"> Edit Profile</button>
+    <button class="btn btn-danger" (click)="verifyForDelete()">Delete Profile</button>
+  </div>
 
-<form *ngIf="editingProfile && !deletingProfile && !verifying">
-  <h3>Edit Profile (You will be logged off if edited)</h3>
-  Email: <input type="text" name="email" [(ngModel)] = "editingUser.email">
+
+  <form #verifyForm="ngForm" *ngIf="verifying">
+    <h3>Confirm your password</h3>
+    <h3 *ngIf="invalidPassword" style="color: red">Invalid Password. Try Again</h3>
+    <h3 *ngIf="noMatchPassword" style="color: red">Passwords Didnt Match. Try Again</h3>
+    <input type="password" name="firstPassword" ngModel>
+    <input type="password" name="confirmPassword" ngModel>
+    <div class="btn-group">
+      <button class="btn btn-outline-primary" (click)="confirmPassword(verifyForm)">Confirm Password</button>
+      <button class="btn btn-outline-danger" (click)="stopVerifying()">Cancel</button>
+    </div>
+  </form>
+
+
+
+  <div *ngIf="deletingProfile && !editingProfile && !verifying" class="btn-group">
+    <h3>Are you sure you want to delete your profile?</h3>
+    <button class="btn btn-primary" (click)="deactivateUser(user)">Delete</button>
+    <button class="btn btn-danger" (click)="cancelDelete()">Cancel</button>
+  </div>
+
+
+  <form *ngIf="editingProfile && !deletingProfile && !verifying">
+    <h3>Edit Profile (You will be logged off if edited)</h3>
+    Email: <input type="text" name="email" [(ngModel)] = "editingUser.email">
+    <br>
+    <button class="btn btn-primary" (click)="updateUser()">Edit</button>
+    <button class="btn btn-danger" (click)="cancelEditing()">Cancel</button>
+  </form>
+
+
   <br>
-  <button class="btn btn-primary" (click)="updateUser()">Edit</button>
-  <button class="btn btn-danger" (click)="cancelEditing()">Cancel</button>
-</form>
+  <div *ngIf="!editingProfile && !deletingProfile && !verifying">
 
+    <h2>Recent Comments:</h2>
+    <ul>
+      <li *ngFor="let comment of comments">
+        <h4>Comment posted on {{ comment.dateUpdated | date: 'shortDate' }}</h4>
+        <h4>Language: {{comment.language.name}}</h4>
+        <h5>Votes: {{comment.votes | calculateVotes}}</h5>
+       <p>{{comment.comment}}</p>
+      </li>
+    </ul>
 
-<br>
-<div *ngIf="!editingProfile && !deletingProfile && !verifying">
-
-  <h2>Recent Comments:</h2>
-  <ul>
-    <li *ngFor="let comment of comments">
-      <h4>Comment posted on {{ comment.dateUpdated | date: 'shortDate' }}</h4>
-      <h4>Language: {{comment.language.name}}</h4>
-      <h5>Votes: {{comment.votes | calculateVotes}}</h5>
-     <p>{{comment.comment}}</p>
-    </li>
-  </ul>
-
-</div>
+  </div>
+-->

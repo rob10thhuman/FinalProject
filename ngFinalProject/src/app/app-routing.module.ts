@@ -11,6 +11,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ListLangugageComponent } from './list-langugage/list-langugage.component';
 import { DetailLanguageComponent } from './detail-language/detail-language.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'home', component: HomeComponent },
   { path: 'profile', component: UserProfileComponent },
+  { path: 'editProfile', component: EditProfileComponent },
   { path: 'languages', component: ListLangugageComponent },
   { path: 'languages/search/:searchString', component: ListLangugageComponent },
   { path: 'languages/:id', component: DetailLanguageComponent },
