@@ -1,65 +1,61 @@
-<!-- <div>
-  <div>
-    Avg Rating (in numbers): <span> {{ avgRating }} </span>
-  </div>
-  <div>Overall Rating (stars):</div>
-</div> -->
+<script src="node_modules/chart.js/src/chart.js"></script>
 
-<div id="average">
-    Average Rating: <b>{{avgRating == -1 ? "No ratings available!" : avgRating}}</b><BR>
-    <ngb-rating [(rate)]="avgRating" max="5" [readonly]="readonly">
-    <hr>
-</ngb-rating>
-</div>
+<div><BR><H3>RATINGS</H3></div>
+<div class="container">
+  <div class="row">
+<div class="col-sm-3">
+        Avg Overall: <b>{{avgRating == -1 ? "No ratings available!" : avgRating}}</b><BR>
+        <ngb-rating [(rate)]="avgRating" max="5" [readonly]="readonly">
+        </ngb-rating>
 
-<div>
-    Avg Cat1 Rating: <BR>
-    <ngb-rating max="5"></ngb-rating>
-  </div>
+      <BR>
 
-<div>
-    Avg Cat2 Rating: <BR>
-    <ngb-rating max="5"></ngb-rating>
-</div>
+        Avg Safety: <b>{{avgCat1Rating == -1 ? "No ratings available!" : avgCat1Rating}}</b><BR>
+        <ngb-rating max="5" [(rate)]="avgCat1Rating" max="5" [readonly]="readonly"></ngb-rating>
 
-<div>
-    Avg Cat3 Rating: <BR>
-    <ngb-rating max="5"></ngb-rating>
-</div>
+      <BR>
 
-<div> <hr></div>
+        Avg Speed: <b>{{avgCat2Rating == -1 ? "No ratings available!" : avgCat2Rating}}</b><BR>
+        <ngb-rating max="5" [(rate)]="avgCat2Rating" max="5" [readonly]="readonly"></ngb-rating>
 
-<div>
-    User Rating: <b>{{userRating === 0 ? "Not yet rated" : userRating}}</b><BR>
+      <BR>
+        Avg Ease of Learning: <b>{{avgCat2Rating == -1 ? "No ratings available!" : avgCat3Rating}}</b><BR>
+       <ngb-rating max="5" [(rate)]="avgCat3Rating" max="5" [readonly]="readonly"></ngb-rating>
+    </div>
+
+<div class="col-sm-3">
+    User Overall: <b>{{userRating === 0 ? "Not yet rated" : userRating}}</b><BR>
     <ngb-rating [(rate)]="userRating" max="5" (rateChange)="passRating($event)">
     </ngb-rating>
 
-</div>
+    <BR>
 
-<div>
-  User Cat1 Rating: <BR>
-  <ngb-rating max="5"></ngb-rating>
-</div>
+    User Safety: <b>{{userCat1Rating === 0 ? "Not yet rated" : userCat1Rating}}</b><BR>
+      <ngb-rating [(rate)]="userCat1Rating" max="5" (rateChange)="passCat1Rating($event)">
+      </ngb-rating>
 
-<div>
-    User Cat2 Rating: <BR>
-    <ngb-rating max="5"></ngb-rating>
-</div>
+      <BR>
 
-<div>
-      User Cat3 Rating: <BR>
-      <ngb-rating max="5"></ngb-rating>
-</div>
+    User Speed: <b>{{userCat2Rating === 0 ? "Not yet rated" : userCat2Rating}}</b><BR>
+      <ngb-rating [(rate)]="userCat2Rating" max="5" (rateChange)="passCat2Rating($event)">
+      </ngb-rating>
 
-<!-- <div class="rate">
-  <input type="radio" id="star5" name="rate" value="5" />
-  <label for="star5" title="text">5 stars</label>
-  <input type="radio" id="star4" name="rate" value="4" />
-  <label for="star4" title="text">4 stars</label>
-  <input type="radio" id="star3" name="rate" value="3" />
-  <label for="star3" title="text">3 stars</label>
-  <input type="radio" id="star2" name="rate" value="2" />
-  <label for="star2" title="text">2 stars</label>
-  <input type="radio" id="star1" name="rate" value="1" />
-  <label for="star1" title="text">1 star</label>
-</div> -->
+      <BR>
+
+    User Ease of Learning: <b>{{userCat3Rating === 0 ? "Not yet rated" : userCat3Rating}}</b><BR>
+      <ngb-rating [(rate)]="userCat3Rating" max="5" (rateChange)="passCat3Rating($event)">
+      </ngb-rating>
+
+    </div>
+
+  <div class="col-sm-6" style="text-align: center">
+    Global Primary Language Use (%)
+    <app-user-graph></app-user-graph>
+  </div>
+
+    <!-- <div class="col-sm-3">
+
+    </div> -->
+
+    </div>
+  </div>

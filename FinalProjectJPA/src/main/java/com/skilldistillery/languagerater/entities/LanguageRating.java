@@ -22,6 +22,12 @@ public class LanguageRating {
 	
 	private int rating;
 	
+	private int cat1; 
+	
+	private int cat2; 
+	
+	private int cat3;
+	
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -38,31 +44,40 @@ public class LanguageRating {
 		super();
 	}
 
-	public LanguageRating(int id, int rating, User user, Language language) {
+
+
+	public LanguageRating(int id, int rating, int cat1, int cat2, int cat3, User user, Language language) {
 		super();
 		this.id = id;
 		this.rating = rating;
+		this.cat1 = cat1;
+		this.cat2 = cat2;
+		this.cat3 = cat3;
 		this.user = user;
 		this.language = language;
 	}
 
-//	// toString
-//	@Override
-//	public String toString() {
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("LanguageRating [id=");
-//		builder.append(id);
-//		builder.append(", rating=");
-//		builder.append(rating);
-//		builder.append(", user=");
-//		builder.append(user);
-//		builder.append(", language=");
-//		builder.append(language);
-//		builder.append("]");
-//		return builder.toString();
-//	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("LanguageRating [id=");
+		builder.append(id);
+		builder.append(", rating=");
+		builder.append(rating);
+		builder.append(", cat1=");
+		builder.append(cat1);
+		builder.append(", cat2=");
+		builder.append(cat2);
+		builder.append(", cat3=");
+		builder.append(cat3);
+		builder.append(", user=");
+		builder.append(user);
+		builder.append(", language=");
+		builder.append(language);
+		builder.append("]");
+		return builder.toString();
+	}
 
-	
 	// hashcode and equals
 	@Override
 	public int hashCode() {
@@ -115,6 +130,44 @@ public class LanguageRating {
 	public void setLanguage(Language language) {
 		this.language = language;
 	}
+
+
+
+	public int getCat1() {
+		return cat1;
+	}
+
+
+
+	public void setCat1(int cat1) {
+		this.cat1 = cat1;
+	}
+
+
+
+	public int getCat2() {
+		return cat2;
+	}
+
+
+
+	public void setCat2(int cat2) {
+		this.cat2 = cat2;
+	}
+
+
+
+	public int getCat3() {
+		return cat3;
+	}
+
+
+
+	public void setCat3(int cat3) {
+		this.cat3 = cat3;
+	}
+	
+	
 	
 	
 

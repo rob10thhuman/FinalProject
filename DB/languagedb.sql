@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `language` (
   `info` VARCHAR(900) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 8
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` VARCHAR(45) NULL DEFAULT NULL,
   `active` TINYINT(4) NOT NULL,
   `role` VARCHAR(45) NULL DEFAULT NULL,
-  `reputation` INT NULL,
+  `reputation` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 5
@@ -94,6 +94,9 @@ CREATE TABLE IF NOT EXISTS `language_rating` (
   `rating` INT(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
   `language_id` INT(11) NOT NULL,
+  `cat1` INT NULL,
+  `cat2` INT NULL,
+  `cat3` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `language_id_idx` (`language_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
@@ -108,7 +111,36 @@ CREATE TABLE IF NOT EXISTS `language_rating` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 29
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `sub_comment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `sub_comment` ;
+
+CREATE TABLE IF NOT EXISTS `sub_comment` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `comment` VARCHAR(2000) NULL DEFAULT NULL,
+  `date_added` DATETIME NULL DEFAULT NULL,
+  `date_updated` DATETIME NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  `comment_id` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `sub_comment_user_id_idx` (`user_id` ASC),
+  INDEX `sub_comment_comment_id_idx` (`comment_id` ASC),
+  CONSTRAINT `sub_comment_comment_id`
+    FOREIGN KEY (`comment_id`)
+    REFERENCES `comment` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `sub_comment_user_id`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -121,8 +153,8 @@ CREATE TABLE IF NOT EXISTS `vote` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `vote` TINYINT(4) NOT NULL,
   `user_id` INT(11) NOT NULL,
-  `comment_id` INT(11) NULL,
-  `sub_comment_id` INT NULL,
+  `comment_id` INT(11) NULL DEFAULT NULL,
+  `sub_comment_id` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `comment_id_idx` (`comment_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
@@ -139,34 +171,6 @@ CREATE TABLE IF NOT EXISTS `vote` (
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `sub_comment`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `sub_comment` ;
-
-CREATE TABLE IF NOT EXISTS `sub_comment` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `comment` VARCHAR(2000) NULL,
-  `date_added` DATETIME NULL,
-  `date_updated` DATETIME NULL,
-  `user_id` INT NOT NULL,
-  `comment_id` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `sub_comment_user_id_idx` (`user_id` ASC),
-  INDEX `sub_comment_comment_id_idx` (`comment_id` ASC),
-  CONSTRAINT `sub_comment_user_id`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `sub_comment_comment_id`
-    FOREIGN KEY (`comment_id`)
-    REFERENCES `comment` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 SET SQL_MODE = '';
 GRANT USAGE ON *.* TO admin@localhost;
@@ -225,34 +229,34 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `languagedb`;
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (1, 1, 1, 1);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (2, 2, 1, 2);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (3, 3, 1, 3);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (4, 4, 1, 4);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (5, 5, 1, 5);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (6, 1, 1, 6);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (7, 2, 1, 7);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (8, 3, 2, 1);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (9, 4, 2, 2);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (10, 5, 2, 3);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (11, 1, 2, 4);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (12, 2, 2, 5);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (13, 3, 2, 6);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (14, 4, 2, 7);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (15, 5, 3, 1);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (16, 1, 3, 2);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (17, 2, 3, 3);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (18, 3, 3, 4);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (19, 4, 3, 5);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (20, 5, 3, 6);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (21, 1, 3, 7);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (22, 2, 4, 1);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (23, 3, 4, 2);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (24, 4, 4, 3);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (25, 5, 4, 4);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (26, 1, 4, 5);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (27, 2, 4, 6);
-INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`) VALUES (28, 3, 4, 7);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (1, 1, 1, 1, 1, 1, 1);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (2, 2, 1, 2, 2, 2, 2);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (3, 3, 1, 3, 3, 3, 3);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (4, 4, 1, 4, 4, 4, 4);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (5, 5, 1, 5, 5, 5, 5);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (6, 1, 1, 6, 1, 1, 1);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (7, 2, 1, 7, 2, 2, 2);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (8, 3, 2, 1, 3, 3, 3);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (9, 4, 2, 2, 4, 4, 4);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (10, 5, 2, 3, 5, 5, 5);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (11, 1, 2, 4, 1, 1, 1);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (12, 2, 2, 5, 2, 2, 2);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (13, 3, 2, 6, 3, 3, 3);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (14, 4, 2, 7, 4, 4, 4);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (15, 5, 3, 1, 5, 5, 5);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (16, 1, 3, 2, 1, 1, 1);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (17, 2, 3, 3, 2, 2, 2);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (18, 3, 3, 4, 3, 3, 3);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (19, 4, 3, 5, 4, 4, 4);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (20, 5, 3, 6, 5, 5, 5);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (21, 1, 3, 7, 1, 1, 1);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (22, 2, 4, 1, 2, 2, 2);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (23, 3, 4, 2, 3, 3, 3);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (24, 4, 4, 3, 4, 4, 4);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (25, 5, 4, 4, 5, 5, 5);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (26, 1, 4, 5, 1, 1, 1);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (27, 2, 4, 6, 2, 2, 2);
+INSERT INTO `language_rating` (`id`, `rating`, `user_id`, `language_id`, `cat1`, `cat2`, `cat3`) VALUES (28, 3, 4, 7, 3, 3, 3);
 
 COMMIT;
 

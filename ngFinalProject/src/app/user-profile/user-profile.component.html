@@ -29,6 +29,16 @@
   </div>
   <hr />
   <div *ngIf="confirmingPassword">
+    <div *ngIf="destination === 'deleting'">
+      <div class="btn btn-danger">
+        <h3>
+          Are you sure you want to delete your account?
+        </h3>
+        If you are sure, please confirm your password.
+      </div>
+      <br>
+      <br>
+    </div>
     <div *ngIf="invalidPassword">
       <div class="alert alert-danger">Invalid Password</div>
     </div>
