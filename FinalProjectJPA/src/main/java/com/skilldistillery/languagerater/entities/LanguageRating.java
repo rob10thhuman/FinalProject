@@ -57,8 +57,6 @@ public class LanguageRating {
 		this.language = language;
 	}
 
-<<<<<<< HEAD
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -79,25 +77,7 @@ public class LanguageRating {
 		builder.append("]");
 		return builder.toString();
 	}
-=======
-//	// toString
-//	@Override
-//	public String toString() {
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("LanguageRating [id=");
-//		builder.append(id);
-//		builder.append(", rating=");
-//		builder.append(rating);
-//		builder.append(", user=");
-//		builder.append(user);
-//		builder.append(", language=");
-//		builder.append(language);
-//		builder.append("]");
-//		return builder.toString();
-//	}
->>>>>>> ba2de1574c0b07985b4fb01f347063bd98e3238c
 
-	
 	// hashcode and equals
 	@Override
 	public int hashCode() {
