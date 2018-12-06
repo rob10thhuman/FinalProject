@@ -58,6 +58,57 @@ export class RatingService {
       catchError(this.handleError));
   }
 
+  createCat1(userId: number, languageId: Language, ratingValue: number) {
+    console.log('- - - - - - - - - -');
+    console.log(ratingValue);
+    console.log(userId);
+    console.log(languageId);
+    console.log(this.notAuthUrl + '/' + languageId);
+    const data = new Rating ();
+    data.user = new User();
+    data.user.id = userId;
+    data.cat1 = ratingValue;
+    data.language = languageId;
+    console.log(data);
+
+    return this.http.post<Rating>(this.notAuthUrl + '/' + languageId, data, this.httpOptions).pipe(
+      catchError(this.handleError));
+  }
+
+  createCat2(userId: number, languageId: Language, ratingValue: number) {
+    console.log('- - - - - - - - - -');
+    console.log(ratingValue);
+    console.log(userId);
+    console.log(languageId);
+    console.log(this.notAuthUrl + '/' + languageId);
+    const data = new Rating ();
+    data.user = new User();
+    data.user.id = userId;
+    data.cat2 = ratingValue;
+    data.language = languageId;
+    console.log(data);
+
+    return this.http.post<Rating>(this.notAuthUrl + '/' + languageId, data, this.httpOptions).pipe(
+      catchError(this.handleError));
+  }
+
+   createCat3(userId: number, languageId: Language, ratingValue: number) {
+    console.log('- - - - - - - - - -');
+    console.log(ratingValue);
+    console.log(userId);
+    console.log(languageId);
+    console.log(this.notAuthUrl + '/' + languageId);
+    const data = new Rating ();
+    data.user = new User();
+    data.user.id = userId;
+    data.cat3 = ratingValue;
+    data.language = languageId;
+    console.log(data);
+
+    return this.http.post<Rating>(this.notAuthUrl + '/' + languageId, data, this.httpOptions).pipe(
+      catchError(this.handleError));
+  }
+
   handleError(error: any) {
     console.error('Something broke in add rating');
     return throwError(error.json().error || 'Server Error');

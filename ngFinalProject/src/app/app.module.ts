@@ -24,6 +24,8 @@ import { SearchComponent } from './search/search.component';
 import { CalculateVotesPipe } from './calculate-votes.pipe';
 import { ResourcesComponent } from './resources/resources.component';
 import { SortCommentsPipe } from './sort-comments.pipe';
+import { ChartsModule } from 'ng2-charts';
+import { UserGraphComponent } from './user-graph/user-graph.component';
 
 @NgModule({
   declarations: [
@@ -46,12 +48,14 @@ import { SortCommentsPipe } from './sort-comments.pipe';
     CalculateVotesPipe,
     ResourcesComponent,
     SortCommentsPipe,
+    UserGraphComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ChartsModule,
     NgbModule.forRoot()
   ],
   providers: [
