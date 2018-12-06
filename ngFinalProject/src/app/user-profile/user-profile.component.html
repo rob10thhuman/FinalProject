@@ -43,20 +43,25 @@
       <div class="alert alert-danger">Invalid Password</div>
     </div>
     <div>Confirm Password:</div>
-    <input
+    <form>
+
+      <input
       class="form-control"
       type="password"
+      name="password"
+      autocomplete="Current-Password"
       [(ngModel)]="passwordToBeChecked"
-    />
-    <button
-    class="btn"
-    [ngClass]="{'btn-danger': destination === 'deleting', 'btn-success': destination === 'editing'}"
-    (click)="editOrDelete()">Continue</button>
-    <button
-    class="btn"
-    [ngClass]="{'btn-success': destination === 'deleting', 'btn-danger': destination === 'editing'}"
-    (click)="cancelConfirm()">Cancel</button>
-  </div>
+      />
+      <button
+      class="btn"
+      [ngClass]="{'btn-danger': destination === 'deleting', 'btn-success': destination === 'editing'}"
+      (click)="editOrDelete()">Continue</button>
+      <button
+      class="btn"
+      [ngClass]="{'btn-success': destination === 'deleting', 'btn-danger': destination === 'editing'}"
+      (click)="cancelConfirm()">Cancel</button>
+    </form>
+    </div>
   <div *ngIf="!confirmingPassword">
     <button class="btn btn-success" (click)="confirmPassword('editing')">
       Edit My Profile

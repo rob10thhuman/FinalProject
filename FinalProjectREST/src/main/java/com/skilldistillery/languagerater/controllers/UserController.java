@@ -41,8 +41,6 @@ public class UserController {
 	
 	@GetMapping("auth/users/currentUser")
 	public User getCurrentUser(Principal principal) {
-		System.out.println(principal);
-		System.out.println(principal.getName());
 		return userSvc.showByUsername(principal.getName());
 	}
 	
