@@ -1,6 +1,7 @@
 import { User } from './user';
 import { Language } from './language';
 import { Vote } from './vote';
+import { SubComment } from './sub-comment';
 
 export class Comment {
   id: number;
@@ -10,6 +11,7 @@ export class Comment {
   dateAdded: Date;
   dateUpdated: Date;
   votes: Vote[];
+  subComments: SubComment[];
 
   constructor(
     id?: number,
@@ -18,7 +20,8 @@ export class Comment {
     language?: Language,
     dateAdded?: Date,
     dateUpdated?: Date,
-    votes?: Vote[]
+    votes?: Vote[],
+    subComments?: SubComment[]
   ) {
     this.id = id;
     this.comment = comment;
@@ -27,5 +30,6 @@ export class Comment {
     this.dateAdded = dateAdded;
     this.dateUpdated = dateUpdated;
     this.votes = votes;
+    this.subComments = subComments;
   }
 }

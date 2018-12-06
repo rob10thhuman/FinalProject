@@ -25,27 +25,27 @@ public class SubCommentController {
 	@Autowired
 	SubCommentService subCommentSvc;
 	
-	@GetMapping("notAuth/subComments")
+	@GetMapping("notAuth/sub-comments")
 	public List<SubComment> index(Principal principal){
 		return subCommentSvc.index(principal.getName());
 	}
 	
-	@GetMapping("notAuth/subComments/{id}")
+	@GetMapping("notAuth/sub-comments/{id}")
 	public SubComment subCommentsById(@PathVariable int id, Principal principal) {
 		return subCommentSvc.show(principal.getName(), id);
 	}
 	
-	@PostMapping("auth/subComments")
-	public SubComment createSubComment(@RequestBody SubComment subComment, Principal principal) {
-		return subCommentSvc.create(principal.getName(), subComment);
+	@PostMapping("auth/sub-comments/{parentId}")
+	public SubComment createSubComment(@PathVariable int parentId, @RequestBody SubComment subComment, Principal principal) {
+		return subCommentSvc.create(principal.getName(), parentId, subComment);
 	}
 	
-	@PutMapping("auth/subComments/{id}")
-	public SubComment updateComment(@PathVariable int id, @RequestBody SubComment subComment, Principal principal) {
+	@PutMapping("auth/sub-comments/{id}")
+	public SubComment updateSubComment(@PathVariable int id, @RequestBody SubComment subComment, Principal principal) {
 		return subCommentSvc.update(principal.getName(), id, subComment);
 	}
 	
-	@DeleteMapping("auth/subComments/{id}")
+	@DeleteMapping("auth/sub-comments/{id}")
 	public boolean deleteComment(@PathVariable int id, Principal principal) {
 		return subCommentSvc.delete(principal.getName(), id);
 	}

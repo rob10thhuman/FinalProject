@@ -83,22 +83,22 @@ public class Vote {
 
 	// toString
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Vote [id=");
-		builder.append(id);
-		builder.append(", vote=");
-		builder.append(vote);
-		builder.append(", user=");
-		builder.append(user);
-		builder.append(", comment=");
-		builder.append(comment);
-		builder.append(", subComment=");
-		builder.append(subComment);
-		builder.append("]");
-		return builder.toString();
-	}
+//	@Override
+//	public String toString() {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append("Vote [id=");
+//		builder.append(id);
+//		builder.append(", vote=");
+//		builder.append(vote);
+//		builder.append(", user=");
+//		builder.append(user);
+//		builder.append(", comment=");
+//		builder.append(comment);
+//		builder.append(", subComment=");
+//		builder.append(subComment);
+//		builder.append("]");
+//		return builder.toString();
+//	}
 
 
 	// setters and getters
