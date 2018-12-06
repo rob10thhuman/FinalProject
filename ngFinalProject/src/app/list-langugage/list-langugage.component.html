@@ -19,6 +19,9 @@
 
   </div>
 </div>
+<div *ngIf="languages.length === 0">
+  No languages could be found
+</div>
 
   <div class="container border hoverDiv rounded" *ngFor="let lang of languages" (click)="detailPage(lang.id)" >
     <div class="p-1 ml-4">
