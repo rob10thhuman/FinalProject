@@ -6,6 +6,8 @@ import { catchError } from 'rxjs/operators';
 import { Language } from './models/language';
 import { throwError } from 'rxjs';
 import { Rating } from './models/rating';
+import { Category } from './models/category';
+import { CategoryRating } from './models/category-rating';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +72,21 @@ export class LanguageService {
     handleError(error: any) {
       console.error('Something Broke');
       return throwError(error.json().error || 'Server Error');
+    }
+
+    indexCategories() {
+      return this.http.get<Category[]>(environment.baseUrl + 'api/notAuth/categories/index' , this.httpOptionsUnAuth ).pipe(
+        catchError(this.handleError));
+    }
+
+    indexCategoryRatings() {
+      return this.http.get<CategoryRating[]>(environment.baseUrl + 'api/notAuth/categoryRatings/index' , this.httpOptionsUnAuth ).pipe(
+        catchError(this.handleError));
+    }
+
+    createCategoryRating() {
+      return this.http.post<CategoryRating>(environment.baseUrl + 'api/notAuth/categories' , this.httpOptions ).pipe (
+        catchError(this.handleError));
     }
 
 }

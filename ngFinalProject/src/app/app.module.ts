@@ -50,7 +50,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     ResourcesComponent,
     SortCommentsPipe,
     UserGraphComponent,
-    EditProfileComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,

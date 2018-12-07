@@ -1,3 +1,5 @@
+import { CategoryRating } from './../models/category-rating';
+import { Category } from './../models/category';
 import { Component, OnInit } from '@angular/core';
 import { Language } from '../models/language';
 import { LanguageService } from '../language.service';
@@ -10,6 +12,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListLangugageComponent implements OnInit {
 
+  speed = new Category(1, 'Speed');
+
+  categories = [this.speed];
+
+  cat = this.categories[0];
+
+  categoryRatings = [];
+
   title = 'Error!';
 
   languages: Language[] = [];
@@ -17,15 +27,18 @@ export class ListLangugageComponent implements OnInit {
     private langService: LanguageService,
     private router: Router,
     private route: ActivatedRoute
-    ) { }
+  ) {}
 
   ngOnInit() {
+
     const searchString = this.route.snapshot.paramMap.get('searchString');
 
     if (searchString) {
       this.indexLanguagesBySearch(searchString);
     } else {
       this.indexLanguages();
+      this.indexCategories();
+      this.getAllCategoryRatings();
     }
   }
 
@@ -53,5 +66,27 @@ export class ListLangugageComponent implements OnInit {
     this.router.navigateByUrl('languages/' + id);
   }
 
+  setCat(cat) {
+    this.cat = cat;
+  }
+
+  indexCategories() {
+    this.langService.indexCategories().subscribe(
+      data => {
+        this.categories = data;
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  getAllCategoryRatings() {
+    this.langService.indexCategoryRatings().subscribe(
+      data => {
+        console.log(data);
+        this.categoryRatings = data;
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
 
 }

@@ -16,6 +16,9 @@
 <class>com.skilldistillery.languagerater.entities.User</class> 
 <class>com.skilldistillery.languagerater.entities.Language</class> 
 <class>com.skilldistillery.languagerater.entities.LanguageRating</class> 
+<class>com.skilldistillery.languagerater.entities.Category</class> 
+<class>com.skilldistillery.languagerater.entities.CategoryRating</class> 
+
 
     <properties>
       <property name="javax.persistence.jdbc.url"

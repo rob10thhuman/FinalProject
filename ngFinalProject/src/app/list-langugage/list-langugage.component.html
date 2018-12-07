@@ -2,10 +2,10 @@
   <br>
   <br>
 
-  <div class="container">
-    <div class="row">
-     <div class="col-sm">
-       <h2>Top 10 Languages</h2>
+  <!--
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
     </div>
 
     <div class="col-sm">
@@ -13,12 +13,21 @@
     </div>
 
     <div class="col-sm" style="text-align: right">
-        <!-- <h2>Resources</h2> -->
+      <h2>Resources</h2>
 
     </div>
 
   </div>
 </div>
+-->
+Sort By:
+<form class="form-inline">
+  <div *ngFor="let cat of categories">
+    <button class="btn btn-primary" (click)="setCat(cat)">{{cat.name}}</button> &nbsp;
+  </div>
+</form>
+
+<h2>Sorted by {{cat.name}}</h2>
 <div *ngIf="languages.length === 0">
   No languages could be found
 </div>
@@ -38,4 +47,12 @@
     </div>
     <br />
   </div>
+
+  <div *ngFor="let cr of categoryRatings">
+      {{cr.id}}
+  </div>
+
+
+
+
 </div>
