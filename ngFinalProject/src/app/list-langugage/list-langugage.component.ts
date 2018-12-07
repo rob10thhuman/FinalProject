@@ -1,3 +1,4 @@
+import { CategoryRating } from './../models/category-rating';
 import { Category } from './../models/category';
 import { Component, OnInit } from '@angular/core';
 import { Language } from '../models/language';
@@ -15,8 +16,9 @@ export class ListLangugageComponent implements OnInit {
 
   categories = [this.speed];
 
-
   cat = this.categories[0];
+
+  categoryRatings = [];
 
   title = 'Error!';
 
@@ -36,6 +38,7 @@ export class ListLangugageComponent implements OnInit {
     } else {
       this.indexLanguages();
       this.indexCategories();
+      this.getAllCategoryRatings();
     }
   }
 
@@ -71,6 +74,16 @@ export class ListLangugageComponent implements OnInit {
     this.langService.indexCategories().subscribe(
       data => {
         this.categories = data;
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  getAllCategoryRatings() {
+    this.langService.indexCategoryRatings().subscribe(
+      data => {
+        console.log(data);
+        this.categoryRatings = data;
       },
       err => console.error('Observer got an error: ' + err)
     );
