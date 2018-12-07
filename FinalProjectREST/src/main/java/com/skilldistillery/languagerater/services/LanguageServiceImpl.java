@@ -73,5 +73,9 @@ public class LanguageServiceImpl implements LanguageService {
 		}
 		return result;
 	}
+	@Override
+	public List<Language> indexByRatings(double minRating, double minCat1, double minCat2, double minCat3) {
+		return langRepo.findByRatings(minRating, minCat1, minCat2, minCat3);
+	}
 
 }
