@@ -33,45 +33,44 @@
 <br />
 
 <div *ngIf="comments.length !== 0">
-<div class="btn-group">
-  <h5>Sort By:</h5>
-  <button
-    [ngClass]="
-      sortQuery === 'TOP'
-        ? 'badge badge-pill badge-primary'
-        : 'badge badge-pill badge-light'
-    "
-    (click)="setSortQuery('TOP')"
-  >
-    Top Rated
-  </button>
-  <button
-    [ngClass]="
-      sortQuery === 'OLDEST'
-        ? 'badge badge-pill badge-primary'
-        : 'badge badge-pill badge-light'
-    "
-    (click)="setSortQuery('OLDEST')"
-  >
-    Oldest
-  </button>
-  <button
-    [ngClass]="
-      sortQuery === 'NEWEST'
-        ? 'badge badge-pill badge-primary'
-        : 'badge badge-pill badge-light'
-    "
-    (click)="setSortQuery('NEWEST')"
-  >
-    Newest
-  </button>
-</div>
+  <div class="btn-group">
+    <h5>Sort By:</h5>
+    <button
+      [ngClass]="
+        sortQuery === 'TOP'
+          ? 'badge badge-pill badge-primary'
+          : 'badge badge-pill badge-light'
+      "
+      (click)="setSortQuery('TOP')"
+    >
+      Top Rated
+    </button>
+    <button
+      [ngClass]="
+        sortQuery === 'OLDEST'
+          ? 'badge badge-pill badge-primary'
+          : 'badge badge-pill badge-light'
+      "
+      (click)="setSortQuery('OLDEST')"
+    >
+      Oldest
+    </button>
+    <button
+      [ngClass]="
+        sortQuery === 'NEWEST'
+          ? 'badge badge-pill badge-primary'
+          : 'badge badge-pill badge-light'
+      "
+      (click)="setSortQuery('NEWEST')"
+    >
+      Newest
+    </button>
+  </div>
 
-<div *ngFor="let comment of comments">
-
-  <div class="card card-comment">
-    <div class="card-body">
-      <h5 class="card-title" style="color:blueviolet">
+  <div *ngFor="let comment of comments">
+    <div class="card card-comment">
+      <div class="card-body">
+        <h5 class="card-title" style="color:blueviolet">
           <button
             *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
             [ngClass]="isUpVotedParentComment(comment.votes)"
@@ -89,83 +88,102 @@
           >
             &#8595;
           </button>
-        {{ isLoggedInUsername(comment.user.username) ? '(YOU)' : '' }}
-        {{ comment.user.username }}
-      </h5>
-      <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
-        {{ comment.dateUpdated | date: 'shortDate' }}
-      </h6>
-      <p class="card-text">{{ comment.comment }}</p>
+          {{ isLoggedInUsername(comment.user.username) ? '(YOU)' : '' }}
+          {{ comment.user.username }}
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
+          {{ comment.dateUpdated | date: 'shortDate' }}
+        </h6>
+        <p class="card-text">{{ comment.comment }}</p>
 
-      <div
-        class="btn-group"
-        *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
-      >
-        <button
-          class="badge badge-pill badge-primary"
-          (click)="setupUpdatingComment(comment)"
+        <div
+          class="btn-group"
+          *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
         >
-          Edit
-        </button>
-        <button
-          class="badge badge-pill badge-danger"
-          (click)="deleteComment(comment.id)"
-        >
-          Delete
-        </button>
-      </div>
-
-      <div class="btn-group" *ngIf="!isLoggedInUsername(comment.user.username)">
-        <button
-          class="badge badge-pill badge-primary"
-          (click)="setupReplyToComment(comment)"
-        >
-          Reply
-        </button>
-      </div>
-      <button *ngIf="comment.subComments.length > 0" class="badge badge-pill badge-primary" (click)="setShowReplies(comment)">
-        {{showReplies === comment.id ? 'Hide Replies' : 'Show Replies'}}
-      </button>
-      <form *ngIf="updatingComment && updatingComment.id === comment.id">
-        <textarea
-          rows="5"
-          cols="40"
-          name="comment"
-          [(ngModel)]="updatingComment.comment"
-        ></textarea>
-        <br />
-        <div class="btn-group">
           <button
-            (click)="updateComment(updatingComment.id, updatingComment)"
-            class="btn btn-primary"
+            class="badge badge-pill badge-primary"
+            (click)="setupUpdatingComment(comment)"
           >
-            Update
+            Edit
           </button>
-          <button (click)="teardownUpdatingComment()" class="btn btn-danger">
-            Cancel
+          <button
+            class="badge badge-pill badge-danger"
+            (click)="deleteComment(comment.id)"
+          >
+            Delete
           </button>
         </div>
-      </form>
 
-      <form *ngIf="replyToComment && replyToComment.parentComment.id === comment.id">
-        <textarea rows="5" cols="40" name="comment" [(ngModel)]="replyToComment.comment"></textarea>
-        <br />
-        <div class="btn-group">
-          <button (click)="addReplyToComment(comment, replyToComment)" class="btn btn-primary">
-            Add Reply
-          </button>
-          <button (click)="teardownReplyToComment()" class="btn btn-danger">
-            Cancel
+        <div
+          class="btn-group"
+          *ngIf="isLoggedIn() && !isLoggedInUsername(comment.user.username) "
+        >
+          <button
+            class="badge badge-pill badge-primary"
+            (click)="setupReplyToComment(comment)"
+          >
+            Reply
           </button>
         </div>
-      </form>
+        <button
+          *ngIf="comment.subComments.length > 0"
+          class="badge badge-pill badge-primary"
+          (click)="setShowReplies(comment)"
+        >
+          {{ showReplies === comment.id ? 'Hide Replies' : 'Show Replies' }}
+        </button>
+        <form *ngIf="updatingComment && updatingComment.id === comment.id">
+          <textarea
+            rows="5"
+            cols="40"
+            name="comment"
+            [(ngModel)]="updatingComment.comment"
+          ></textarea>
+          <br />
+          <div class="btn-group">
+            <button
+              (click)="updateComment(updatingComment.id, updatingComment)"
+              class="btn btn-primary"
+            >
+              Update
+            </button>
+            <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+              Cancel
+            </button>
+          </div>
+        </form>
+
+        <form
+          *ngIf="
+            replyToComment && replyToComment.parentComment.id === comment.id
+          "
+        >
+          <textarea
+            rows="5"
+            cols="40"
+            name="comment"
+            [(ngModel)]="replyToComment.comment"
+          ></textarea>
+          <br />
+          <div class="btn-group">
+            <button
+              (click)="addReplyToComment(comment, replyToComment)"
+              class="btn btn-primary"
+            >
+              Add Reply
+            </button>
+            <button (click)="teardownReplyToComment()" class="btn btn-danger">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
 
     <div *ngIf="showReplies === comment.id" class="card card-sub-comment">
       <div *ngFor="let subComment of comment.subComments" class="card-body">
         <h5 class="card-title" style="color:blueviolet">
-            {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
+          {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
           {{ subComment.user.username }}
         </h5>
         <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
@@ -173,16 +191,22 @@
         </h6>
         <p class="card-text">{{ subComment.comment }}</p>
 
-        <div class="btn-group" *ngIf="!isLoggedInUsername(subComment.user.username)">
-            <button
-              class="badge badge-pill badge-primary"
-              (click)="setupReplyToSubComment(comment)"
-            >
-              Reply
-            </button>
+        <div
+          class="btn-group"
+          *ngIf="isLoggedIn() && !isLoggedInUsername(subComment.user.username)"
+        >
+          <button
+            class="badge badge-pill badge-primary"
+            (click)="setupReplyToSubComment(subComment)"
+          >
+            Reply
+          </button>
         </div>
-        <div class="btn-group" *ngIf="isLoggedInUsername(subComment.user.username)">
-            <button
+        <div
+          class="btn-group"
+          *ngIf="isLoggedInUsername(subComment.user.username)"
+        >
+          <button
             class="badge badge-pill badge-primary"
             (click)="setupUpdatingSubComment(subComment)"
           >
@@ -195,49 +219,62 @@
             Delete
           </button>
         </div>
-        <form *ngIf="replyToSubComment">
-            <textarea
-              rows="5"
-              cols="40"
-              name="comment"
-              [(ngModel)]="replyToSubComment.comment"
-            ></textarea>
-            <br />
-            <div class="btn-group">
-              <button
-                (click)="addReplyToSubComment(comment, subComment, replyToSubComment)"
-                class="btn btn-primary"
-              >
-                Add Reply
-              </button>
-              <button (click)="teardownReplyToSubComment()" class="btn btn-danger">
-                Cancel
-              </button>
-            </div>
-          </form>
-          <form *ngIf="updatingSubComment !== null && updatingSubComment.id === subComment.id">
-              <textarea
-                rows="5"
-                cols="40"
-                name="comment"
-                [(ngModel)]="updatingSubComment.comment"
-              ></textarea>
-              <br />
-              <div class="btn-group">
-                <button
-                  (click)="updateSubComment(comment.id, updatingSubComment)"
-                  class="btn btn-primary"
-                >
-                  Update
-                </button>
-                <button (click)="teardownUpdatingSubComment()" class="btn btn-danger">
-                  Cancel
-                </button>
-              </div>
-            </form>
-
+        <form
+          *ngIf="replyToSubComment && replyToSubComment.id === subComment.id"
+        >
+          <textarea
+            rows="5"
+            cols="40"
+            name="comment"
+            [(ngModel)]="replyToSubComment.comment"
+          ></textarea>
+          <br />
+          <div class="btn-group">
+            <button
+              (click)="
+                addReplyToSubComment(comment, subComment, replyToSubComment)
+              "
+              class="btn btn-primary"
+            >
+              Add Reply
+            </button>
+            <button
+              (click)="teardownReplyToSubComment()"
+              class="btn btn-danger"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+        <form
+          *ngIf="
+            updatingSubComment !== null &&
+            updatingSubComment.id === subComment.id
+          "
+        >
+          <textarea
+            rows="5"
+            cols="40"
+            name="comment"
+            [(ngModel)]="updatingSubComment.comment"
+          ></textarea>
+          <br />
+          <div class="btn-group">
+            <button
+              (click)="updateSubComment(comment, updatingSubComment)"
+              class="btn btn-primary"
+            >
+              Update
+            </button>
+            <button
+              (click)="teardownUpdatingSubComment()"
+              class="btn btn-danger"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-</div>
-
+  </div>
 </div>

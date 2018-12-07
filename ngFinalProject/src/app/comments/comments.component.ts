@@ -100,8 +100,8 @@ export class CommentsComponent implements OnInit {
       err => console.error('Observer got an error: ' + err)
     );
   }
-  updateSubComment(parentCommentId, subComment) {
-    this.subCommentService.update(parentCommentId, subComment).subscribe(
+  updateSubComment(parentComment: Comment, subComment: SubComment) {
+    this.subCommentService.update(parentComment.id, subComment).subscribe(
       data => {
         this.showCommentsForLanguage();
         this.teardownUpdatingSubComment();
@@ -224,7 +224,6 @@ export class CommentsComponent implements OnInit {
     this.replyToSubComment.parentComment = subComment.parentComment;
     this.replyToSubComment.user = this.currentUser;
 
-
   }
 
 
@@ -294,5 +293,9 @@ export class CommentsComponent implements OnInit {
   setSortQuery(query: string) {
     this.sortQuery = query;
     this.comments = this.sortComments.transform(this.comments, this.sortQuery);
+  }
+
+  test() {
+    return 'hi';
   }
 }
