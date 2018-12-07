@@ -66,6 +66,8 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `date_updated` DATETIME NULL DEFAULT NULL,
   `user_id` INT(11) NOT NULL,
   `language_id` INT(11) NULL DEFAULT NULL,
+  `active` TINYINT NULL,
+  `flag` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `language_id_idx` (`language_id` ASC),
   INDEX `user_id_idx` (`user_id` ASC),
@@ -127,6 +129,8 @@ CREATE TABLE IF NOT EXISTS `sub_comment` (
   `date_updated` DATETIME NULL DEFAULT NULL,
   `user_id` INT(11) NOT NULL,
   `comment_id` INT(11) NULL DEFAULT NULL,
+  `active` TINYINT NULL,
+  `flag` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `sub_comment_user_id_idx` (`user_id` ASC),
   INDEX `sub_comment_comment_id_idx` (`comment_id` ASC),
@@ -263,8 +267,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `languagedb`;
-INSERT INTO `comment` (`id`, `comment`, `date_added`, `date_updated`, `user_id`, `language_id`) VALUES (1, 'hello world', NULL, NULL, 1, 1);
-INSERT INTO `comment` (`id`, `comment`, `date_added`, `date_updated`, `user_id`, `language_id`) VALUES (2, 'goodbye world', NULL, NULL, 1, 1);
+INSERT INTO `comment` (`id`, `comment`, `date_added`, `date_updated`, `user_id`, `language_id`, `active`, `flag`) VALUES (1, 'hello world', NULL, NULL, 1, 1, NULL, NULL);
+INSERT INTO `comment` (`id`, `comment`, `date_added`, `date_updated`, `user_id`, `language_id`, `active`, `flag`) VALUES (2, 'goodbye world', NULL, NULL, 1, 1, NULL, NULL);
 
 COMMIT;
 

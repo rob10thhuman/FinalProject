@@ -66,12 +66,10 @@ export class AuthService {
   }
 
   logout() {
-    if (this.checkLogin()) {
       localStorage.removeItem('token');
       localStorage.removeItem('username');
       window.location.reload();
     }
-  }
 
   checkLogin() {
     if (localStorage.getItem('token')) {
