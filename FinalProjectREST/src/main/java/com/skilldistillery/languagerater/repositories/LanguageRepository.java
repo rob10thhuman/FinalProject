@@ -15,16 +15,6 @@ public interface LanguageRepository extends JpaRepository<Language, Integer> {
 			+ "OR l.info LIKE :word")
 	List<Language> findByKeyword(@Param("word") String word);
 	
-	@Query("SELECT l FROM Language l" + 
-			"WHERE l.rating >= :minRating " +
-			"AND l.cat1 > minCat1 " +
-			"AND l.cat1 > minCat2 " +
-			"AND l.cat1 > minCat3")
-	List<Language> findByRatings(@Param("minRating") double minRating,
-								 @Param("minCat1") double minCat1,
-								 @Param("minCat2") double minCat2,
-								 @Param("minCat3") double minCat3);
-	
 //	@Query("SELECT l from Language l where l.id = :id")
 //	Language findByLanguageId(@Param("id") int id); 
 //	
