@@ -40,6 +40,7 @@ export class UserProfileComponent implements OnInit {
   showUser() {
     this.userService.getCurrentUser().subscribe(
       data => {
+        console.log(data);
         this.user = data;
       },
       err => console.error('Observer got an error: ' + err)

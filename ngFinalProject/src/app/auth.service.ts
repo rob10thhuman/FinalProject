@@ -65,10 +65,8 @@ export class AuthService {
   }
 
   logout() {
-    if (this.checkLogin()) {
       localStorage.removeItem('token');
       localStorage.removeItem('username');
-    }
   }
 
   checkLogin() {
