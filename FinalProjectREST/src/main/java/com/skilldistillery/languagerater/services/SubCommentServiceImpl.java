@@ -65,23 +65,18 @@ public class SubCommentServiceImpl implements SubCommentService {
 	public SubComment update(String username, int parentCommentid, SubComment subComment) {
 		SubComment existing = subCommentRepo.findByUsernameAndId(username, subComment.getId());
 		Optional<Comment> opt = commentRepo.findById(parentCommentid);
-		System.out.println(existing != null);
-		System.out.println(opt.isPresent());
 		if (existing != null && opt.isPresent()) {
 			
 			existing.setComment(subComment.getComment());
 			existing.setDateAdded(subComment.getDateAdded());
 			existing.setDateUpdated(subComment.getDateUpdated());
 			existing.setUser(subComment.getUser());
-//			existing.setParentComment(subComment.getParentComment());
 			
 			Comment c = opt.get();
 			c.addSubComment(existing);
 			existing = subCommentRepo.saveAndFlush(existing);
 			commentRepo.saveAndFlush(c);
 			
-			System.out.println("hi");
-			System.out.println(existing);
 		}
 		return existing;
 	}
@@ -111,6 +106,23 @@ public class SubCommentServiceImpl implements SubCommentService {
 		return subCommentRepo.findCommentsByUsername(username);
 	}
 	
+
+	@Override
+	public boolean deactivate(int id) {
+		boolean deactivated = false;
+		Optional<SubComment> opt = subCommentRepo.findById(id);
+		if(opt.isPresent()) {
+			SubComment sc = opt.get();
+			sc.setActive(false);
+			sc = subCommentRepo.saveAndFlush(sc);
+			deactivated = !sc.getActive() ? true : false; 
+		}
+			
+		return deactivated;
+	}
+	
+	
+	// helper methods
 	private void removeVotesFromComment(Comment c) {
 		List<Vote> votes = c.getVotes();
 		for(Vote vote : votes) {
@@ -123,7 +135,6 @@ public class SubCommentServiceImpl implements SubCommentService {
 			voteRepo.delete(vote);
 		}
 	}
-	
 	
 
 }

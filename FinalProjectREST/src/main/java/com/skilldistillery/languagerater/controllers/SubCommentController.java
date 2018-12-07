@@ -45,6 +45,11 @@ public class SubCommentController {
 		return subCommentSvc.update(principal.getName(), id, subComment);
 	}
 	
+	@PutMapping("auth/sub-comments/deactivate/{id}")
+	public boolean deactivateSubComment(@PathVariable int id) {
+		return subCommentSvc.deactivate(id);
+	}
+	
 	@DeleteMapping("auth/sub-comments/{id}")
 	public boolean deleteComment(@PathVariable int id, Principal principal) {
 		return subCommentSvc.delete(principal.getName(), id);

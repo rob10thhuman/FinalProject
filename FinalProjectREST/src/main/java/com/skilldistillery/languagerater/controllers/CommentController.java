@@ -45,6 +45,12 @@ public class CommentController {
 		return commentSvc.update(principal.getName(), id, comment);
 	}
 	
+	@PutMapping("notAuth/comments/deactivate/{id}")
+	public boolean deactivateComment(@PathVariable int id, Principal principal) {
+		System.out.println("inside comment controller");
+		return commentSvc.deactivate(id);
+	}
+	
 	@DeleteMapping("auth/comments/{id}")
 	public boolean deleteComment(@PathVariable int id, Principal principal) {
 		return commentSvc.delete(principal.getName(), id);
