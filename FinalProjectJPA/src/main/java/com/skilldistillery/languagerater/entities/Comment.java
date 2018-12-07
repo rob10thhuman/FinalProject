@@ -44,6 +44,12 @@ public class Comment {
 	@JoinColumn(name="user_id")
 	private User user; 
 	
+	@Column(name="active")
+	private Boolean active;
+	
+	@Column(name="flag")
+	private Boolean flag;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="language_id")
@@ -120,6 +126,28 @@ public class Comment {
 	public void setSubComments(List<SubComment> subComments) {
 		this.subComments = subComments;
 	}
+	
+	
+
+
+	public Boolean getActive() {
+		return active;
+	}
+
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+
+	public Boolean getFlag() {
+		return flag;
+	}
+
+
+	public void setFlag(Boolean flag) {
+		this.flag = flag;
+	}
 
 
 	@Override
@@ -141,20 +169,24 @@ public class Comment {
 		builder.append(votes.size());
 		builder.append(", subComments=");
 		builder.append(subComments.size());
+		builder.append(", active=");
+		builder.append(active);
+		builder.append(", flag=");
+		builder.append(flag);
 		builder.append("]");
 		return builder.toString();
 	}
 
-	
-	
-	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Language language,
-			List<Vote> votes, List<SubComment> subComments) {
+	public Comment(int id, String comment, Date dateAdded, Date dateUpdated, User user, Boolean active, Boolean flag,
+			Language language, List<Vote> votes, List<SubComment> subComments) {
 		super();
 		this.id = id;
 		this.comment = comment;
 		this.dateAdded = dateAdded;
 		this.dateUpdated = dateUpdated;
 		this.user = user;
+		this.active = active;
+		this.flag = flag;
 		this.language = language;
 		this.votes = votes;
 		this.subComments = subComments;

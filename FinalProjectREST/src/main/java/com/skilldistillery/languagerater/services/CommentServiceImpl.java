@@ -1,11 +1,13 @@
 package com.skilldistillery.languagerater.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.languagerater.entities.Comment;
+import com.skilldistillery.languagerater.entities.SubComment;
 import com.skilldistillery.languagerater.entities.User;
 import com.skilldistillery.languagerater.entities.Vote;
 import com.skilldistillery.languagerater.repositories.CommentRepository;
@@ -87,6 +89,21 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepo.findCommentsByUsername(username);
 	}
 	
+	@Override
+	public boolean deactivate(int id) {
+		boolean deactivated = false;
+		Optional<Comment> opt = commentRepo.findById(id);
+		if(opt.isPresent()) {
+			Comment c = opt.get();
+			c.setActive(false);
+			c = commentRepo.saveAndFlush(c);
+			deactivated = !c.getActive() ? true : false; 
+		}
+			
+		return deactivated;
+	}
+	
+	// helper methods
 	private void removeVotesFromComment(Comment c) {
 		List<Vote> votes = c.getVotes();
 		for(Vote vote : votes) {

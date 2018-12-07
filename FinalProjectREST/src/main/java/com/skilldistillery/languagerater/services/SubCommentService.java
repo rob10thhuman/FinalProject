@@ -10,6 +10,7 @@ public interface SubCommentService {
 	public SubComment create(String username, int parentId, SubComment c);
 	public SubComment update(String username, int id, SubComment c);
 	public boolean delete(String username, int id);
+	public boolean deactivate(int id);
 	
 	public List<SubComment> indexByUserame(String username);
 }

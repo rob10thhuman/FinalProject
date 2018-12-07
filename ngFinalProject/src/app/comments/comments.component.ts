@@ -118,9 +118,27 @@ export class CommentsComponent implements OnInit {
         err => console.error('Observer got an error: ' + err)
       );
   }
+  deactivateComment(id) {
+    console.log(id);
+    this.commentService
+      .deactivate(id)
+      .subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+      );
+  }
+
   deleteSubComment(id) {
     this.subCommentService
       .destroy(id)
+      .subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+      );
+  }
+  deactivateSubComment(id) {
+    this.subCommentService
+      .deactivate(id)
       .subscribe(
         data => this.showCommentsForLanguage(),
         err => console.error('Observer got an error: ' + err)

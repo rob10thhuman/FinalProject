@@ -10,6 +10,8 @@ export class SubComment {
   dateAdded: Date;
   dateUpdated: Date;
   votes: Vote[];
+  active: boolean;
+  flag: boolean;
 
   constructor(
     id?: number,
@@ -18,7 +20,9 @@ export class SubComment {
     user?: User,
     dateAdded?: Date,
     dateUpdated?: Date,
-    votes?: Vote[]
+    votes?: Vote[],
+    active?: boolean,
+    flag?: boolean
   ) {
     this.id = id;
     this.comment = comment;
@@ -27,5 +31,7 @@ export class SubComment {
     this.dateAdded = dateAdded;
     this.dateUpdated = dateUpdated;
     this.votes = votes;
+    this.active = active;
+    this.flag = flag;
   }
 }

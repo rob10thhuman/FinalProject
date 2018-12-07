@@ -67,7 +67,7 @@
     </button>
   </div>
 
-  <div *ngFor="let comment of comments">
+  <div *ngFor="let comment of comments | activeCommentsFilter">
     <div class="card card-comment">
       <div class="card-body">
         <h5 class="card-title" style="color:blueviolet">
@@ -108,7 +108,7 @@
           </button>
           <button
             class="badge badge-pill badge-danger"
-            (click)="deleteComment(comment.id)"
+            (click)="deactivateComment(comment.id)"
           >
             Delete
           </button>
