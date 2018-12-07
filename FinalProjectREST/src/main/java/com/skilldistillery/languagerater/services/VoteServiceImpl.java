@@ -56,8 +56,9 @@ public class VoteServiceImpl implements VoteService {
 		if(opt.isPresent()) {
 			Comment c = opt.get();
 			c.addVote(v);
+			v.setSubComment(null);
 			commentRepo.saveAndFlush(c);
-			updateUserRep(c.getUser());
+//			updateUserRep(c.getUser());
 		}
 		return voteRepo.saveAndFlush(v);
 	}
@@ -69,7 +70,7 @@ public class VoteServiceImpl implements VoteService {
 			SubComment sc = opt.get();
 			sc.addVote(v);
 			subCommentRepo.saveAndFlush(sc);
-			updateUserRep(sc.getUser());
+//			updateUserRep(sc.getUser());
 			
 		}
 		return voteRepo.saveAndFlush(v);
@@ -89,7 +90,7 @@ public class VoteServiceImpl implements VoteService {
 			existing.setUser(v.getUser());
 			comment.addVote(existing);
 			commentRepo.saveAndFlush(comment);
-			updateUserRep(comment.getUser());
+//			updateUserRep(comment.getUser());
 		}
 		return voteRepo.saveAndFlush(existing);
 	}
@@ -107,7 +108,7 @@ public class VoteServiceImpl implements VoteService {
 			existing.setUser(v.getUser());
 			subComment.addVote(existing);
 			subCommentRepo.saveAndFlush(subComment);
-			updateUserRep(subComment.getUser());
+//			updateUserRep(subComment.getUser());
 		}
 		return voteRepo.saveAndFlush(existing);
 	}
@@ -129,7 +130,7 @@ public class VoteServiceImpl implements VoteService {
 				v.getComment().removeVote(v);
 				
 				//updates that users rep
-				updateUserRep(u);
+//				updateUserRep(u);
 			}
 			
 			if(v.getSubComment() != null) {
@@ -140,7 +141,7 @@ public class VoteServiceImpl implements VoteService {
 				v.getSubComment().removeVote(v);
 				
 				//updates that users rep
-				updateUserRep(u);
+//				updateUserRep(u);
 			}
 			voteRepo.delete(v);
 			deleted = true;
@@ -150,40 +151,40 @@ public class VoteServiceImpl implements VoteService {
 
 	}
 	
-	private void updateUserRep(User user) {
-		int upCount = 0;
-		int downCount = 0;
-		
-		List<Comment> userComments;
-		List<SubComment> userSubComments;
-		
-		userComments = commentRepo.findCommentsByUsername(user.getUsername()); 
-		userSubComments = subCommentRepo.findCommentsByUsername(user.getUsername());
-		
-		for(Comment c : userComments) {
-			for(Vote v : c.getVotes()) {
-				if(v.isVote()) {
-					upCount++;
-				}
-				else {
-					downCount++;
-				}
-			}
-		}
-		
-		for(SubComment sc : userSubComments) {
-			for(Vote v : sc.getVotes()) {
-				if(v.isVote()) {
-					upCount++;
-				}
-				else {
-					downCount++;
-				}
-			}
-		}
-		user.setReputation(upCount - downCount);
-		userRepo.saveAndFlush(user);
-		
-	}
+//	private void updateUserRep(User user) {
+//		int upCount = 0;
+//		int downCount = 0;
+//		
+//		List<Comment> userComments;
+//		List<SubComment> userSubComments;
+//		
+//		userComments = commentRepo.findCommentsByUsername(user.getUsername()); 
+//		userSubComments = subCommentRepo.findCommentsByUsername(user.getUsername());
+//		
+//		for(Comment c : userComments) {
+//			for(Vote v : c.getVotes()) {
+//				if(v.isVote()) {
+//					upCount++;
+//				}
+//				else {
+//					downCount++;
+//				}
+//			}
+//		}
+//		
+//		for(SubComment sc : userSubComments) {
+//			for(Vote v : sc.getVotes()) {
+//				if(v.isVote()) {
+//					upCount++;
+//				}
+//				else {
+//					downCount++;
+//				}
+//			}
+//		}
+//		user.setReputation(upCount - downCount);
+//		userRepo.saveAndFlush(user);
+//		
+//	}
 
 }

@@ -138,7 +138,7 @@ public class Comment {
 		builder.append(", language=");
 		builder.append(language);
 		builder.append(", votes=");
-		builder.append(subComments);
+		builder.append(votes.size());
 		builder.append(", subComments=");
 		builder.append(subComments.size());
 		builder.append("]");

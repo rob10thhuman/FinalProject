@@ -19,6 +19,7 @@ export class AuthService {
 
     return this.http.get(this.url + 'authenticate', { headers }).pipe(
       tap(res => {
+
         localStorage.setItem('token', token);
         localStorage.setItem('username', username);
         return res;

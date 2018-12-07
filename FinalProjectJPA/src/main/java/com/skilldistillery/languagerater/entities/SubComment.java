@@ -109,27 +109,26 @@ public class SubComment {
 		this.votes = votes;
 	}
 
-//
-//	@Override
-//	public String toString() {
-//		StringBuilder builder = new StringBuilder();
-//		builder.append("SubComment [id=");
-//		builder.append(id);
-//		builder.append(", comment=");
-//		builder.append(comment);
-//		builder.append(", dateAdded=");
-//		builder.append(dateAdded);
-//		builder.append(", dateUpdated=");
-//		builder.append(dateUpdated);
-//		builder.append(", user=");
-//		builder.append(user);
-//		builder.append(", parentComment=");
-//		builder.append(parentComment);
-//		builder.append(", votes=");
-//		builder.append(votes.size());
-//		builder.append("]");
-//		return builder.toString();
-//	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("SubComment [id=");
+		builder.append(id);
+		builder.append(", comment=");
+		builder.append(comment);
+		builder.append(", dateAdded=");
+		builder.append(dateAdded);
+		builder.append(", dateUpdated=");
+		builder.append(dateUpdated);
+		builder.append(", user=");
+		builder.append(user);
+		builder.append(", parentComment=");
+		builder.append(parentComment);
+		builder.append(", votes=");
+		builder.append(votes.size());
+		builder.append("]");
+		return builder.toString();
+	}
 
 	
 	
