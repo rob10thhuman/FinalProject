@@ -4,7 +4,7 @@ import { Vote } from './../models/vote';
 import { Comment } from './../models/comment';
 import { AuthService } from './../auth.service';
 import { CommentService } from './../comment.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { DetailLanguageComponent } from '../detail-language/detail-language.component';
 import { VoteService } from '../vote.service';
 import { UserProfileComponent } from '../user-profile/user-profile.component';
@@ -16,14 +16,17 @@ import { SubCommentService } from '../sub-comment.service';
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css']
+  styleUrls: ['./comments.component.css'],
 })
 export class CommentsComponent implements OnInit {
   comments: Comment[] = [];
   newComment: Comment = null;
   updatingComment: Comment = null;
-  replyingComment: SubComment = null;
+  updatingSubComment: Comment = null;
+  replyToComment: SubComment = null;
+  replyToSubComment: SubComment = null;
   currentUser: User = new User();
+  showReplies = null;
 
   sortQuery = 'TOP';
 
@@ -63,12 +66,26 @@ export class CommentsComponent implements OnInit {
     );
   }
 
-  addReplyingComment(parentId, replyComment) {
-    this.subCommentService.create(parentId, replyComment).subscribe(
+  addReplyToComment(parentComment, replyComment) {
+    replyComment.comment = this.getAtUsernameAnnotation(parentComment.user.username, replyComment);
+
+    this.subCommentService.create(parentComment.id, replyComment).subscribe(
+      data => {
+        this.showReplies = parentComment.id;
+        this.showCommentsForLanguage();
+        this.teardownReplyToComment();
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+  addReplyToSubComment(parentComment, parentSubComment, replyComment) {
+    replyComment.comment = this.getAtUsernameAnnotation(parentSubComment.user.username, replyComment);
+    replyComment.id = null;
+    this.subCommentService.create(parentComment.id, replyComment).subscribe(
       data => {
         console.log(data);
         this.showCommentsForLanguage();
-        this.teardownReplyingComment();
+        this.teardownReplyToSubComment();
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -83,9 +100,26 @@ export class CommentsComponent implements OnInit {
       err => console.error('Observer got an error: ' + err)
     );
   }
+  updateSubComment(parentCommentId, subComment) {
+    this.subCommentService.update(parentCommentId, subComment).subscribe(
+      data => {
+        this.showCommentsForLanguage();
+        this.teardownUpdatingSubComment();
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
 
   deleteComment(id) {
     this.commentService
+      .destroy(id)
+      .subscribe(
+        data => this.showCommentsForLanguage(),
+        err => console.error('Observer got an error: ' + err)
+      );
+  }
+  deleteSubComment(id) {
+    this.subCommentService
       .destroy(id)
       .subscribe(
         data => this.showCommentsForLanguage(),
@@ -105,8 +139,8 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  voteComment(comment: Comment, voteValue: boolean) {
-    const vote = this.hasVotedOnComment(comment.votes);
+  voteParentComment(comment: Comment, voteValue: boolean) {
+    const vote = this.hasVotedOnParentComment(comment.votes);
 
     if (vote !== null) {
       if (vote.vote === voteValue) {
@@ -136,7 +170,6 @@ export class CommentsComponent implements OnInit {
       newVote.user = this.currentUser;
       this.voteService.createForComment(comment.id, newVote).subscribe(
         data => {
-          console.log(data);
           console.log('my first vote Parent');
           this.showCommentsForLanguage();
 
@@ -147,47 +180,7 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  voteSubComment(subComment: SubComment, voteValue: boolean) {
-    const vote = this.hasVotedOnSubComment(subComment.votes);
-    console.log(vote);
 
-    if (vote !== null) {
-      if (vote.vote === voteValue) {
-        this.voteService.destroy(vote.id).subscribe(
-          data => {
-            console.log('i cancel my vote child');
-            this.showCommentsForLanguage();
-          },
-          err => console.error('Observer got an error: ' + err)
-        );
-      } else {
-        vote.vote = !vote.vote;
-
-
-        this.voteService.updateForSubComment(subComment.id, vote.id, vote).subscribe(
-          data => {
-            console.log('i change my vote child');
-            this.showCommentsForLanguage();
-          },
-          err => console.error('Observer got an error: ' + err)
-        );
-      }
-    } else {
-      const newVote = new Vote();
-      newVote.vote = voteValue;
-      newVote.subComment = subComment;
-      newVote.user = this.currentUser;
-      this.voteService.createForSubComment(subComment.id, newVote).subscribe(
-        data => {
-          console.log(data);
-
-          console.log('my first vote Child');
-          this.showCommentsForLanguage();
-        },
-        err => console.error('Observer got an error: ' + err)
-      );
-    }
-  }
 
   setupAddingComment() {
     this.newComment = new Comment();
@@ -207,19 +200,45 @@ export class CommentsComponent implements OnInit {
     this.updatingComment.user = comment.user;
     this.updatingComment.votes = comment.votes;
   }
+  setupUpdatingSubComment(subComment: SubComment) {
+    this.updatingSubComment = new Comment();
 
-  setupReplyingComment(comment: Comment) {
-    this.replyingComment = new SubComment();
-    this.replyingComment.parentComment = comment;
-    this.replyingComment.user = this.currentUser;
+    this.updatingSubComment.id = subComment.id;
+    this.updatingSubComment.comment = subComment.comment;
+    this.updatingSubComment.dateAdded = subComment.dateAdded;
+    this.updatingSubComment.dateUpdated = subComment.dateUpdated;
+    this.updatingSubComment.user = subComment.user;
+  }
+
+  setupReplyToComment(comment: Comment) {
+    this.replyToComment = new SubComment();
+    this.replyToComment.parentComment = comment;
+    this.replyToComment.user = this.currentUser;
 
 
   }
+  setupReplyToSubComment(subComment: SubComment) {
+
+    this.replyToSubComment = new SubComment();
+    this.replyToSubComment.id = subComment.id;
+    this.replyToSubComment.parentComment = subComment.parentComment;
+    this.replyToSubComment.user = this.currentUser;
+
+
+  }
+
+
   teardownUpdatingComment() {
     this.updatingComment = null;
   }
-  teardownReplyingComment() {
-    this.replyingComment = null;
+  teardownUpdatingSubComment() {
+    this.updatingSubComment = null;
+  }
+  teardownReplyToComment() {
+    this.replyToComment = null;
+  }
+  teardownReplyToSubComment() {
+    this.replyToSubComment = null;
   }
 
   isLoggedIn() {
@@ -230,53 +249,46 @@ export class CommentsComponent implements OnInit {
     return username === this.authService.getUsername();
   }
 
-  hasVotedOnComment(votes: Vote[]): Vote {
+  hasVotedOnParentComment(votes: Vote[]): Vote {
     for (let i = 0; i < votes.length; i++) {
       if (votes[i].user.username === this.authService.getUsername()
       && votes[i].comment !== null) {
+        // console.log(votes[i]);
 
         return votes[i];
       }
     }
     return null;
   }
-  hasVotedOnSubComment(votes: Vote[]): Vote {
-    for (let i = 0; i < votes.length; i++) {
-      if (votes[i].user.username === this.authService.getUsername()
-      && votes[i].subComment !== null) {
-        return votes[i];
-      }
+
+
+  isUpVotedParentComment(votes: Vote[]) {
+    const theParentVote = this.hasVotedOnParentComment(votes);
+    if (!theParentVote) {
+      return 'badge badge-pill badge-secondary';
     }
-    return null;
+    return theParentVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
+  }
+  isDownVotedParentComment(votes: Vote[]) {
+    const theVote = this.hasVotedOnParentComment(votes);
+    if (!theVote) {
+      return 'badge badge-pill badge-secondary';
+    }
+    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
   }
 
-  isUpVotedComment(votes: Vote[]) {
-    const theVote = this.hasVotedOnComment(votes);
-    if (!theVote) {
-      return 'badge badge-pill badge-secondary';
-    }
-    return theVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
+  getAtUsernameAnnotation(username: string, reply: SubComment) {
+    return reply.comment = '@' + username + ' ' + reply.comment;
   }
-  isDownVotedComment(votes: Vote[]) {
-    const theVote = this.hasVotedOnComment(votes);
-    if (!theVote) {
-      return 'badge badge-pill badge-secondary';
+
+  setShowReplies(comment) {
+    if (this.showReplies && this.showReplies !== comment.id) {
+      this.showReplies = comment.id;
+    } else if (this.showReplies && this.showReplies === comment.id) {
+      this.showReplies = null;
+    } else {
+      this.showReplies = comment.id;
     }
-    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
-  }
-  isUpVotedSubComment(votes: Vote[]) {
-    const theVote = this.hasVotedOnSubComment(votes);
-    if (!theVote) {
-      return 'badge badge-pill badge-secondary';
-    }
-    return theVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
-  }
-  isDownVotedSubComment(votes: Vote[]) {
-    const theVote = this.hasVotedOnSubComment(votes);
-    if (!theVote) {
-      return 'badge badge-pill badge-secondary';
-    }
-    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
   }
 
   setSortQuery(query: string) {

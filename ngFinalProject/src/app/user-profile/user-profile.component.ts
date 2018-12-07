@@ -33,6 +33,7 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.user = new User();
     this.showUser();
     // this.getUserComments();
   }
