@@ -53,6 +53,8 @@ public class CommentServiceImpl implements CommentService {
 
 		if (existing != null) {
 			
+			existing.setActive(comment.getActive());
+			existing.setFlag(comment.getFlag());
 			existing.setComment(comment.getComment());
 			existing.setDateAdded(comment.getDateAdded());
 			existing.setDateUpdated(comment.getDateUpdated());
@@ -87,18 +89,6 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public List<Comment> indexByUserame(String username) {
 		return commentRepo.findCommentsByUsername(username);
-	}
-	
-	@Override
-	public boolean deactivate(String username, int id) {
-		boolean deactivated = false;
-		Comment c = commentRepo.findByUsernameAndId(username, id);
-		if(c != null && commentRepo.existsById(c.getId())) {
-			c.setActive(false);
-			c = commentRepo.saveAndFlush(c);
-			deactivated = !c.getActive() ? true : false; 
-		}
-		return deactivated;
 	}
 	
 	// helper methods

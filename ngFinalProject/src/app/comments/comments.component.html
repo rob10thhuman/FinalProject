@@ -67,6 +67,11 @@
     </button>
   </div>
 
+
+
+
+
+
   <div *ngFor="let comment of comments | activeCommentsFilter">
     <div class="card card-comment">
       <div class="card-body">
@@ -108,7 +113,7 @@
           </button>
           <button
             class="badge badge-pill badge-danger"
-            (click)="deactivateComment(comment.id)"
+            (click)="deactivateComment(comment)"
           >
             Delete
           </button>
@@ -118,11 +123,11 @@
           class="btn-group"
           *ngIf="isLoggedIn() && !isLoggedInUsername(comment.user.username) "
         >
-          <button
-            class="badge badge-pill badge-primary"
-            (click)="setupReplyToComment(comment)"
-          >
+          <button class="badge badge-pill badge-primary" (click)="setupReplyToComment(comment)">
             Reply
+          </button>
+          <button *ngIf="!comment.flag || comment.flag === null" class="badge badge-pill badge-info" (click)="flagComment(comment)">
+            Flag
           </button>
         </div>
         <button
@@ -180,7 +185,13 @@
       </div>
     </div>
 
-    <div *ngIf="showReplies === comment.id" class="card card-sub-comment">
+
+
+
+
+
+
+    <div *ngIf="showReplies === comment.id && (comment.subComments | activeCommentsFilter).length > 0" class="card card-sub-comment">
       <div *ngFor="let subComment of comment.subComments | activeCommentsFilter" class="card-body">
         <h5 class="card-title" style="color:blueviolet">
           {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
@@ -214,7 +225,7 @@
           </button>
           <button
             class="badge badge-pill badge-danger"
-            (click)="deactivateSubComment(subComment.id)"
+            (click)="deactivateSubComment(comment, subComment)"
           >
             Delete
           </button>

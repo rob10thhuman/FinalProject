@@ -11,7 +11,6 @@ public interface CommentService {
 	public Comment create(String username, Comment c);
 	public Comment update(String username, int id, Comment c);
 	public boolean delete(String username, int id);
-	public boolean deactivate(String username, int id);
 	
 	public List<Comment> indexByLanguageName(String langName);
 	public List<Comment> indexByUserame(String username);

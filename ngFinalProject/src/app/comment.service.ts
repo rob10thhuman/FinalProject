@@ -54,11 +54,6 @@ export class CommentService {
       catchError(this.handleError));
   }
 
-  deactivate(id: number) {
-    return this.http.delete<Comment>(this.authUrl + '/deactivate/' + id, this.httpOptions).pipe(
-      catchError(this.handleError));
-  }
-
   update(id: number, data: Comment) {
     return this.http.put<Comment>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
       catchError(this.handleError));
