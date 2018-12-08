@@ -40,9 +40,9 @@ public class SubCommentController {
 		return subCommentSvc.create(principal.getName(), parentId, subComment);
 	}
 	
-	@PutMapping("auth/sub-comments/{id}")
-	public SubComment updateSubComment(@PathVariable int id, @RequestBody SubComment subComment, Principal principal) {
-		return subCommentSvc.update(principal.getName(), id, subComment);
+	@PutMapping("auth/sub-comments/{parentId}")
+	public SubComment updateSubComment(@PathVariable int parentId, @RequestBody SubComment subComment) {
+		return subCommentSvc.update(parentId, subComment);
 	}
 	
 	@DeleteMapping("auth/sub-comments/{id}")

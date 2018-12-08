@@ -62,10 +62,13 @@ public class SubCommentServiceImpl implements SubCommentService {
 	}
 
 	@Override
-	public SubComment update(String username, int parentCommentid, SubComment subComment) {
-		SubComment existing = subCommentRepo.findByUsernameAndId(username, subComment.getId());
-		Optional<Comment> opt = commentRepo.findById(parentCommentid);
-		if (existing != null && opt.isPresent()) {
+	public SubComment update(int parentCommentid, SubComment subComment) {
+		SubComment existing = null;
+		Optional<SubComment> scOpt = subCommentRepo.findById(subComment.getId());
+		Optional<Comment> cOpt = commentRepo.findById(parentCommentid);
+		
+		if (scOpt.isPresent() && cOpt.isPresent()) {
+			existing = scOpt.get();
 			
 			existing.setActive(subComment.getActive());
 			existing.setFlag(subComment.getFlag());
@@ -74,7 +77,7 @@ public class SubCommentServiceImpl implements SubCommentService {
 			existing.setDateUpdated(subComment.getDateUpdated());
 			existing.setUser(subComment.getUser());
 			
-			Comment c = opt.get();
+			Comment c = cOpt.get();
 			c.addSubComment(existing);
 			existing = subCommentRepo.saveAndFlush(existing);
 			commentRepo.saveAndFlush(c);

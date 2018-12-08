@@ -92,8 +92,12 @@ export class CommentsComponent implements OnInit {
   }
 
   updateComment(id, comment) {
+
     this.commentService.update(id, comment).subscribe(
       data => {
+        console.log('here it comes');
+        console.log(data);
+
         this.showCommentsForLanguage();
         this.teardownUpdatingComment();
       },
@@ -305,5 +309,9 @@ export class CommentsComponent implements OnInit {
   flagComment(comment: Comment) {
     comment.flag = true;
     this.updateComment(comment.id, comment);
+  }
+  flagSubComment(parentComment: Comment, subComment: SubComment) {
+    subComment.flag = true;
+    this.updateSubComment(parentComment, subComment);
   }
 }

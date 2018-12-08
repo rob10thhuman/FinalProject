@@ -1,11 +1,11 @@
 <h4>Comments</h4>
 
-<div *ngIf="comments.length === 0">
+<div *ngIf="(comments | activeCommentsFilter).length === 0">
   Nobody has commented yet! Would you like to be the first?
 </div>
 
 <button
-  class="btn btn-dark"
+  class="badge badge-pill badge-primary"
   *ngIf="!newComment && isLoggedIn()"
   (click)="setupAddingComment()"
 >
@@ -22,17 +22,17 @@
   ></textarea>
   <br />
   <div class="btn-group">
-    <button (click)="addComment(newComment)" class="btn btn-outline-success">
+    <button (click)="addComment(newComment)" class="badge badge-pill badge-success">
       Add
     </button>
-    <button (click)="teardownAddingComment()" class="btn btn-outline-danger">
+    <button (click)="teardownAddingComment()" class="badge badge-pill badge-danger">
       Cancel
     </button>
   </div>
 </form>
 <br />
 
-<div *ngIf="comments.length !== 0">
+<div *ngIf="(comments | activeCommentsFilter).length > 0">
   <div class="btn-group">
     <h5>Sort By:</h5>
     <button
@@ -99,6 +99,9 @@
         <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
           {{ comment.dateUpdated | date: 'shortDate' }}
         </h6>
+        <h5 *ngIf="comment.flag" class="card-subtitle mb-2 text-muted" >
+            &#9873;
+        </h5>
         <p class="card-text">{{ comment.comment }}</p>
 
         <div
@@ -106,7 +109,7 @@
           *ngIf="isLoggedInUsername(comment.user.username) && !updatingComment"
         >
           <button
-            class="badge badge-pill badge-primary"
+            class="badge badge-pill badge-success"
             (click)="setupUpdatingComment(comment)"
           >
             Edit
@@ -126,13 +129,13 @@
           <button class="badge badge-pill badge-primary" (click)="setupReplyToComment(comment)">
             Reply
           </button>
-          <button *ngIf="!comment.flag || comment.flag === null" class="badge badge-pill badge-info" (click)="flagComment(comment)">
+          <button *ngIf="!comment.flag || comment.flag === null" class="badge badge-pill badge-warning" (click)="flagComment(comment)">
             Flag
           </button>
         </div>
         <button
           *ngIf="(comment.subComments | activeCommentsFilter).length > 0"
-          class="badge badge-pill badge-primary"
+          class="badge badge-pill badge-info"
           (click)="setShowReplies(comment)"
         >
           {{ showReplies === comment.id ? 'Hide Replies' : 'Show Replies' }}
@@ -148,11 +151,11 @@
           <div class="btn-group">
             <button
               (click)="updateComment(updatingComment.id, updatingComment)"
-              class="btn btn-primary"
+              class="badge badge-pill badge-success"
             >
               Update
             </button>
-            <button (click)="teardownUpdatingComment()" class="btn btn-danger">
+            <button (click)="teardownUpdatingComment()" class="badge badge-pill badge-danger">
               Cancel
             </button>
           </div>
@@ -173,11 +176,11 @@
           <div class="btn-group">
             <button
               (click)="addReplyToComment(comment, replyToComment)"
-              class="btn btn-primary"
+              class="badge badge-pill badge-success"
             >
               Add Reply
             </button>
-            <button (click)="teardownReplyToComment()" class="btn btn-danger">
+            <button (click)="teardownReplyToComment()" class="badge badge-pill badge-danger">
               Cancel
             </button>
           </div>
@@ -200,6 +203,9 @@
         <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
           {{ subComment.dateUpdated | date: 'shortDate' }}
         </h6>
+        <h5 *ngIf="subComment.flag" class="card-subtitle mb-2 text-muted" >
+            &#9873;
+        </h5>
         <p class="card-text">{{ subComment.comment }}</p>
 
         <div
@@ -212,13 +218,16 @@
           >
             Reply
           </button>
+          <button *ngIf="!subComment.flag || subComment.flag === null" class="badge badge-pill badge-warning" (click)="flagSubComment(comment, subComment)">
+              Flag
+            </button>
         </div>
         <div
           class="btn-group"
-          *ngIf="isLoggedInUsername(subComment.user.username)"
+          *ngIf="isLoggedInUsername(subComment.user.username) && !updatingSubComment"
         >
           <button
-            class="badge badge-pill badge-primary"
+            class="badge badge-pill badge-success"
             (click)="setupUpdatingSubComment(subComment)"
           >
             Edit
@@ -245,13 +254,13 @@
               (click)="
                 addReplyToSubComment(comment, subComment, replyToSubComment)
               "
-              class="btn btn-primary"
+              class="badge badge-pill badge-success"
             >
               Add Reply
             </button>
             <button
               (click)="teardownReplyToSubComment()"
-              class="btn btn-danger"
+              class="badge badge-pill badge-danger"
             >
               Cancel
             </button>
@@ -273,13 +282,13 @@
           <div class="btn-group">
             <button
               (click)="updateSubComment(comment, updatingSubComment)"
-              class="btn btn-primary"
+              class="badge badge-pill badge-success"
             >
               Update
             </button>
             <button
               (click)="teardownUpdatingSubComment()"
-              class="btn btn-danger"
+              class="badge badge-pill badge-danger"
             >
               Cancel
             </button>

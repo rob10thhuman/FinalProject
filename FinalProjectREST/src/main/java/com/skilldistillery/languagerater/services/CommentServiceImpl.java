@@ -46,12 +46,13 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Comment update(String username, int id, Comment comment) {
+	public Comment update(int id, Comment comment) {
 		
-		
-		Comment existing = commentRepo.findByUsernameAndId(username, id);
+		Comment existing = null;
+		Optional<Comment> opt = commentRepo.findById(id);
 
-		if (existing != null) {
+		if (opt.isPresent()) {
+			existing = opt.get();
 			
 			existing.setActive(comment.getActive());
 			existing.setFlag(comment.getFlag());
@@ -68,11 +69,12 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public boolean delete(String username, int id) {
+	public boolean delete(int id) {
 		boolean deleted = false;
-		Comment c = commentRepo.findByUsernameAndId(username, id);
 		
-		if(c != null && commentRepo.existsById(c.getId())) {
+		Optional<Comment> opt = commentRepo.findById(id);
+		if(opt.isPresent()) {
+			Comment c = opt.get();
 			removeVotesFromComment(c);
 			commentRepo.delete(c);
 			deleted = true;
