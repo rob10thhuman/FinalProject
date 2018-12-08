@@ -4,6 +4,12 @@
 <div class="container">
   <div class="row">
 <div class="col-sm-3">
+       Test Overall: <b>{{avgTestRating == -1 ? "No ratings available!" : avgTestRating}}</b><BR>
+      <ngb-rating [(rate)]="avgTestRating" max="5" [readonly]="readonly">
+      </ngb-rating>
+
+      <BR>
+
         Avg Overall: <b>{{avgRating == -1 ? "No ratings available!" : avgRating}}</b><BR>
         <ngb-rating [(rate)]="avgRating" max="5" [readonly]="readonly">
         </ngb-rating>

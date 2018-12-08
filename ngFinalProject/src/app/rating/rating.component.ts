@@ -16,6 +16,7 @@ import { NullTemplateVisitor } from '@angular/compiler';
 export class RatingComponent implements OnInit {
 
   readonly = true;
+  avgTestRating = 3;
   avgRating = 0;
   avgCat1Rating = 0;
   avgCat2Rating = 0;
@@ -46,6 +47,7 @@ export class RatingComponent implements OnInit {
     console.log('show rating object:');
     console.log(ratings);
     // const cat1 = this.detail.language.lRatings
+    let testSum = 0;
     let sum = 0;
     let sum1 = 0;
     let sum2 = 0;
