@@ -8,7 +8,6 @@ public interface LanguageService {
 
 	List<Language> index();
 	List<Language> indexByKeywords(String keywords);
-	List<Language> indexByRatings(double minRating, double minCat1, double minCat2, double minCat3);
 
 	boolean destroy(int id);
 

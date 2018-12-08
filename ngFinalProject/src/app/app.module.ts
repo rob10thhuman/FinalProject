@@ -28,6 +28,7 @@ import { ChartsModule } from 'ng2-charts';
 import { UserGraphComponent } from './user-graph/user-graph.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ActiveCommentsFilterPipe } from './active-comments-filter.pipe';
+import { RatingTestsComponent } from './rating-tests/rating-tests.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ActiveCommentsFilterPipe } from './active-comments-filter.pipe';
     SortCommentsPipe,
     UserGraphComponent,
     EditProfileComponent,
-    ActiveCommentsFilterPipe
+    ActiveCommentsFilterPipe,
+    RatingTestsComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ import { ListLangugageComponent } from './list-langugage/list-langugage.componen
 import { DetailLanguageComponent } from './detail-language/detail-language.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { RatingTestsComponent } from './rating-tests/rating-tests.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -27,8 +28,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'addLanguage', component: AddLanguageComponent},
   { path: 'resources', component: ResourcesComponent},
+  { path: 'test', component: RatingTestsComponent},
   { path: '**', component: NotFoundComponent }
-
 ];
 
 @NgModule({
