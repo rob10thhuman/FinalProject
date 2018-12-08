@@ -1,11 +1,13 @@
 package com.skilldistillery.languagerater.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.languagerater.entities.Comment;
+import com.skilldistillery.languagerater.entities.SubComment;
 import com.skilldistillery.languagerater.entities.User;
 import com.skilldistillery.languagerater.entities.Vote;
 import com.skilldistillery.languagerater.repositories.CommentRepository;
@@ -44,13 +46,16 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Comment update(String username, int id, Comment comment) {
+	public Comment update(int id, Comment comment) {
 		
-		
-		Comment existing = commentRepo.findByUsernameAndId(username, id);
+		Comment existing = null;
+		Optional<Comment> opt = commentRepo.findById(id);
 
-		if (existing != null) {
+		if (opt.isPresent()) {
+			existing = opt.get();
 			
+			existing.setActive(comment.getActive());
+			existing.setFlag(comment.getFlag());
 			existing.setComment(comment.getComment());
 			existing.setDateAdded(comment.getDateAdded());
 			existing.setDateUpdated(comment.getDateUpdated());
@@ -64,11 +69,12 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public boolean delete(String username, int id) {
+	public boolean delete(int id) {
 		boolean deleted = false;
-		Comment c = commentRepo.findByUsernameAndId(username, id);
 		
-		if(c != null && commentRepo.existsById(c.getId())) {
+		Optional<Comment> opt = commentRepo.findById(id);
+		if(opt.isPresent()) {
+			Comment c = opt.get();
 			removeVotesFromComment(c);
 			commentRepo.delete(c);
 			deleted = true;
@@ -87,6 +93,7 @@ public class CommentServiceImpl implements CommentService {
 		return commentRepo.findCommentsByUsername(username);
 	}
 	
+	// helper methods
 	private void removeVotesFromComment(Comment c) {
 		List<Vote> votes = c.getVotes();
 		for(Vote vote : votes) {

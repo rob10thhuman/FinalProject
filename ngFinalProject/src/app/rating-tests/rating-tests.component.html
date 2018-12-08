@@ -1,0 +1,14 @@
+<p>
+  rating-tests works!
+</p>
+<hr>
+<br>
+<br>
+<br>
+<br>
+
+<div *ngFor="let rating of ratings">
+    <ngb-rating [(rate)]="rating.rating" (rateChange)="printStuff(rating.rating)"></ngb-rating>
+    <pre>Rate: <b>{{rating.rating}}</b></pre>
+    <hr>
+</div>

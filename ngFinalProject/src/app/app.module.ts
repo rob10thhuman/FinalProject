@@ -27,6 +27,8 @@ import { SortCommentsPipe } from './sort-comments.pipe';
 import { ChartsModule } from 'ng2-charts';
 import { UserGraphComponent } from './user-graph/user-graph.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { ActiveCommentsFilterPipe } from './active-comments-filter.pipe';
+import { RatingTestsComponent } from './rating-tests/rating-tests.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,9 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     ResourcesComponent,
     SortCommentsPipe,
     UserGraphComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    ActiveCommentsFilterPipe,
+    RatingTestsComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
   ],
   providers: [
     CalculateVotesPipe,
-    SortCommentsPipe
+    SortCommentsPipe,
+    ActiveCommentsFilterPipe
   ],
   bootstrap: [AppComponent]
 })

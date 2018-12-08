@@ -9,8 +9,8 @@ public interface CommentService {
 	public List<Comment> index(String username);
 	public Comment show(String username, int id);
 	public Comment create(String username, Comment c);
-	public Comment update(String username, int id, Comment c);
-	public boolean delete(String username, int id);
+	public Comment update(int id, Comment c);
+	public boolean delete(int id);
 	
 	public List<Comment> indexByLanguageName(String langName);
 	public List<Comment> indexByUserame(String username);
