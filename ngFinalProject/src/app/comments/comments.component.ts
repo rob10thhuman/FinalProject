@@ -119,7 +119,6 @@ export class CommentsComponent implements OnInit {
       );
   }
   deactivateComment(id) {
-    console.log(id);
     this.commentService
       .deactivate(id)
       .subscribe(

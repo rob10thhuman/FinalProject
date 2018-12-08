@@ -90,16 +90,14 @@ public class CommentServiceImpl implements CommentService {
 	}
 	
 	@Override
-	public boolean deactivate(int id) {
+	public boolean deactivate(String username, int id) {
 		boolean deactivated = false;
-		Optional<Comment> opt = commentRepo.findById(id);
-		if(opt.isPresent()) {
-			Comment c = opt.get();
+		Comment c = commentRepo.findByUsernameAndId(username, id);
+		if(c != null && commentRepo.existsById(c.getId())) {
 			c.setActive(false);
 			c = commentRepo.saveAndFlush(c);
 			deactivated = !c.getActive() ? true : false; 
 		}
-			
 		return deactivated;
 	}
 	

@@ -51,7 +51,7 @@ export class SubCommentService {
   }
 
   deactivate(id: number) {
-    return this.http.put<SubComment>(this.authUrl + '/deactivate/' + id, this.httpOptions).pipe(
+    return this.http.delete<SubComment>(this.authUrl + '/deactivate/' + id, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 

@@ -55,7 +55,7 @@ export class CommentService {
   }
 
   deactivate(id: number) {
-    return this.http.put<Comment>(this.authUrl + '/deactivate/' + id, this.httpOptions).pipe(
+    return this.http.delete<Comment>(this.authUrl + '/deactivate/' + id, this.httpOptions).pipe(
       catchError(this.handleError));
   }
 

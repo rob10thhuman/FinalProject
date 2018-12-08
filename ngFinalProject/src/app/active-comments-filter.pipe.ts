@@ -6,7 +6,7 @@ import { Comment } from './models/comment';
 })
 export class ActiveCommentsFilterPipe implements PipeTransform {
 
-  transform(comments: Comment[], args?: any): any {
+  transform(comments: any[], args?: any): any {
     const results: Comment[] = [];
 
     comments.forEach((c) => {

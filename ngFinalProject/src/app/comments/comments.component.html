@@ -126,7 +126,7 @@
           </button>
         </div>
         <button
-          *ngIf="comment.subComments.length > 0"
+          *ngIf="(comment.subComments | activeCommentsFilter).length > 0"
           class="badge badge-pill badge-primary"
           (click)="setShowReplies(comment)"
         >
@@ -181,7 +181,7 @@
     </div>
 
     <div *ngIf="showReplies === comment.id" class="card card-sub-comment">
-      <div *ngFor="let subComment of comment.subComments" class="card-body">
+      <div *ngFor="let subComment of comment.subComments | activeCommentsFilter" class="card-body">
         <h5 class="card-title" style="color:blueviolet">
           {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
           {{ subComment.user.username }}
@@ -214,7 +214,7 @@
           </button>
           <button
             class="badge badge-pill badge-danger"
-            (click)="deleteSubComment(subComment.id)"
+            (click)="deactivateSubComment(subComment.id)"
           >
             Delete
           </button>
