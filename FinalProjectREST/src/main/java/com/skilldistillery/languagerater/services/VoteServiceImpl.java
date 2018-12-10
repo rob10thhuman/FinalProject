@@ -144,7 +144,6 @@ public class VoteServiceImpl implements VoteService {
 			for(Vote v : c.getVotes()) {
 				if(v.isVote()) {
 					upCount++;
-					System.out.println("there was an upvote");
 				}
 				else if(!v.isVote()) {
 					downCount++;

@@ -87,7 +87,7 @@
     <div class="card card-comment">
       <div class="card-body container">
         <h5 class="card-title" style="color:rgb(38, 0, 177)">
-            {{ isLoggedInUsername(comment.user.username) ? '(YOU)' : '' }}
+            {{ isLoggedInUsername(comment.user.username) ? '&#10687;' : '' }}
             {{ comment.user.username }}
             <span class="badge badge-pill badge-info">
                 &#11088; {{ comment.user.reputation ? comment.user.reputation : 0 }}
@@ -232,7 +232,7 @@
         class="card-body"
       >
         <h5 class="card-title" style="color:blueviolet">
-          {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
+          {{ isLoggedInUsername(subComment.user.username) ? '&#10687;' : '' }}
           {{ subComment.user.username }}
           <span class="badge badge-pill badge-info">
               &#11088; {{ subComment.user.reputation ? subComment.user.reputation : 0 }}
