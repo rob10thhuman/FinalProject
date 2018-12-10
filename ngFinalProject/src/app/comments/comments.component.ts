@@ -28,7 +28,7 @@ export class CommentsComponent implements OnInit {
   currentUser: User = new User();
   showReplies = null;
 
-  sortQuery = 'TOP';
+  sortQuery = 'TOP_RATED';
 
   constructor(
     private commentService: CommentService,

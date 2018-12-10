@@ -43,13 +43,23 @@
     <h5>Sort By:</h5>
     <button
       [ngClass]="
-        sortQuery === 'TOP'
+        sortQuery === 'TOP_RATED'
           ? 'badge badge-pill badge-primary'
           : 'badge badge-pill badge-light'
       "
-      (click)="setSortQuery('TOP')"
+      (click)="setSortQuery('TOP_RATED')"
     >
       Top Rated
+    </button>
+    <button
+      [ngClass]="
+        sortQuery === 'TOP_REP'
+          ? 'badge badge-pill badge-primary'
+          : 'badge badge-pill badge-light'
+      "
+      (click)="setSortQuery('TOP_REP')"
+    >
+      Top Reputation
     </button>
     <button
       [ngClass]="
@@ -224,6 +234,9 @@
         <h5 class="card-title" style="color:blueviolet">
           {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
           {{ subComment.user.username }}
+          <span class="badge badge-pill badge-info">
+              &#11088; {{ subComment.user.reputation ? subComment.user.reputation : 0 }}
+          </span>
         </h5>
         <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
           {{ subComment.dateUpdated | date: 'shortDate' }}
