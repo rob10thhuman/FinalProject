@@ -1,9 +1,10 @@
+import { Language } from './../models/language';
 import { CategoryRating } from './../models/category-rating';
 import { Category } from './../models/category';
 import { Component, OnInit } from '@angular/core';
-import { Language } from '../models/language';
 import { LanguageService } from '../language.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
 
 @Component({
   selector: 'app-list-langugage',
@@ -14,6 +15,8 @@ export class ListLangugageComponent implements OnInit {
 
   speed = new Category(1, 'Speed');
 
+  avgSpeed = 0;
+
   categories = [this.speed];
 
   cat = this.categories[0];
@@ -21,6 +24,9 @@ export class ListLangugageComponent implements OnInit {
   categoryRatings = [];
 
   title = 'Error!';
+
+  cat1rating = [];
+
 
   languages: Language[] = [];
   constructor(
@@ -37,7 +43,7 @@ export class ListLangugageComponent implements OnInit {
       this.indexLanguagesBySearch(searchString);
     } else {
       this.indexLanguages();
-      this.indexCategories();
+      // this.indexCategories();
       this.getAllCategoryRatings();
     }
   }
@@ -89,6 +95,198 @@ export class ListLangugageComponent implements OnInit {
       },
       err => console.error('Observer got an error: ' + err)
     );
+  }
+
+  sortByOverall() {
+    this.langService.index().subscribe(
+      data => {
+        const list = data;
+        console.log('**********************');
+        console.log(data);
+
+        for (let i = 0; i < list.length; i++) {
+            const subList = list[i].lRatings;
+            let sum = 0;
+            const language = list[i];
+
+            console.log(language);
+              for (let j = 0; j < subList.length; j++) {
+                sum += list[i].lRatings[j].rating;
+              }
+              console.log('AVG OVERALL:');
+              console.log(sum / subList.length);
+              const avgRating = sum / subList.length;
+              const newObject = {language, avgRating};
+              this.cat1rating[i] = newObject;
+              console.log(this.cat1rating);
+        }
+
+
+        const sortedArray = this.cat1rating.sort((a, b) => {
+          if (a.avgRating > b.avgRating) {
+           return -1;
+          }
+          if (a.avgRating < b.avgRating) {
+            return 1;
+          }
+          return 0;
+        });
+
+      this.languages = [];
+
+      for (let j = 0; j < sortedArray.length; j++) {
+        this.languages.push(sortedArray[j].language);
+
+      }
+
+    },
+      err => console.error('Observer got an error: ' + err)
+    );
+
+  }
+
+  sortBySafety() {
+    this.langService.index().subscribe(
+      data => {
+        const list = data;
+        console.log('**********************');
+        console.log(data);
+
+        for (let i = 0; i < list.length; i++) {
+            const subList = list[i].lRatings;
+            let sum = 0;
+            const language = list[i];
+
+            console.log(language);
+              for (let j = 0; j < subList.length; j++) {
+                sum += list[i].lRatings[j].cat1;
+              }
+              console.log('AVG SAFETY RATING:');
+              console.log(sum / subList.length);
+              const avgSafety = sum / subList.length;
+              const newObject = {language, avgSafety};
+              this.cat1rating[i] = newObject;
+              console.log(this.cat1rating);
+        }
+
+
+        const sortedArray = this.cat1rating.sort((a, b) => {
+          if (a.avgSafety > b.avgSafety) {
+           return -1;
+          }
+          if (a.avgSafety < b.avgSafety) {
+            return 1;
+          }
+          return 0;
+        });
+
+      this.languages = [];
+
+      for (let j = 0; j < sortedArray.length; j++) {
+        this.languages.push(sortedArray[j].language);
+
+      }
+
+    },
+      err => console.error('Observer got an error: ' + err)
+    );
+
+  }
+
+  sortBySpeed() {
+    this.langService.index().subscribe(
+      data => {
+        const list = data;
+        console.log('**********************');
+        console.log(data);
+
+        for (let i = 0; i < list.length; i++) {
+            const subList = list[i].lRatings;
+            let sum = 0;
+            const language = list[i];
+
+            console.log(language);
+              for (let j = 0; j < subList.length; j++) {
+                sum += list[i].lRatings[j].cat2;
+              }
+              console.log('AVG SPEED RATING:');
+              console.log(sum / subList.length);
+              const avgSpeed = sum / subList.length;
+              const newObject = {language, avgSpeed};
+              this.cat1rating[i] = newObject;
+              console.log(this.cat1rating);
+        }
+
+
+        const sortedArray = this.cat1rating.sort((a, b) => {
+          if (a.avgSpeed > b.avgSpeed) {
+           return -1;
+          }
+          if (a.avgSpeed < b.avgSpeed) {
+            return 1;
+          }
+          return 0;
+        });
+
+      this.languages = [];
+
+      for (let j = 0; j < sortedArray.length; j++) {
+        this.languages.push(sortedArray[j].language);
+
+      }
+
+    },
+      err => console.error('Observer got an error: ' + err)
+    );
+
+  }
+
+  sortByEaseOfLearning() {
+    this.langService.index().subscribe(
+      data => {
+        const list = data;
+        console.log('**********************');
+        console.log(data);
+
+        for (let i = 0; i < list.length; i++) {
+            const subList = list[i].lRatings;
+            let sum = 0;
+            const language = list[i];
+
+            console.log(language);
+              for (let j = 0; j < subList.length; j++) {
+                sum += list[i].lRatings[j].cat3;
+              }
+              console.log('AVG EASE OF LEARNING:');
+              console.log(sum / subList.length);
+              const avgEase = sum / subList.length;
+              const newObject = {language, avgEase};
+              this.cat1rating[i] = newObject;
+              console.log(this.cat1rating);
+        }
+
+
+        const sortedArray = this.cat1rating.sort((a, b) => {
+          if (a.avgEase > b.avgEase) {
+           return -1;
+          }
+          if (a.avgEase < b.avgEase) {
+            return 1;
+          }
+          return 0;
+        });
+
+      this.languages = [];
+
+      for (let j = 0; j < sortedArray.length; j++) {
+        this.languages.push(sortedArray[j].language);
+
+      }
+
+    },
+      err => console.error('Observer got an error: ' + err)
+    );
+
   }
 
 }

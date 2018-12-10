@@ -18,5 +18,11 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> indexCat() {
 		return catRepo.findAll();
 	}
+	
+	
+//	@Override
+//	public List<int> getSumByCategoryForOneUser() {
+//		return catRepo.getSumByCategoryForOneUser();
+//	}
 
 }

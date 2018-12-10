@@ -10,4 +10,7 @@ public interface CategoryRatingService {
 
 	CategoryRating add(CategoryRating categoryRating);
 
+	void getAvgByCategory();
+
+
 }
