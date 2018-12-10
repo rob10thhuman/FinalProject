@@ -39,8 +39,17 @@ export class ListLangugageComponent implements OnInit {
 
     const searchString = this.route.snapshot.paramMap.get('searchString');
 
+    // It is probably possible to do this more cleanly (ie without parsing a string to an int)
+    const minRating = parseInt(this.route.snapshot.paramMap.get('minRating'), 10);
+    const minCat1 = parseInt(this.route.snapshot.paramMap.get('minCat1'), 10);
+    const minCat2 = parseInt(this.route.snapshot.paramMap.get('minCat2'), 10);
+    const minCat3 = parseInt(this.route.snapshot.paramMap.get('minCat3'), 10);
+
     if (searchString) {
       this.indexLanguagesBySearch(searchString);
+    } else if (minRating !== null && minCat1 !== null && minCat2 !== null && minCat3 !== null) {
+      console.log(minRating, minCat1, minCat2, minCat3);
+      this.indexLanguagesByRating(minRating, minCat1, minCat2, minCat3);
     } else {
       this.indexLanguages();
       // this.indexCategories();
@@ -49,6 +58,18 @@ export class ListLangugageComponent implements OnInit {
   }
 
   indexLanguages() {
+    this.langService.index().subscribe(
+      data => {
+        this.languages = data;
+        this.title = 'Top 10 Languages:';
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  indexLanguagesByRating(minRating: number, minCat1: number, minCat2: number, minCat3: number) {
+    // Currently a clone of indexLanguages()
+    // TODO: only fetch those languages where the average ratings exceed the minimums provided
     this.langService.index().subscribe(
       data => {
         this.languages = data;
