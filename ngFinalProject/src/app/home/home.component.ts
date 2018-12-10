@@ -44,8 +44,8 @@ export class HomeComponent implements OnInit {
           const avgRatingOverall = sumOverall / subList.length;
           const avgRatingSafety = sumCat1 / subList.length;
           const avgRatingSpeed = sumCat2 / subList.length;
-          const avgRatingEaseOfLearning = sumCat3 / subList.length;
-          const newObject = { language, avgRatingOverall, avgRatingSafety, avgRatingSpeed, avgRatingEaseOfLearning};
+          const avgRatingEase = sumCat3 / subList.length;
+          const newObject = { language, avgRatingOverall, avgRatingSafety, avgRatingSpeed, avgRatingEase};
           catRating[i] = newObject;
         }
         this.langService.languagesListWithAvgs = catRating;

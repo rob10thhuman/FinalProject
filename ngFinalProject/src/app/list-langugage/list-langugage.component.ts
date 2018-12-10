@@ -12,7 +12,6 @@ import { TestBed } from '@angular/core/testing';
   styleUrls: ['./list-langugage.component.css']
 })
 export class ListLangugageComponent implements OnInit {
-
   speed = new Category(1, 'Speed');
 
   avgSpeed = 0;
@@ -27,7 +26,6 @@ export class ListLangugageComponent implements OnInit {
 
   cat1rating = [];
 
-
   languages: Language[] = [];
   constructor(
     private langService: LanguageService,
@@ -36,18 +34,25 @@ export class ListLangugageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
     const searchString = this.route.snapshot.paramMap.get('searchString');
 
     // It is probably possible to do this more cleanly (ie without parsing a string to an int)
-    const minRating = parseInt(this.route.snapshot.paramMap.get('minRating'), 10);
+    const minRating = parseInt(
+      this.route.snapshot.paramMap.get('minRating'),
+      10
+    );
     const minCat1 = parseInt(this.route.snapshot.paramMap.get('minCat1'), 10);
     const minCat2 = parseInt(this.route.snapshot.paramMap.get('minCat2'), 10);
     const minCat3 = parseInt(this.route.snapshot.paramMap.get('minCat3'), 10);
 
     if (searchString) {
       this.indexLanguagesBySearch(searchString);
-    } else if (minRating !== null && minCat1 !== null && minCat2 !== null && minCat3 !== null) {
+    } else if (
+      minRating !== null &&
+      minCat1 !== null &&
+      minCat2 !== null &&
+      minCat3 !== null
+    ) {
       console.log(minRating, minCat1, minCat2, minCat3);
       this.indexLanguagesByRating(minRating, minCat1, minCat2, minCat3);
     } else {
@@ -67,7 +72,12 @@ export class ListLangugageComponent implements OnInit {
     );
   }
 
-  indexLanguagesByRating(minRating: number, minCat1: number, minCat2: number, minCat3: number) {
+  indexLanguagesByRating(
+    minRating: number,
+    minCat1: number,
+    minCat2: number,
+    minCat3: number
+  ) {
     // Currently a clone of indexLanguages()
     // TODO: only fetch those languages where the average ratings exceed the minimums provided
     this.langService.index().subscribe(
@@ -115,28 +125,48 @@ export class ListLangugageComponent implements OnInit {
     );
   }
 
+  sortByCategory(category) {
+    const list = this.langService.languagesListWithAvgs;
+    let sortedArray = [];
+    if (category === 'Overall') {
+      sortedArray = list.sort((a, b) => a.avgRatingOverall > b.avgRatingOverall ? -1 : a.avgRatingOverall < b.avgRatingOverall ? 1 : 0);
+    }
+    if (category === 'Safety') {
+      sortedArray = list.sort((a, b) => a.avgRatingSafety > b.avgRatingSafety ? -1 : a.avgRatingSafety < b.avgRatingSafety ? 1 : 0);
+    }
+    if (category === 'Speed') {
+      sortedArray = list.sort((a, b) => a.avgRatingSpeed > b.avgRatingSpeed ? -1 : a.avgRatingSpeed < b.avgRatingSpeed ? 1 : 0);
+    }
+    if (category === 'EaseOfLearning') {
+      sortedArray = list.sort((a, b) => a.avgRatingEase > b.avgRatingEase ? -1 : a.avgRatingEase < b.avgRatingEase ? 1 : 0);
+    }
+    this.languages = [];
+    for (let j = 0; j < sortedArray.length; j++) {
+      this.languages.push(sortedArray[j].language);
+    }
+  }
+
   sortByOverall() {
     this.langService.index().subscribe(
       data => {
         const list = data;
 
         for (let i = 0; i < list.length; i++) {
-            const subList = list[i].lRatings;
-            let sum = 0;
-            const language = list[i];
+          const subList = list[i].lRatings;
+          let sum = 0;
+          const language = list[i];
 
-              for (let j = 0; j < subList.length; j++) {
-                sum += list[i].lRatings[j].rating;
-              }
-              const avgRating = sum / subList.length;
-              const newObject = {language, avgRating};
-              this.cat1rating[i] = newObject;
+          for (let j = 0; j < subList.length; j++) {
+            sum += list[i].lRatings[j].rating;
+          }
+          const avgRating = sum / subList.length;
+          const newObject = { language, avgRating };
+          this.cat1rating[i] = newObject;
         }
-
 
         const sortedArray = this.cat1rating.sort((a, b) => {
           if (a.avgRating > b.avgRating) {
-           return -1;
+            return -1;
           }
           if (a.avgRating < b.avgRating) {
             return 1;
@@ -144,17 +174,14 @@ export class ListLangugageComponent implements OnInit {
           return 0;
         });
 
-      this.languages = [];
+        this.languages = [];
 
-      for (let j = 0; j < sortedArray.length; j++) {
-        this.languages.push(sortedArray[j].language);
-
-      }
-
-    },
+        for (let j = 0; j < sortedArray.length; j++) {
+          this.languages.push(sortedArray[j].language);
+        }
+      },
       err => console.error('Observer got an error: ' + err)
     );
-
   }
 
   sortBySafety() {
@@ -163,22 +190,21 @@ export class ListLangugageComponent implements OnInit {
         const list = data;
 
         for (let i = 0; i < list.length; i++) {
-            const subList = list[i].lRatings;
-            let sum = 0;
-            const language = list[i];
+          const subList = list[i].lRatings;
+          let sum = 0;
+          const language = list[i];
 
-              for (let j = 0; j < subList.length; j++) {
-                sum += list[i].lRatings[j].cat1;
-              }
-              const avgSafety = sum / subList.length;
-              const newObject = {language, avgSafety};
-              this.cat1rating[i] = newObject;
+          for (let j = 0; j < subList.length; j++) {
+            sum += list[i].lRatings[j].cat1;
+          }
+          const avgSafety = sum / subList.length;
+          const newObject = { language, avgSafety };
+          this.cat1rating[i] = newObject;
         }
-
 
         const sortedArray = this.cat1rating.sort((a, b) => {
           if (a.avgSafety > b.avgSafety) {
-           return -1;
+            return -1;
           }
           if (a.avgSafety < b.avgSafety) {
             return 1;
@@ -186,17 +212,14 @@ export class ListLangugageComponent implements OnInit {
           return 0;
         });
 
-      this.languages = [];
+        this.languages = [];
 
-      for (let j = 0; j < sortedArray.length; j++) {
-        this.languages.push(sortedArray[j].language);
-
-      }
-
-    },
+        for (let j = 0; j < sortedArray.length; j++) {
+          this.languages.push(sortedArray[j].language);
+        }
+      },
       err => console.error('Observer got an error: ' + err)
     );
-
   }
 
   sortBySpeed() {
@@ -205,22 +228,21 @@ export class ListLangugageComponent implements OnInit {
         const list = data;
 
         for (let i = 0; i < list.length; i++) {
-            const subList = list[i].lRatings;
-            let sum = 0;
-            const language = list[i];
+          const subList = list[i].lRatings;
+          let sum = 0;
+          const language = list[i];
 
-              for (let j = 0; j < subList.length; j++) {
-                sum += list[i].lRatings[j].cat2;
-              }
-              const avgSpeed = sum / subList.length;
-              const newObject = {language, avgSpeed};
-              this.cat1rating[i] = newObject;
+          for (let j = 0; j < subList.length; j++) {
+            sum += list[i].lRatings[j].cat2;
+          }
+          const avgSpeed = sum / subList.length;
+          const newObject = { language, avgSpeed };
+          this.cat1rating[i] = newObject;
         }
-
 
         const sortedArray = this.cat1rating.sort((a, b) => {
           if (a.avgSpeed > b.avgSpeed) {
-           return -1;
+            return -1;
           }
           if (a.avgSpeed < b.avgSpeed) {
             return 1;
@@ -228,17 +250,14 @@ export class ListLangugageComponent implements OnInit {
           return 0;
         });
 
-      this.languages = [];
+        this.languages = [];
 
-      for (let j = 0; j < sortedArray.length; j++) {
-        this.languages.push(sortedArray[j].language);
-
-      }
-
-    },
+        for (let j = 0; j < sortedArray.length; j++) {
+          this.languages.push(sortedArray[j].language);
+        }
+      },
       err => console.error('Observer got an error: ' + err)
     );
-
   }
 
   sortByEaseOfLearning() {
@@ -247,22 +266,21 @@ export class ListLangugageComponent implements OnInit {
         const list = data;
 
         for (let i = 0; i < list.length; i++) {
-            const subList = list[i].lRatings;
-            let sum = 0;
-            const language = list[i];
+          const subList = list[i].lRatings;
+          let sum = 0;
+          const language = list[i];
 
-              for (let j = 0; j < subList.length; j++) {
-                sum += list[i].lRatings[j].cat3;
-              }
-              const avgEase = sum / subList.length;
-              const newObject = {language, avgEase};
-              this.cat1rating[i] = newObject;
+          for (let j = 0; j < subList.length; j++) {
+            sum += list[i].lRatings[j].cat3;
+          }
+          const avgEase = sum / subList.length;
+          const newObject = { language, avgEase };
+          this.cat1rating[i] = newObject;
         }
-
 
         const sortedArray = this.cat1rating.sort((a, b) => {
           if (a.avgEase > b.avgEase) {
-           return -1;
+            return -1;
           }
           if (a.avgEase < b.avgEase) {
             return 1;
@@ -270,17 +288,13 @@ export class ListLangugageComponent implements OnInit {
           return 0;
         });
 
-      this.languages = [];
+        this.languages = [];
 
-      for (let j = 0; j < sortedArray.length; j++) {
-        this.languages.push(sortedArray[j].language);
-
-      }
-
-    },
+        for (let j = 0; j < sortedArray.length; j++) {
+          this.languages.push(sortedArray[j].language);
+        }
+      },
       err => console.error('Observer got an error: ' + err)
     );
-
   }
-
 }
