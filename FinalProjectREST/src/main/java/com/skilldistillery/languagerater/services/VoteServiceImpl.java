@@ -152,7 +152,6 @@ public class VoteServiceImpl implements VoteService {
 		}
 		
 		int rep = upCount - downCount;
-	
 		user.setReputation(rep < 0 ? 0 : rep);
 		userRepo.saveAndFlush(user);
 		

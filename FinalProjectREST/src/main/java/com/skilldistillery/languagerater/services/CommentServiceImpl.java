@@ -88,6 +88,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public List<Comment> indexByLanguageName(String langName) {
+		List<Comment> comments = commentRepo.findCommentsByLanguageName(langName);
+		if (comments != null && comments.size() > 0) {
+			for (Comment c : comments) {
+				updateUserRep(c.getUser());
+			}
+		}
+
 		return commentRepo.findCommentsByLanguageName(langName);
 	}
 
@@ -95,9 +102,16 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> indexByUserame(String username) {
 		return commentRepo.findCommentsByUsername(username);
 	}
-	
+
 	@Override
 	public List<Comment> indexFlaggedComments() {
+		List<Comment> comments = commentRepo.findFlaggedComments();
+		if (comments != null && comments.size() > 0) {
+			for (Comment c : comments) {
+				updateUserRep(c.getUser());
+			}
+		}
+
 		return commentRepo.findFlaggedComments();
 	}
 
@@ -109,6 +123,31 @@ public class CommentServiceImpl implements CommentService {
 		}
 	}
 
-	
+	private void updateUserRep(User user) {
+
+		if (user == null) {
+			return;
+		}
+
+		int upCount = 0;
+		int downCount = 0;
+
+		List<Comment> userComments = user.getComments();
+
+		for (Comment c : userComments) {
+			for (Vote v : c.getVotes()) {
+				if (v.isVote()) {
+					upCount++;
+				} else if (!v.isVote()) {
+					downCount++;
+				}
+			}
+		}
+
+		int rep = upCount - downCount;
+		user.setReputation(rep < 0 ? 0 : rep);
+		userRepo.saveAndFlush(user);
+
+	}
 
 }

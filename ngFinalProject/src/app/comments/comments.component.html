@@ -3,7 +3,7 @@
 <div *ngIf="(comments | activeCommentsFilter).length === 0">
   Nobody has commented yet! Would you like to be the first?
 </div>
-
+<h4>
 <button
   class="badge badge-pill badge-primary"
   *ngIf="!newComment && isLoggedIn()"
@@ -11,6 +11,7 @@
 >
   Add New Comment
 </button>
+</h4>
 <br />
 
 <form *ngIf="newComment">
@@ -93,31 +94,27 @@
                 &#11088; {{ comment.user.reputation ? comment.user.reputation : 0 }}
             </span>
         </h5>
-        <h5>
-          <span class="badge badge-light">
-            <button
-              *ngIf="isLoggedIn()"
-              [ngClass]="isUpVotedParentComment(comment.votes)"
-              (click)="voteParentComment(comment, true)"
-            >
-              &#x2934;
-            </button>
-            {{ comment.votes | calculateVotes }}
-            <button
-              *ngIf="isLoggedIn()"
-              [ngClass]="isDownVotedParentComment(comment.votes)"
-              (click)="voteParentComment(comment, false)"
-            >
-              &#x2935;
-            </button>
-          </span>
 
-
-
-        </h5>
-        <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
+        <h5 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
+            <span class="badge badge-light">
+                <button
+                  *ngIf="isLoggedIn()"
+                  [ngClass]="isUpVotedParentComment(comment.votes)"
+                  (click)="voteParentComment(comment, true)"
+                >
+                  &#x2934;
+                </button>
+                {{ comment.votes | calculateVotes }}
+                <button
+                  *ngIf="isLoggedIn()"
+                  [ngClass]="isDownVotedParentComment(comment.votes)"
+                  (click)="voteParentComment(comment, false)"
+                >
+                  &#x2935;
+                </button>
+              </span>
           {{ comment.dateUpdated | date: 'shortDate' }}
-        </h6>
+        </h5>
         <h5 *ngIf="comment.flag" class="card-subtitle mb-2 text-muted">
           &#9873;
         </h5>
