@@ -14,6 +14,8 @@ import { CategoryRating } from './models/category-rating';
 })
 export class LanguageService {
 
+  languagesListWithAvgs = [];
+
   private notAuthUrl = environment.baseUrl + 'api/notAuth/languages';
   private authUrl = environment.baseUrl + 'api/auth/languages';
 
@@ -88,5 +90,7 @@ export class LanguageService {
       return this.http.post<CategoryRating>(environment.baseUrl + 'api/notAuth/categories' , this.httpOptions ).pipe (
         catchError(this.handleError));
     }
+
+
 
 }

@@ -101,8 +101,6 @@ export class ListLangugageComponent implements OnInit {
     this.langService.indexCategories().subscribe(
       data => {
         this.categories = data;
-        console.log('*************');
-        console.log(data);
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -111,7 +109,6 @@ export class ListLangugageComponent implements OnInit {
   getAllCategoryRatings() {
     this.langService.indexCategoryRatings().subscribe(
       data => {
-        console.log(data);
         this.categoryRatings = data;
       },
       err => console.error('Observer got an error: ' + err)
@@ -122,24 +119,18 @@ export class ListLangugageComponent implements OnInit {
     this.langService.index().subscribe(
       data => {
         const list = data;
-        console.log('**********************');
-        console.log(data);
 
         for (let i = 0; i < list.length; i++) {
             const subList = list[i].lRatings;
             let sum = 0;
             const language = list[i];
 
-            console.log(language);
               for (let j = 0; j < subList.length; j++) {
                 sum += list[i].lRatings[j].rating;
               }
-              console.log('AVG OVERALL:');
-              console.log(sum / subList.length);
               const avgRating = sum / subList.length;
               const newObject = {language, avgRating};
               this.cat1rating[i] = newObject;
-              console.log(this.cat1rating);
         }
 
 
@@ -170,24 +161,18 @@ export class ListLangugageComponent implements OnInit {
     this.langService.index().subscribe(
       data => {
         const list = data;
-        console.log('**********************');
-        console.log(data);
 
         for (let i = 0; i < list.length; i++) {
             const subList = list[i].lRatings;
             let sum = 0;
             const language = list[i];
 
-            console.log(language);
               for (let j = 0; j < subList.length; j++) {
                 sum += list[i].lRatings[j].cat1;
               }
-              console.log('AVG SAFETY RATING:');
-              console.log(sum / subList.length);
               const avgSafety = sum / subList.length;
               const newObject = {language, avgSafety};
               this.cat1rating[i] = newObject;
-              console.log(this.cat1rating);
         }
 
 
@@ -218,24 +203,18 @@ export class ListLangugageComponent implements OnInit {
     this.langService.index().subscribe(
       data => {
         const list = data;
-        console.log('**********************');
-        console.log(data);
 
         for (let i = 0; i < list.length; i++) {
             const subList = list[i].lRatings;
             let sum = 0;
             const language = list[i];
 
-            console.log(language);
               for (let j = 0; j < subList.length; j++) {
                 sum += list[i].lRatings[j].cat2;
               }
-              console.log('AVG SPEED RATING:');
-              console.log(sum / subList.length);
               const avgSpeed = sum / subList.length;
               const newObject = {language, avgSpeed};
               this.cat1rating[i] = newObject;
-              console.log(this.cat1rating);
         }
 
 
@@ -266,24 +245,18 @@ export class ListLangugageComponent implements OnInit {
     this.langService.index().subscribe(
       data => {
         const list = data;
-        console.log('**********************');
-        console.log(data);
 
         for (let i = 0; i < list.length; i++) {
             const subList = list[i].lRatings;
             let sum = 0;
             const language = list[i];
 
-            console.log(language);
               for (let j = 0; j < subList.length; j++) {
                 sum += list[i].lRatings[j].cat3;
               }
-              console.log('AVG EASE OF LEARNING:');
-              console.log(sum / subList.length);
               const avgEase = sum / subList.length;
               const newObject = {language, avgEase};
               this.cat1rating[i] = newObject;
-              console.log(this.cat1rating);
         }
 
 
