@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbRatingConfig } from '@ng-bootstrap/ng-bootstrap';
 import { LanguageService } from '../language.service';
+import { RatingService } from '../rating.service';
 
 @Component({
   selector: 'app-rating-tests',
@@ -15,7 +16,8 @@ export class RatingTestsComponent implements OnInit {
 
   constructor(
     config: NgbRatingConfig,
-    private langService: LanguageService
+    private langService: LanguageService,
+    private ratingService: RatingService
     ) {
     config.max = 5;
   }
@@ -26,10 +28,8 @@ export class RatingTestsComponent implements OnInit {
 
 
   populateRatings() {
-    this.langService.indexCategories().subscribe(
+    this.ratingService.indexCategoryRating().subscribe(
       data => {
-        console.log(data);
-
         this.ratings = data;
       },
       err => console.error('Observer got an error: ' + err)
