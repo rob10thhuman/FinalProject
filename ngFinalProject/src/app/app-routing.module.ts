@@ -13,7 +13,6 @@ import { DetailLanguageComponent } from './detail-language/detail-language.compo
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { RatingTestsComponent } from './rating-tests/rating-tests.component';
-import { SearchRatingComponent } from './search-rating/search-rating.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -24,7 +23,7 @@ const routes: Routes = [
   { path: 'editProfile', component: EditProfileComponent },
   { path: 'languages', component: ListLangugageComponent },
   { path: 'languages/search/:searchString', component: ListLangugageComponent },
-  { path: 'languages/search/:minRating/:minCat1/:minCat2/:minCat3', component: SearchRatingComponent},
+  { path: 'languages/search/:minRating/:minCat1/:minCat2/:minCat3', component: ListLangugageComponent},
   { path: 'languages/:id', component: DetailLanguageComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'login', component: LoginComponent},
