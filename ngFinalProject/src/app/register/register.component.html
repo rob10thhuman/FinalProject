@@ -1,15 +1,42 @@
 <h1>Register</h1>
-<form #registerForm = "ngForm">
-  First Name:<input class="form-control" type="text" name="fName" ngModel>
-  <br>
-  Last Name:<input class="form-control" type="text" name="lName" ngModel>
-  <br>
-  Email:<input class="form-control" type="text" name="email" ngModel>
-  <br>
-  Username:<input class="form-control" type="text" name="username" ngModel>
-  <br>
-  Password:<input class="form-control" type="text" name="password" ngModel>
-  <br>
-
-  <button class="btn btn-primary" (click)="registerUser(registerForm)">Submit</button>
+<form #registerForm="ngForm">
+  <div class="row">
+    <div class="col-sm">
+      First Name:<input class="form-control" type="text" name="fName" ngModel />
+    </div>
+    <div class="col-sm">
+      Last Name:<input class="form-control" type="text" name="lName" ngModel />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      Email:<input class="form-control" type="text" name="email" ngModel />
+    </div>
+    <div class="col-sm"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      Username:<input
+        class="form-control"
+        type="text"
+        name="username"
+        ngModel
+      />
+    </div>
+    <div class="col-sm">
+      Password:<input
+        class="form-control"
+        type="text"
+        name="password"
+        ngModel
+      />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <button class="btn btn-primary" (click)="registerUser(registerForm)">
+        Submit
+      </button>
+    </div>
+  </div>
 </form>
