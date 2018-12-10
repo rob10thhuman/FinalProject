@@ -21,11 +21,13 @@
 </div>
 -->
 Sort By:
-<!-- <form class="form-inline">
-  <div *ngFor="let cat of categories">
-    <button class="btn btn-primary" (click)="setCat(cat)">{{cat.name}}</button> &nbsp;
-  </div>
-</form> -->
+<!--
+<form class="form-inline">
+  <button class="btn btn-primary" (click)="sortByCategory('Overall')">Overall</button> &nbsp;
+      <button class="btn btn-primary" (click)="sortByCategory('Safety')">Safety</button> &nbsp;
+      <button class="btn btn-primary" (click)="sortByCategory('Speed')">Speed</button> &nbsp;
+      <button class="btn btn-primary" (click)="sortByCategory('EaseOfLearning')">Ease of Learning</button> &nbsp;
+    </form> -->
 
 <form class="form-inline">
   <button class="btn btn-primary" (click)="sortByOverall()">Overall</button> &nbsp;
@@ -34,11 +36,6 @@ Sort By:
       <button class="btn btn-primary" (click)="sortByEaseOfLearning()">Ease of Learning</button> &nbsp;
     </form>
 
-
-<!-- <h2>Sorted by {{cat.name}}</h2>
-<div *ngIf="languages.length === 0">
-  No languages could be found
-</div> -->
 
   <div class="container border hoverDiv rounded" *ngFor="let lang of languages" (click)="detailPage(lang.id)" >
     <div class="p-1 ml-4">
@@ -55,12 +52,6 @@ Sort By:
     </div>
     <br />
   </div>
-
-  <div *ngFor="let cr of categoryRatings">
-      {{cr.id}}
-  </div>
-
-
 
 
 </div>
