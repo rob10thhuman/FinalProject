@@ -8,9 +8,10 @@ export class SortCommentsPipe implements PipeTransform {
   constructor(private votePipe: CalculateVotesPipe) {}
 
   transform(comments: Comment[], args: string): any {
+    let result: Comment[] = [...comments];
      if (args === 'NEWEST') {
 
-      comments.sort(function(a, b) {
+      comments = result.sort(function(a, b) {
         return (
           new Date(b.dateUpdated).getTime() - new Date(a.dateUpdated).getTime()
         );
@@ -18,7 +19,7 @@ export class SortCommentsPipe implements PipeTransform {
 
     } else if (args === 'OLDEST') {
 
-      comments.sort(function(a, b) {
+      comments = result.sort(function(a, b) {
         return (
           new Date(a.dateUpdated).getTime() - new Date(b.dateUpdated).getTime()
         );
@@ -26,7 +27,7 @@ export class SortCommentsPipe implements PipeTransform {
 
     } else {
 
-      comments.sort(function(a, b) {
+      comments = result.sort(function(a, b) {
 
         const aVotes = a.votes;
         const bVotes = b.votes;

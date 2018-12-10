@@ -1,0 +1,44 @@
+<form>
+  <div class="form-row align-items-center">
+      <label for="minRatingEntry">Minimum Average: </label>
+      <select name="minRatingEntry" [(ngModel)]="minRatingEntry">
+        <option value="1">1</option>
+        <option value="1">2</option>
+        <option value="1">3</option>
+        <option value="1">4</option>
+        <option value="1">5</option>
+      </select>
+      <label for="minCat1Entry">Minimum Category 1: </label>
+      <select name="minCat1Entry" [(ngModel)]="minCat1Entry">
+        <option value="1">1</option>
+        <option value="1">2</option>
+        <option value="1">3</option>
+        <option value="1">4</option>
+        <option value="1">5</option>
+      </select>
+      <label for="minCat2Entry">Minimum Category 2: </label>
+      <select name="minCat2Entry" [(ngModel)]="minCat2Entry">
+        <option value="1">1</option>
+        <option value="1">2</option>
+        <option value="1">3</option>
+        <option value="1">4</option>
+        <option value="1">5</option>
+      </select>
+      <label for="minCat3Entry">Minimum Category 3: </label>
+      <select name="minCat3Entry" [(ngModel)]="minCat3Entry">
+        <option value="1">1</option>
+        <option value="1">2</option>
+        <option value="1">3</option>
+        <option value="1">4</option>
+        <option value="1">5</option>
+      </select>
+    <div class="col-auto">
+      <button
+        class="btn btn-primary"
+        (click)="allLanguagesByRating(minRatingEntry, minCat1Entry, minCat2Entry, minCat3Entry)"
+      >
+        Search
+      </button>
+    </div>
+  </div>
+</form>

@@ -29,6 +29,7 @@ import { UserGraphComponent } from './user-graph/user-graph.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { ActiveCommentsFilterPipe } from './active-comments-filter.pipe';
 import { RatingTestsComponent } from './rating-tests/rating-tests.component';
+import { SearchRatingComponent } from './search-rating/search-rating.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { RatingTestsComponent } from './rating-tests/rating-tests.component';
     UserGraphComponent,
     EditProfileComponent,
     ActiveCommentsFilterPipe,
-    RatingTestsComponent
+    RatingTestsComponent,
+    SearchRatingComponent
   ],
   imports: [
     BrowserModule,
