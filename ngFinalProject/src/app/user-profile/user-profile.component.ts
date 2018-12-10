@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
+import { Comment } from '../models/comment';
 import { UserService } from '../user.service';
 import { AuthService } from '../auth.service';
 import { CommentService } from '../comment.service';
@@ -15,7 +16,7 @@ import { NgForm } from '@angular/forms';
 export class UserProfileComponent implements OnInit {
   user: User = new User();
   editingUser: User = null;
-  comments = [];
+  flaggedComments = null;
   deletingProfile = false;
   confirmingPassword = false;
   verifying = false;
@@ -41,7 +42,6 @@ export class UserProfileComponent implements OnInit {
   showUser() {
     this.userService.getCurrentUser().subscribe(
       data => {
-        console.log(data);
         this.user = data;
       },
       err => console.error('Observer got an error: ' + err)
@@ -93,6 +93,52 @@ export class UserProfileComponent implements OnInit {
     this.passwordToBeChecked = '';
     this.invalidPassword = false;
     this.confirmingPassword = false;
+  }
+
+  setupFlaggedComments() {
+    this.commentService.indexFlagged().subscribe(
+      data => this.flaggedComments = data,
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  unflagComment(comment: Comment) {
+    comment.flag = false;
+    this.commentService.update(comment.id, comment).subscribe(
+      data => this.setupFlaggedComments(),
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  deactivateComment(comment: Comment) {
+    comment.active = false;
+    this.commentService.update(comment.id, comment).subscribe(
+      data => this.setupFlaggedComments(),
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+
+  userIsAdmin() {
+    return this.user.role === 'admin';
+  }
+
+  getUpvotes(comment: Comment) {
+    let count = 0;
+    comment.votes.forEach((vote) => {
+      if (vote.vote) {
+        count++;
+      }
+    });
+    return count;
+  }
+  getDownvotes(comment: Comment) {
+    let count = 0;
+    comment.votes.forEach((vote) => {
+      if (!vote.vote) {
+        count++;
+      }
+    });
+    return count;
   }
 
   // verifyPasswordServerSide(password) {
