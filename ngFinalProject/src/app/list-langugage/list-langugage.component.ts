@@ -74,6 +74,8 @@ export class ListLangugageComponent implements OnInit {
     this.langService.indexCategories().subscribe(
       data => {
         this.categories = data;
+        console.log('*************');
+        console.log(data);
       },
       err => console.error('Observer got an error: ' + err)
     );

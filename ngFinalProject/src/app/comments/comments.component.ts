@@ -92,8 +92,12 @@ export class CommentsComponent implements OnInit {
   }
 
   updateComment(id, comment) {
+
     this.commentService.update(id, comment).subscribe(
       data => {
+        console.log('here it comes');
+        console.log(data);
+
         this.showCommentsForLanguage();
         this.teardownUpdatingComment();
       },
@@ -118,14 +122,9 @@ export class CommentsComponent implements OnInit {
         err => console.error('Observer got an error: ' + err)
       );
   }
-  deactivateComment(id) {
-    console.log(id);
-    this.commentService
-      .deactivate(id)
-      .subscribe(
-        data => this.showCommentsForLanguage(),
-        err => console.error('Observer got an error: ' + err)
-      );
+  deactivateComment(comment: Comment) {
+    comment.active = false;
+    this.updateComment(comment.id, comment);
   }
 
   deleteSubComment(id) {
@@ -136,13 +135,10 @@ export class CommentsComponent implements OnInit {
         err => console.error('Observer got an error: ' + err)
       );
   }
-  deactivateSubComment(id) {
-    this.subCommentService
-      .deactivate(id)
-      .subscribe(
-        data => this.showCommentsForLanguage(),
-        err => console.error('Observer got an error: ' + err)
-      );
+  deactivateSubComment(parentComment: Comment, subComment: SubComment) {
+    subComment.active = false;
+
+    this.updateSubComment(parentComment, subComment);
   }
 
   getCurrentUser() {
@@ -270,14 +266,11 @@ export class CommentsComponent implements OnInit {
     for (let i = 0; i < votes.length; i++) {
       if (votes[i].user.username === this.authService.getUsername()
       && votes[i].comment !== null) {
-        // console.log(votes[i]);
-
         return votes[i];
       }
     }
     return null;
   }
-
 
   isUpVotedParentComment(votes: Vote[]) {
     const theParentVote = this.hasVotedOnParentComment(votes);
@@ -313,7 +306,12 @@ export class CommentsComponent implements OnInit {
     this.comments = this.sortComments.transform(this.comments, this.sortQuery);
   }
 
-  test() {
-    return 'hi';
+  flagComment(comment: Comment) {
+    comment.flag = true;
+    this.updateComment(comment.id, comment);
+  }
+  flagSubComment(parentComment: Comment, subComment: SubComment) {
+    subComment.flag = true;
+    this.updateSubComment(parentComment, subComment);
   }
 }

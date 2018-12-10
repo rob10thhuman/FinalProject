@@ -50,11 +50,6 @@ export class SubCommentService {
       catchError(this.handleError));
   }
 
-  deactivate(id: number) {
-    return this.http.put<SubComment>(this.authUrl + '/deactivate/' + id, this.httpOptions).pipe(
-      catchError(this.handleError));
-  }
-
   update(id: number, data: SubComment) {
     return this.http.put<SubComment>(this.authUrl + '/' + id, data, this.httpOptions).pipe(
       catchError(this.handleError));

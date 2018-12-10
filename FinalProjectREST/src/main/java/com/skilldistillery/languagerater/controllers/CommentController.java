@@ -41,19 +41,13 @@ public class CommentController {
 	}
 	
 	@PutMapping("auth/comments/{id}")
-	public Comment updateComment(@PathVariable int id, @RequestBody Comment comment, Principal principal) {
-		return commentSvc.update(principal.getName(), id, comment);
-	}
-	
-	@PutMapping("notAuth/comments/deactivate/{id}")
-	public boolean deactivateComment(@PathVariable int id, Principal principal) {
-		System.out.println("inside comment controller");
-		return commentSvc.deactivate(id);
+	public Comment updateComment(@PathVariable int id, @RequestBody Comment comment) {
+		return commentSvc.update(id, comment);
 	}
 	
 	@DeleteMapping("auth/comments/{id}")
-	public boolean deleteComment(@PathVariable int id, Principal principal) {
-		return commentSvc.delete(principal.getName(), id);
+	public boolean deleteComment(@PathVariable int id) {
+		return commentSvc.delete(id);
 	}
 
 	@GetMapping("notAuth/comments/languages/{langName}")
