@@ -1,6 +1,28 @@
 <h1>Login</h1>
-<form #loginForm = "ngForm">
-  Username:<input class="form-control" type="text" name="username" ngModel>
-  Password:<input class="form-control" type="password" name="password" ngModel>
-  <button class="btn btn-primary" (click)="loginUser(loginForm)">Submit</button>
+<form #loginForm="ngForm">
+  <div class="row">
+    <div class="col-sm">
+      Username:<input
+        class="form-control"
+        type="text"
+        name="username"
+        ngModel
+      />
+    </div>
+    <div class="col-sm">
+      Password:<input
+        class="form-control"
+        type="password"
+        name="password"
+        ngModel
+      />
+    </div>
+  </div>
+    <div class="row">
+      <div class="col-sm">
+        <button class="btn btn-primary" (click)="loginUser(loginForm)">
+          Submit
+        </button>
+      </div>
+  </div>
 </form>
