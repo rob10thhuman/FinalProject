@@ -51,81 +51,66 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	@Override
-	public Vote createForComment(int id, Vote v) {
-		Optional<Comment> opt = commentRepo.findById(id);
+	public Vote createForComment(int commentId, Vote v) {
+		Optional<Comment> opt = commentRepo.findById(commentId);
 		if(opt.isPresent()) {
 			Comment c = opt.get();
+			User u = c.getUser();
+			
 			c.addVote(v);
 			v.setSubComment(null);
+			voteRepo.saveAndFlush(v);
 			commentRepo.saveAndFlush(c);
-			updateUserRep(c.getUser());
-		}
-		return voteRepo.saveAndFlush(v);
-	}
-	
-	@Override
-	public Vote createForSubComment(int id, Vote v) {
-		Optional<SubComment> opt = subCommentRepo.findById(id);
-		if(opt.isPresent()) {
-			SubComment sc = opt.get();
-			sc.addVote(v);
-			subCommentRepo.saveAndFlush(sc);
 			
+			u.addComment(c);
+			userRepo.saveAndFlush(u);
+			updateUserRep(u);
 		}
 		return voteRepo.saveAndFlush(v);
 	}
 
+
 	@Override
 	public Vote updateForComment(int commentId, int id, Vote v) {
 		Vote existing = null;
-		Optional<Vote> opt = voteRepo.findById(id);
-		Optional<Comment> c = commentRepo.findById(commentId);
+		Optional<Vote> vOpt = voteRepo.findById(id);
+		Optional<Comment> cOpt = commentRepo.findById(commentId);
 		
-		if (opt.isPresent() && c.isPresent()) {
-			existing = opt.get();
-			Comment comment = c.get();
+		if (vOpt.isPresent() && cOpt.isPresent()) {
+			existing = vOpt.get();
+			Comment c = cOpt.get();
+			User u = c.getUser();
 			
 			existing.setVote(v.isVote());
 			existing.setUser(v.getUser());
-			comment.addVote(existing);
-			commentRepo.saveAndFlush(comment);
-			updateUserRep(comment.getUser());
-		}
-		return voteRepo.saveAndFlush(existing);
-	}
-	@Override
-	public Vote updateForSubComment(int subCommentId, int id, Vote v) {
-		Vote existing = null;
-		Optional<Vote> opt = voteRepo.findById(id);
-		Optional<SubComment> sc = subCommentRepo.findById(subCommentId);
-		
-		if (opt.isPresent() && sc.isPresent()) {
-			existing = opt.get();
-			SubComment subComment = sc.get();
+			c.addVote(existing);
+			voteRepo.saveAndFlush(existing);
+			commentRepo.saveAndFlush(c);
 			
-			existing.setVote(v.isVote());
-			existing.setUser(v.getUser());
-			subComment.addVote(existing);
-			subCommentRepo.saveAndFlush(subComment);
+			u.addComment(c);
+			userRepo.saveAndFlush(u);
+			updateUserRep(u);
 		}
 		return voteRepo.saveAndFlush(existing);
 	}
+
 
 	@Override
 	public boolean delete(int id) {
 		boolean deleted = false;
 		Vote v = show(id);
+		Comment c = null;
 		User u = null;
 
 		if (v != null && voteRepo.existsById(v.getId())) {
 			
 			if(v.getComment() != null) {
 				
-				//gets the user that made the comment
 				u = v.getComment().getUser();
+				c = v.getComment();
 				
-				//removes the vote from that comment
-				v.getComment().removeVote(v);
+				c.removeVote(v);
+				commentRepo.saveAndFlush(c);
 				
 				//updates that users rep
 				updateUserRep(u);

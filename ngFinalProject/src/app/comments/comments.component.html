@@ -22,10 +22,16 @@
   ></textarea>
   <br />
   <div class="btn-group">
-    <button (click)="addComment(newComment)" class="badge badge-pill badge-success">
+    <button
+      (click)="addComment(newComment)"
+      class="badge badge-pill badge-success"
+    >
       Add
     </button>
-    <button (click)="teardownAddingComment()" class="badge badge-pill badge-danger">
+    <button
+      (click)="teardownAddingComment()"
+      class="badge badge-pill badge-danger"
+    >
       Cancel
     </button>
   </div>
@@ -67,40 +73,43 @@
     </button>
   </div>
 
-
-
-
-
-
   <div *ngFor="let comment of comments">
     <div class="card card-comment">
-      <div class="card-body">
-        <h5 class="card-title" style="color:blueviolet">
-          <button
-            *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
-            [ngClass]="isUpVotedParentComment(comment.votes)"
-            (click)="voteParentComment(comment, true)"
-          >
-            &#8593;
-          </button>
-          <span class="badge badge-pill badge-warning">{{
-            comment.votes | calculateVotes
-          }}</span>
-          <button
-            *ngIf="!isLoggedInUsername(comment.user.username) && isLoggedIn()"
-            [ngClass]="isDownVotedParentComment(comment.votes)"
-            (click)="voteParentComment(comment, false)"
-          >
-            &#8595;
-          </button>
-          {{ isLoggedInUsername(comment.user.username) ? '(YOU)' : '' }}
-          {{ comment.user.username }}
+      <div class="card-body container">
+        <h5 class="card-title" style="color:rgb(38, 0, 177)">
+            {{ isLoggedInUsername(comment.user.username) ? '(YOU)' : '' }}
+            {{ comment.user.username }}
+            <span class="badge badge-pill badge-info">
+                &#11088; {{ comment.user.reputation ? comment.user.reputation : 0 }}
+            </span>
+        </h5>
+        <h5>
+          <span class="badge badge-light">
+            <button
+              *ngIf="isLoggedIn()"
+              [ngClass]="isUpVotedParentComment(comment.votes)"
+              (click)="voteParentComment(comment, true)"
+            >
+              &#x2934;
+            </button>
+            {{ comment.votes | calculateVotes }}
+            <button
+              *ngIf="isLoggedIn()"
+              [ngClass]="isDownVotedParentComment(comment.votes)"
+              (click)="voteParentComment(comment, false)"
+            >
+              &#x2935;
+            </button>
+          </span>
+
+
+
         </h5>
         <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
           {{ comment.dateUpdated | date: 'shortDate' }}
         </h6>
-        <h5 *ngIf="comment.flag" class="card-subtitle mb-2 text-muted" >
-            &#9873;
+        <h5 *ngIf="comment.flag" class="card-subtitle mb-2 text-muted">
+          &#9873;
         </h5>
         <p class="card-text">{{ comment.comment }}</p>
 
@@ -124,12 +133,19 @@
 
         <div
           class="btn-group"
-          *ngIf="isLoggedIn() && !isLoggedInUsername(comment.user.username) "
+          *ngIf="isLoggedIn() && !isLoggedInUsername(comment.user.username)"
         >
-          <button class="badge badge-pill badge-primary" (click)="setupReplyToComment(comment)">
+          <button
+            class="badge badge-pill badge-primary"
+            (click)="setupReplyToComment(comment)"
+          >
             Reply
           </button>
-          <button *ngIf="!comment.flag || comment.flag === null" class="badge badge-pill badge-warning" (click)="flagComment(comment)">
+          <button
+            *ngIf="!comment.flag || comment.flag === null"
+            class="badge badge-pill badge-warning"
+            (click)="flagComment(comment)"
+          >
             Flag
           </button>
         </div>
@@ -155,7 +171,10 @@
             >
               Update
             </button>
-            <button (click)="teardownUpdatingComment()" class="badge badge-pill badge-danger">
+            <button
+              (click)="teardownUpdatingComment()"
+              class="badge badge-pill badge-danger"
+            >
               Cancel
             </button>
           </div>
@@ -180,7 +199,10 @@
             >
               Add Reply
             </button>
-            <button (click)="teardownReplyToComment()" class="badge badge-pill badge-danger">
+            <button
+              (click)="teardownReplyToComment()"
+              class="badge badge-pill badge-danger"
+            >
               Cancel
             </button>
           </div>
@@ -188,14 +210,17 @@
       </div>
     </div>
 
-
-
-
-
-
-
-    <div *ngIf="showReplies === comment.id && (comment.subComments | activeCommentsFilter).length > 0" class="card card-sub-comment">
-      <div *ngFor="let subComment of comment.subComments | activeCommentsFilter" class="card-body">
+    <div
+      *ngIf="
+        showReplies === comment.id &&
+        (comment.subComments | activeCommentsFilter).length > 0
+      "
+      class="card card-sub-comment"
+    >
+      <div
+        *ngFor="let subComment of (comment.subComments | activeCommentsFilter)"
+        class="card-body"
+      >
         <h5 class="card-title" style="color:blueviolet">
           {{ isLoggedInUsername(subComment.user.username) ? '(YOU)' : '' }}
           {{ subComment.user.username }}
@@ -203,8 +228,8 @@
         <h6 class="card-subtitle mb-2 text-muted" style="color:blueviolet">
           {{ subComment.dateUpdated | date: 'shortDate' }}
         </h6>
-        <h5 *ngIf="subComment.flag" class="card-subtitle mb-2 text-muted" >
-            &#9873;
+        <h5 *ngIf="subComment.flag" class="card-subtitle mb-2 text-muted">
+          &#9873;
         </h5>
         <p class="card-text">{{ subComment.comment }}</p>
 
@@ -218,13 +243,19 @@
           >
             Reply
           </button>
-          <button *ngIf="!subComment.flag || subComment.flag === null" class="badge badge-pill badge-warning" (click)="flagSubComment(comment, subComment)">
-              Flag
-            </button>
+          <button
+            *ngIf="!subComment.flag || subComment.flag === null"
+            class="badge badge-pill badge-warning"
+            (click)="flagSubComment(comment, subComment)"
+          >
+            Flag
+          </button>
         </div>
         <div
           class="btn-group"
-          *ngIf="isLoggedInUsername(subComment.user.username) && !updatingSubComment"
+          *ngIf="
+            isLoggedInUsername(subComment.user.username) && !updatingSubComment
+          "
         >
           <button
             class="badge badge-pill badge-success"

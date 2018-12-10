@@ -1,7 +1,15 @@
 <h1>Register</h1>
 <form #registerForm = "ngForm">
+  First Name:<input type="text" name="fName" ngModel>
+  <br>
+  Last Name:<input type="text" name="lName" ngModel>
+  <br>
   Email:<input type="text" name="email" ngModel>
+  <br>
   Username:<input type="text" name="username" ngModel>
+  <br>
   Password:<input type="text" name="password" ngModel>
+  <br>
+
   <button class="btn btn-primary" (click)="registerUser(registerForm)">Submit</button>
 </form>

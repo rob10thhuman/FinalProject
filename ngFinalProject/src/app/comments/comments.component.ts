@@ -20,7 +20,6 @@ import { SubCommentService } from '../sub-comment.service';
 })
 export class CommentsComponent implements OnInit {
   comments: Comment[] = [];
-  currentSortedComments: Comment[] = [];
   newComment: Comment = null;
   updatingComment: Comment = null;
   updatingSubComment: Comment = null;
@@ -52,6 +51,7 @@ export class CommentsComponent implements OnInit {
       data => {
         this.comments = data;
         this.comments = this.activeFilterPipe.transform(this.comments);
+        this.setSortQuery(this.sortQuery);
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -59,10 +59,13 @@ export class CommentsComponent implements OnInit {
 
   addComment(comment) {
     comment.language = this.detail.language;
+
     this.commentService.create(comment).subscribe(
       data => {
-        this.showCommentsForLanguage();
         this.teardownAddingComment();
+        const newlyAddedComment = data;
+        newlyAddedComment.votes = [];
+        this.voteParentComment(newlyAddedComment, true);
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -156,10 +159,11 @@ export class CommentsComponent implements OnInit {
   }
 
   voteParentComment(comment: Comment, voteValue: boolean) {
+    // gets vote if user voted on comment, otherwise returns null
     const vote = this.hasVotedOnParentComment(comment.votes);
 
     // if user has voted on this comment already
-    if (vote !== null) {
+    if (vote) {
 
       // if user cancelled their vote
       if (vote.vote === voteValue) {
@@ -169,28 +173,28 @@ export class CommentsComponent implements OnInit {
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
-        );
+          );
 
-      // if user is changing vote
-      } else {
-        vote.vote = !vote.vote;
-        this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
-          data => {
-            this.showCommentsForLanguage();
-          },
-          err => console.error('Observer got an error: ' + err)
-        );
-      }
+        // if user is changing vote
+        } else {
+          vote.vote = !vote.vote;
+          this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
+            data => {
+              this.showCommentsForLanguage();
+            },
+            err => console.error('Observer got an error: ' + err)
+            );
+          }
 
-      // if user has NOT voted on this comment yet
-    } else {
-      const newVote = new Vote();
-      newVote.vote = voteValue;
-      newVote.comment = comment;
-      newVote.user = this.currentUser;
-      this.voteService.createForComment(comment.id, newVote).subscribe(
-        data => {
-          this.showCommentsForLanguage();
+        // if user has NOT voted on this comment yet
+        } else {
+          const newVote = new Vote();
+          newVote.vote = voteValue;
+          newVote.comment = comment;
+          newVote.user = this.currentUser;
+          this.voteService.createForComment(comment.id, newVote).subscribe(
+            data => {
+              this.showCommentsForLanguage();
         },
         err => console.error('Observer got an error: ' + err)
       );

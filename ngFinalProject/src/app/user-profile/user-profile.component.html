@@ -25,7 +25,7 @@
   <hr />
   <div class="row">
     <div class="col">Reputation:</div>
-    <div class="col">{{ user.reputation }}</div>
+    <div class="col">{{ user.reputation ? user.reputation : 0 }}</div>
   </div>
   <hr />
   <div *ngIf="confirmingPassword">
