@@ -9,6 +9,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { NG_MODEL_WITH_FORM_CONTROL_WARNING } from '@angular/forms/src/directives';
 import { User } from './models/user';
+import { CategoryRating } from './models/category-rating';
 
 
 @Injectable({
@@ -112,5 +113,10 @@ export class RatingService {
   handleError(error: any) {
     console.error('Something broke in add rating');
     return throwError(error.json().error || 'Server Error');
+  }
+
+  indexCategoryRating() {
+    return this.http.get<CategoryRating[]>(environment.baseUrl + 'api/notAuth/categoryRatings/index' , this.httpOptionsUnAuth).pipe(
+      catchError(this.handleError));
   }
 }

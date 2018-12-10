@@ -1,3 +1,4 @@
+import { ActiveCommentsFilterPipe } from './../active-comments-filter.pipe';
 import { SortCommentsPipe } from './../sort-comments.pipe';
 import { CalculateVotesPipe } from './../calculate-votes.pipe';
 import { Vote } from './../models/vote';
@@ -7,7 +8,6 @@ import { CommentService } from './../comment.service';
 import { Component, OnInit, } from '@angular/core';
 import { DetailLanguageComponent } from '../detail-language/detail-language.component';
 import { VoteService } from '../vote.service';
-import { UserProfileComponent } from '../user-profile/user-profile.component';
 import { UserService } from '../user.service';
 import { User } from '../models/user';
 import { SubComment } from '../models/sub-comment';
@@ -20,6 +20,7 @@ import { SubCommentService } from '../sub-comment.service';
 })
 export class CommentsComponent implements OnInit {
   comments: Comment[] = [];
+  currentSortedComments: Comment[] = [];
   newComment: Comment = null;
   updatingComment: Comment = null;
   updatingSubComment: Comment = null;
@@ -34,8 +35,8 @@ export class CommentsComponent implements OnInit {
     private commentService: CommentService,
     private subCommentService: SubCommentService,
     private voteService: VoteService,
-    private votePipe: CalculateVotesPipe,
-    private sortComments: SortCommentsPipe,
+    private sortCommentsPipe: SortCommentsPipe,
+    private activeFilterPipe: ActiveCommentsFilterPipe,
     private userService: UserService,
     private detail: DetailLanguageComponent,
     private authService: AuthService
@@ -50,6 +51,7 @@ export class CommentsComponent implements OnInit {
     this.commentService.languageIndex(this.detail.language.name).subscribe(
       data => {
         this.comments = data;
+        this.comments = this.activeFilterPipe.transform(this.comments);
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -156,27 +158,31 @@ export class CommentsComponent implements OnInit {
   voteParentComment(comment: Comment, voteValue: boolean) {
     const vote = this.hasVotedOnParentComment(comment.votes);
 
+    // if user has voted on this comment already
     if (vote !== null) {
+
+      // if user cancelled their vote
       if (vote.vote === voteValue) {
+
         this.voteService.destroy(vote.id).subscribe(
           data => {
-            console.log('i cancel my vote parent');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
         );
+
+      // if user is changing vote
       } else {
         vote.vote = !vote.vote;
-
-
         this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
           data => {
-            console.log('i change my vote parent');
             this.showCommentsForLanguage();
           },
           err => console.error('Observer got an error: ' + err)
         );
       }
+
+      // if user has NOT voted on this comment yet
     } else {
       const newVote = new Vote();
       newVote.vote = voteValue;
@@ -184,10 +190,7 @@ export class CommentsComponent implements OnInit {
       newVote.user = this.currentUser;
       this.voteService.createForComment(comment.id, newVote).subscribe(
         data => {
-          console.log('my first vote Parent');
           this.showCommentsForLanguage();
-
-
         },
         err => console.error('Observer got an error: ' + err)
       );
@@ -303,7 +306,7 @@ export class CommentsComponent implements OnInit {
 
   setSortQuery(query: string) {
     this.sortQuery = query;
-    this.comments = this.sortComments.transform(this.comments, this.sortQuery);
+    this.comments = this.sortCommentsPipe.transform(this.comments, this.sortQuery);
   }
 
   flagComment(comment: Comment) {
@@ -314,4 +317,5 @@ export class CommentsComponent implements OnInit {
     subComment.flag = true;
     this.updateSubComment(parentComment, subComment);
   }
+
 }

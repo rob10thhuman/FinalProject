@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class CategoryRating {
@@ -13,8 +15,9 @@ public class CategoryRating {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="category_id")
-	private int categoryId;
+	@ManyToOne
+	@JoinColumn(name="category_id")
+	private Category category;
 	
 	private int rating;
 	
@@ -24,12 +27,12 @@ public class CategoryRating {
 	@Column(name="language_id")
 	private int languageId;
 
-	public int getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public int getRating() {
@@ -59,6 +62,7 @@ public class CategoryRating {
 	public int getId() {
 		return id;
 	}
+	
 	
 	
 	

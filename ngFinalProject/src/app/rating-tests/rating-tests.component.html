@@ -10,5 +10,8 @@
 <div *ngFor="let rating of ratings">
     <ngb-rating [(rate)]="rating.rating" (rateChange)="printStuff(rating.rating)"></ngb-rating>
     <pre>Rate: <b>{{rating.rating}}</b></pre>
+    User ID: {{rating.userId}} <br>
+    Category: {{rating.category.name}} <br>
+    Language ID: {{rating.languageId}}
     <hr>
 </div>
