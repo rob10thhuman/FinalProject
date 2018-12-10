@@ -62,17 +62,61 @@
       (click)="cancelConfirm()">Cancel</button>
     </form>
     </div>
-  <div *ngIf="!confirmingPassword">
+    <h6>
+        Profile Settings:
+    </h6>
+    <br>
+  <div *ngIf="!confirmingPassword" class="btn-group">
     <button class="btn btn-success" (click)="confirmPassword('editing')">
       Edit My Profile
     </button>
-    <hr />
-    <br />
-    <br />
     <button class="btn btn-danger" (click)="confirmPassword('deleting')">
       Delete My Account
     </button>
+    <button *ngIf="userIsAdmin() && !flaggedComments" class="btn btn-primary" (click)="setupFlaggedComments()">
+      See Flagged Comments
+    </button>
+    <button *ngIf="userIsAdmin() && flaggedComments" class="btn btn-primary" (click)="flaggedComments = null">
+      Hide Flagged Comments
+    </button>
+    <!-- <button class="btn btn-info" (click)="confirmPassword('deleting')">
+      Add New Language
+    </button> -->
   </div>
+  <div *ngIf="flaggedComments">
+      <div *ngFor="let comment of flaggedComments" class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h6 class="card-title">
+              User: {{comment.user.username}}
+            </h6>
+            <h6 class="card-title">
+              Reputation: {{comment.user.reputation}}
+            </h6>
+            <h6 class="card-title">
+             Date Last Updated: {{comment.dateUpdated}}
+            </h6>
+            <h6 class="card-subtitle">
+             Total Upvotes: {{getUpvotes(comment)}}
+            </h6>
+            <h6 class="card-subtitle">
+             Total Downvotes: {{getDownvotes(comment)}}
+            </h6>
+            <p class="card-text">
+              Comment: {{comment.comment}}
+            </p>
+            <div class="btn-group">
+
+            </div>
+            <button class="btn btn-warning" (click)="unflagComment(comment)">
+              Unflag
+            </button>
+            <button class="btn btn-danger" (click)="deactivateComment(comment)">
+              Delete
+            </button>
+          </div>
+        </div>
+  </div>
+
 </div>
 
 <!--

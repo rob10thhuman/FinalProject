@@ -19,4 +19,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	@Query("SELECT c FROM Comment c where c.id = :id AND c.user.username = :username")
 	Comment findByUsernameAndId( @Param("username") String username, @Param("id") int id);
 	
+	@Query("SELECT c FROM Comment c where c.flag = true AND (c.active = true OR c.active = null)")
+	List<Comment> findFlaggedComments();
+	
 }

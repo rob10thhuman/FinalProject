@@ -95,6 +95,11 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> indexByUserame(String username) {
 		return commentRepo.findCommentsByUsername(username);
 	}
+	
+	@Override
+	public List<Comment> indexFlaggedComments() {
+		return commentRepo.findFlaggedComments();
+	}
 
 	// helper methods
 	private void removeVotesFromComment(Comment c) {
@@ -103,5 +108,7 @@ public class CommentServiceImpl implements CommentService {
 			voteRepo.delete(vote);
 		}
 	}
+
+	
 
 }

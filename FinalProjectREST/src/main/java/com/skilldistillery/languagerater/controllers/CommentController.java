@@ -60,5 +60,10 @@ public class CommentController {
 		return commentSvc.indexByUserame(username);
 		
 	}
+	
+	@GetMapping("auth/comments/flagged")
+	public List<Comment> indexFlaggedComments(){
+		return commentSvc.indexFlaggedComments();
+	}
 
 }

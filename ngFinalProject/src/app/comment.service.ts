@@ -28,6 +28,10 @@ export class CommentService {
     return this.http.get<Comment[]>(this.notAuthUrl + '?sorted=true', this.httpOptions ).pipe(
       catchError(this.handleError));
   }
+  indexFlagged() {
+    return this.http.get<Comment[]>(this.authUrl + '/flagged', this.httpOptions ).pipe(
+      catchError(this.handleError));
+  }
   languageIndex(languageName: string) {
     return this.http.get<Comment[]>(this.notAuthUrl + '/languages/' + languageName ).pipe(
       catchError(this.handleError));
