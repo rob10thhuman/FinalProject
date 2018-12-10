@@ -16,16 +16,16 @@ import com.skilldistillery.languagerater.repositories.VoteRepository;
 
 @Service
 public class CommentServiceImpl implements CommentService {
-	
+
 	@Autowired
 	CommentRepository commentRepo;
-	
+
 	@Autowired
 	UserRepository userRepo;
 
 	@Autowired
 	VoteRepository voteRepo;
-	
+
 	@Override
 	public List<Comment> index(String username) {
 		return commentRepo.findCommentsByUsername(username);
@@ -47,13 +47,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public Comment update(int id, Comment comment) {
-		
+
 		Comment existing = null;
 		Optional<Comment> opt = commentRepo.findById(id);
 
 		if (opt.isPresent()) {
 			existing = opt.get();
-			
+
 			existing.setActive(comment.getActive());
 			existing.setFlag(comment.getFlag());
 			existing.setComment(comment.getComment());
@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 			existing.setDateUpdated(comment.getDateUpdated());
 			existing.setUser(comment.getUser());
 			existing.setLanguage(comment.getLanguage());
-			
+
 			existing = commentRepo.saveAndFlush(existing);
 
 		}
@@ -71,18 +71,21 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public boolean delete(int id) {
 		boolean deleted = false;
-		
+
 		Optional<Comment> opt = commentRepo.findById(id);
-		if(opt.isPresent()) {
+		if (opt.isPresent()) {
 			Comment c = opt.get();
+			User u = c.getUser();
+
 			removeVotesFromComment(c);
 			commentRepo.delete(c);
+
 			deleted = true;
 		}
-		
+
 		return deleted;
-	} 
-	
+	}
+
 	@Override
 	public List<Comment> indexByLanguageName(String langName) {
 		return commentRepo.findCommentsByLanguageName(langName);
@@ -92,16 +95,13 @@ public class CommentServiceImpl implements CommentService {
 	public List<Comment> indexByUserame(String username) {
 		return commentRepo.findCommentsByUsername(username);
 	}
-	
+
 	// helper methods
 	private void removeVotesFromComment(Comment c) {
 		List<Vote> votes = c.getVotes();
-		for(Vote vote : votes) {
+		for (Vote vote : votes) {
 			voteRepo.delete(vote);
 		}
 	}
-
-
-
 
 }
