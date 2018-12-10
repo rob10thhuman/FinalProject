@@ -1,6 +1,7 @@
 package com.skilldistillery.languagerater.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,6 +26,18 @@ public class CategoryRatingController {
 	public List<CategoryRating> index() {
 		return crSer.indexCR();
 	}
+	
+//	@GetMapping("notAuth/categoryRatings/getAvgByCategory")
+//	public List<Double> getAvgByCategory() {
+//		return crSer.getAvgByCategory();
+//	}
+	
+//	@GetMapping("notAuth/categoryRatings/getSumByCategoryForOneUser")
+//	public List<int> getSumByCategoryForOneUser() {
+//		return crSer.getSumByCategoryForOneUser();
+//	}
+	
+	
 	
 	@PostMapping("auth/categoryRatings")
 	public CategoryRating add(@RequestBody CategoryRating categoryRating) {

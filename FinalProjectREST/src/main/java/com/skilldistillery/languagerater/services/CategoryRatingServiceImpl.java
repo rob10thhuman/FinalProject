@@ -1,5 +1,6 @@
 package com.skilldistillery.languagerater.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,13 @@ public class CategoryRatingServiceImpl implements CategoryRatingService {
 	@Override
 	public CategoryRating add(CategoryRating categoryRating) {
 		return crRepo.save(categoryRating);
+	}
+	
+	@Override
+	public void getAvgByCategory() {
+		List<CategoryRating> allCRs = crRepo.findAll();
+		int lengthOfArray = allCRs.size();
+		System.out.println(lengthOfArray);
 	}
 
 }
