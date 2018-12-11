@@ -64,12 +64,16 @@ export class CommentsComponent implements OnInit {
 
   addComment(comment) {
     comment.language = this.detail.language;
-
     this.commentService.create(comment).subscribe(
       data => {
         this.teardownAddingComment();
+
         const newlyAddedComment = data;
         newlyAddedComment.votes = [];
+        newlyAddedComment.user = this.currentUser;
+        newlyAddedComment.subComments = [];
+
+        this.comments.push(newlyAddedComment);
         this.voteParentComment(newlyAddedComment, true);
       },
       err => console.error('Observer got an error: ' + err)
@@ -170,7 +174,6 @@ export class CommentsComponent implements OnInit {
 
   voteParentComment(comment: Comment, voteValue: boolean) {
     const currentOrder = [...this.comments];
-    currentOrder.push(comment);
 
     // gets vote if user voted on comment, otherwise returns null
     const vote = this.hasVotedOnParentComment(comment.votes);
