@@ -170,6 +170,7 @@ export class CommentsComponent implements OnInit {
 
   voteParentComment(comment: Comment, voteValue: boolean) {
     const currentOrder = [...this.comments];
+    currentOrder.push(comment);
 
     // gets vote if user voted on comment, otherwise returns null
     const vote = this.hasVotedOnParentComment(comment.votes);
