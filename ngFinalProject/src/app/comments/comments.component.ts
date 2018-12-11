@@ -1,6 +1,4 @@
-import { ActiveCommentsFilterPipe } from './../active-comments-filter.pipe';
 import { SortCommentsPipe } from './../sort-comments.pipe';
-import { CalculateVotesPipe } from './../calculate-votes.pipe';
 import { Vote } from './../models/vote';
 import { Comment } from './../models/comment';
 import { AuthService } from './../auth.service';
@@ -35,7 +33,6 @@ export class CommentsComponent implements OnInit {
     private subCommentService: SubCommentService,
     private voteService: VoteService,
     private sortCommentsPipe: SortCommentsPipe,
-    private activeFilterPipe: ActiveCommentsFilterPipe,
     private userService: UserService,
     private detail: DetailLanguageComponent,
     private authService: AuthService
@@ -44,6 +41,7 @@ export class CommentsComponent implements OnInit {
   ngOnInit() {
     this.showCommentsForLanguage();
     this.getCurrentUser();
+    this.setSortQuery('TOP_RATED');
   }
 
   showCommentsForLanguage() {
