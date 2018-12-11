@@ -78,15 +78,14 @@ export class ListLangugageComponent implements OnInit {
     minCat2: number,
     minCat3: number
   ) {
-    // Currently a clone of indexLanguages()
-    // TODO: only fetch those languages where the average ratings exceed the minimums provided
-    this.langService.index().subscribe(
-      data => {
-        this.languages = data;
-        this.title = 'Top 10 Languages:';
-      },
-      err => console.error('Observer got an error: ' + err)
-    );
+     this.langService.languagesListWithAvgs.forEach(lang => {
+       if (lang.avgRatingOverall > minRating &&
+           lang.avgRatingSafety > minCat1 &&
+           lang.avgRatingSpeed > minCat2 &&
+           lang.avgRatingEase > minCat3) {
+          this.languages.push(lang.language);
+       }
+     });
   }
 
   indexLanguagesBySearch(search: string) {

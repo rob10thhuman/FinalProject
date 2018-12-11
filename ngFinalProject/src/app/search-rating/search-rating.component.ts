@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Language } from '../models/language';
 import { LanguageService } from '../language.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -9,11 +8,10 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./search-rating.component.css']
 })
 export class SearchRatingComponent implements OnInit {
-  languages: any[] = [];
-  minRatingEntry = 0;
-  minCat1Entry = 0;
-  minCat2Entry = 0;
-  minCat3Entry = 0;
+  minRatingEntry: number;
+  minCat1Entry;
+  minCat2Entry;
+  minCat3Entry;
 
   constructor(private langService: LanguageService,
               private router: Router,
