@@ -56,7 +56,6 @@ export class ListLangugageComponent implements OnInit {
       !isNaN(minCat1) &&
       !isNaN(minCat2) &&
       !isNaN(minCat3)
-
     ) {
       console.log(minRating, minCat1, minCat2, minCat3);
       this.indexLanguagesByRating(minRating, minCat1, minCat2, minCat3);
