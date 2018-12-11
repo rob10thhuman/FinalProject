@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: '/FinalProjectRest/'
+  baseUrl: '/FinalProjectREST/'
 };
