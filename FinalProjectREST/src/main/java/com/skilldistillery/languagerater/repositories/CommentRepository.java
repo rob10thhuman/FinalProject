@@ -13,7 +13,7 @@ public interface CommentRepository extends JpaRepository<Comment, Integer> {
 	@Query("SELECT c FROM Comment c where c.user.username = :username")
 	List<Comment> findCommentsByUsername(@Param("username") String username);
 	
-	@Query("SELECT c FROM Comment c where c.language.name = :name")
+	@Query("SELECT c FROM Comment c where c.language.name = :name AND (c.active = true OR c.active = null)")
 	List<Comment> findCommentsByLanguageName(@Param("name") String langName);
 	
 	@Query("SELECT c FROM Comment c where c.id = :id AND c.user.username = :username")

@@ -1,6 +1,6 @@
 <h4>Comments</h4>
 
-<div *ngIf="(comments | activeCommentsFilter).length === 0">
+<div *ngIf="comments.length === 0">
   Nobody has commented yet! Would you like to be the first?
 </div>
 <h4>
@@ -39,7 +39,7 @@
 </form>
 <br />
 
-<div *ngIf="(comments | activeCommentsFilter).length > 0">
+<div *ngIf="comments.length > 0">
   <div class="btn-group">
     <h5>Sort By:</h5>
     <button

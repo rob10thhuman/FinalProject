@@ -5,7 +5,7 @@ import { Vote } from './../models/vote';
 import { Comment } from './../models/comment';
 import { AuthService } from './../auth.service';
 import { CommentService } from './../comment.service';
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DetailLanguageComponent } from '../detail-language/detail-language.component';
 import { VoteService } from '../vote.service';
 import { UserService } from '../user.service';
@@ -16,7 +16,7 @@ import { SubCommentService } from '../sub-comment.service';
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css'],
+  styleUrls: ['./comments.component.css']
 })
 export class CommentsComponent implements OnInit {
   comments: Comment[] = [];
@@ -50,8 +50,15 @@ export class CommentsComponent implements OnInit {
     this.commentService.languageIndex(this.detail.language.name).subscribe(
       data => {
         this.comments = data;
-        this.comments = this.activeFilterPipe.transform(this.comments);
-        this.setSortQuery(this.sortQuery);
+      },
+      err => console.error('Observer got an error: ' + err)
+    );
+  }
+  showCommentsForLanguageKeepOrder(currentOrder) {
+    this.commentService.languageIndex(this.detail.language.name).subscribe(
+      data => {
+        const dbOrder = data;
+        this.keepCurrentOrder(currentOrder, dbOrder);
       },
       err => console.error('Observer got an error: ' + err)
     );
@@ -72,7 +79,10 @@ export class CommentsComponent implements OnInit {
   }
 
   addReplyToComment(parentComment, replyComment) {
-    replyComment.comment = this.getAtUsernameAnnotation(parentComment.user.username, replyComment);
+    replyComment.comment = this.getAtUsernameAnnotation(
+      parentComment.user.username,
+      replyComment
+    );
 
     this.subCommentService.create(parentComment.id, replyComment).subscribe(
       data => {
@@ -84,7 +94,10 @@ export class CommentsComponent implements OnInit {
     );
   }
   addReplyToSubComment(parentComment, parentSubComment, replyComment) {
-    replyComment.comment = this.getAtUsernameAnnotation(parentSubComment.user.username, replyComment);
+    replyComment.comment = this.getAtUsernameAnnotation(
+      parentSubComment.user.username,
+      replyComment
+    );
     replyComment.id = null;
     this.subCommentService.create(parentComment.id, replyComment).subscribe(
       data => {
@@ -97,7 +110,6 @@ export class CommentsComponent implements OnInit {
   }
 
   updateComment(id, comment) {
-
     this.commentService.update(id, comment).subscribe(
       data => {
         console.log('here it comes');
@@ -159,49 +171,48 @@ export class CommentsComponent implements OnInit {
   }
 
   voteParentComment(comment: Comment, voteValue: boolean) {
+    const currentOrder = [...this.comments];
+
     // gets vote if user voted on comment, otherwise returns null
     const vote = this.hasVotedOnParentComment(comment.votes);
 
     // if user has voted on this comment already
     if (vote) {
-
       // if user cancelled their vote
       if (vote.vote === voteValue) {
-
         this.voteService.destroy(vote.id).subscribe(
           data => {
-            this.showCommentsForLanguage();
+            this.showCommentsForLanguageKeepOrder(currentOrder);
           },
           err => console.error('Observer got an error: ' + err)
-          );
+        );
 
         // if user is changing vote
-        } else {
-          vote.vote = !vote.vote;
-          this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
-            data => {
-              this.showCommentsForLanguage();
-            },
-            err => console.error('Observer got an error: ' + err)
-            );
-          }
+      } else {
+        vote.vote = !vote.vote;
+        this.voteService.updateForComment(comment.id, vote.id, vote).subscribe(
+          data => {
+            this.showCommentsForLanguageKeepOrder(currentOrder);
+          },
+          err => console.error('Observer got an error: ' + err)
+        );
+      }
 
-        // if user has NOT voted on this comment yet
-        } else {
-          const newVote = new Vote();
-          newVote.vote = voteValue;
-          newVote.comment = comment;
-          newVote.user = this.currentUser;
-          this.voteService.createForComment(comment.id, newVote).subscribe(
-            data => {
-              this.showCommentsForLanguage();
+      // if user has NOT voted on this comment yet
+    } else {
+      const newVote = new Vote();
+      newVote.vote = voteValue;
+      newVote.comment = comment;
+      newVote.user = this.currentUser;
+      this.voteService.createForComment(comment.id, newVote).subscribe(
+        data => {
+          this.showCommentsForLanguageKeepOrder(currentOrder);
         },
         err => console.error('Observer got an error: ' + err)
       );
     }
+
   }
-
-
 
   setupAddingComment() {
     this.newComment = new Comment();
@@ -235,18 +246,13 @@ export class CommentsComponent implements OnInit {
     this.replyToComment = new SubComment();
     this.replyToComment.parentComment = comment;
     this.replyToComment.user = this.currentUser;
-
-
   }
   setupReplyToSubComment(subComment: SubComment) {
-
     this.replyToSubComment = new SubComment();
     this.replyToSubComment.id = subComment.id;
     this.replyToSubComment.parentComment = subComment.parentComment;
     this.replyToSubComment.user = this.currentUser;
-
   }
-
 
   teardownUpdatingComment() {
     this.updatingComment = null;
@@ -271,8 +277,10 @@ export class CommentsComponent implements OnInit {
 
   hasVotedOnParentComment(votes: Vote[]): Vote {
     for (let i = 0; i < votes.length; i++) {
-      if (votes[i].user.username === this.authService.getUsername()
-      && votes[i].comment !== null) {
+      if (
+        votes[i].user.username === this.authService.getUsername() &&
+        votes[i].comment !== null
+      ) {
         return votes[i];
       }
     }
@@ -284,18 +292,22 @@ export class CommentsComponent implements OnInit {
     if (!theParentVote) {
       return 'badge badge-pill badge-secondary';
     }
-    return theParentVote.vote ? 'badge badge-pill badge-success' : 'bbadge badge-pill badge-secondary';
+    return theParentVote.vote
+      ? 'badge badge-pill badge-success'
+      : 'bbadge badge-pill badge-secondary';
   }
   isDownVotedParentComment(votes: Vote[]) {
     const theVote = this.hasVotedOnParentComment(votes);
     if (!theVote) {
       return 'badge badge-pill badge-secondary';
     }
-    return !theVote.vote ? 'badge badge-pill badge-danger' : 'badge badge-pill badge-secondary';
+    return !theVote.vote
+      ? 'badge badge-pill badge-danger'
+      : 'badge badge-pill badge-secondary';
   }
 
   getAtUsernameAnnotation(username: string, reply: SubComment) {
-    return reply.comment = '@' + username + ' ' + reply.comment;
+    return (reply.comment = '@' + username + ' ' + reply.comment);
   }
 
   setShowReplies(comment) {
@@ -310,7 +322,10 @@ export class CommentsComponent implements OnInit {
 
   setSortQuery(query: string) {
     this.sortQuery = query;
-    this.comments = this.sortCommentsPipe.transform(this.comments, this.sortQuery);
+    this.comments = this.sortCommentsPipe.transform(
+      this.comments,
+      this.sortQuery
+    );
   }
 
   flagComment(comment: Comment) {
@@ -322,4 +337,16 @@ export class CommentsComponent implements OnInit {
     this.updateSubComment(parentComment, subComment);
   }
 
+  keepCurrentOrder(currentOrder: Comment[], dbOrder: Comment[]) {
+    for (let i = 0; i < currentOrder.length; i++) {
+      for (let j = 0; j < dbOrder.length; j++) {
+        if (currentOrder[i].id === dbOrder[j].id) {
+          currentOrder[i] = dbOrder[j];
+          break;
+        }
+      }
+    }
+    this.comments = currentOrder;
+
+  }
 }
