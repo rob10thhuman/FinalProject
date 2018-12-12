@@ -23,30 +23,41 @@
        <ngb-rating max="5" [(rate)]="avgCat3Rating" max="5" [readonly]="readonly"></ngb-rating>
     </div>
 
-<div class="col-sm-3">
-    User Overall: <b>{{userRating === 0 ? "Not yet rated" : userRating}}</b><BR>
+<div class="col-sm-3" *ngIf="checkUserLogin()">
+  <!-- <div *ngIf="areUserRatingsPopulated"> -->
+
+      <!-- User Overall: <b>{{userRating === 0 ? "Not yet rated" : userRating}}</b><BR> -->
+      User Overall: <b>{{userRating}}</b><BR>
     <ngb-rating [(rate)]="userRating" max="5" (rateChange)="passRating($event)">
     </ngb-rating>
 
     <BR>
 
-    User Safety: <b>{{userCat1Rating === 0 ? "Not yet rated" : userCat1Rating}}</b><BR>
+    <!-- User Safety: <b>{{userCat1Rating === 0 ? "Not yet rated" : userCat1Rating}}</b><BR> -->
+       User Safety: <b>{{userCat1Rating}}</b><BR>
+
       <ngb-rating [(rate)]="userCat1Rating" max="5" (rateChange)="passCat1Rating($event)">
       </ngb-rating>
 
       <BR>
 
-    User Speed: <b>{{userCat2Rating === 0 ? "Not yet rated" : userCat2Rating}}</b><BR>
+      <!-- User Speed: <b>{{userCat2Rating === 0 ? "Not yet rated" : userCat2Rating}}</b><BR> -->
+      User Speed: <b>{{userCat2Rating}}</b><BR>
+
       <ngb-rating [(rate)]="userCat2Rating" max="5" (rateChange)="passCat2Rating($event)">
       </ngb-rating>
 
       <BR>
 
-    User Ease of Learning: <b>{{userCat3Rating === 0 ? "Not yet rated" : userCat3Rating}}</b><BR>
+      <!-- User Ease of Learning: <b>{{userCat3Rating === 0 ? "Not yet rated" : userCat3Rating}}</b><BR> -->
+      User Ease of Learning: <b>{{userCat3Rating}}</b><BR>
+
       <ngb-rating [(rate)]="userCat3Rating" max="5" (rateChange)="passCat3Rating($event)">
       </ngb-rating>
 
     </div>
+
+  <!-- </div> -->
 
   <div class="col-sm-6" style="text-align: center">
     <strong>Most Popular Programming Languages (%)</strong>
