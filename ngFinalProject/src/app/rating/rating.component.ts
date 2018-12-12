@@ -7,6 +7,7 @@ import { AuthService } from '../auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { NullTemplateVisitor } from '@angular/compiler';
+import { timeout } from 'q';
 
 @Component({
   selector: 'app-rating',
@@ -27,6 +28,7 @@ export class RatingComponent implements OnInit {
   newRating: Rating = null;
   updatingRating: Rating = null;
   currentUser: User = new User();
+  areUserRatingsPopulated = false;
 
 
   constructor(private detail: DetailLanguageComponent,
@@ -38,7 +40,33 @@ export class RatingComponent implements OnInit {
 
   ngOnInit() {
     this.showRatings();
-    this.getCurrentUser();
+
+    if (this.authService.checkLogin()) {
+      this.getCurrentUser();
+      console.log('here be a username');
+      console.log(localStorage.getItem('username'));
+    }
+
+    // for (let index = 0; true; index++) {
+    //   if (this.areUserRatingsPopulated) {
+    //     break;
+    //   }
+    // }
+    function sleep() {
+      const start = new Date().getTime();
+      for (let i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > 20000) {
+          break;
+        }
+      }
+    }
+
+  }
+
+
+
+  checkUserLogin() {
+    return this.authService.checkLogin();
   }
 
   showRatings () {
@@ -68,8 +96,27 @@ export class RatingComponent implements OnInit {
     return this.avgRating;
   }
 
+  // getCurrentUser() {
+  //   const username = this.authService.getUsername();
+  //   console.log(username);
+  //   this.userService
+  //     .showByUsername(username)
+  //     .subscribe(
+  //       data => {
+  //         console.log(data);
+  //         this.currentUser = data;
+  //         const userId = this.currentUser.id;
+  //         console.log('current user below:');
+  //         console.log(userId);
+  //         const langId = this.route.snapshot.paramMap.get('id');
+  //         this.findRating(userId, langId);
+  //       },
+  //       err => console.error('Observer got an error: ' + err)
+  //     );
+  // }
+
   getCurrentUser() {
-    const username = this.authService.getUsername();
+    const username = localStorage.getItem('username');
     console.log(username);
     this.userService
       .showByUsername(username)
@@ -94,6 +141,7 @@ export class RatingComponent implements OnInit {
         this.userCat1Rating = data.cat1;
         this.userCat2Rating = data.cat2;
         this.userCat3Rating = data.cat3;
+        this.areUserRatingsPopulated = true;
       },
       err => console.error('Could not pull rating: ' + err)
     );
